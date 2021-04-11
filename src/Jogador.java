@@ -1,4 +1,6 @@
-import org.jetbrains.annotations.NotNull;
+package src;
+
+//import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
@@ -7,10 +9,9 @@ public class Jogador {
     private int resistencia;
     private int destreza;
     private int impulsao;
-    private int jododecabeca;
+    private int jogodecabeca;
     private int remate;
     private int passe;
-    private String posicao;
     private String nome;
     private int numCamisola;
     /*
@@ -21,10 +22,9 @@ public class Jogador {
         this.resistencia   = 0;
         this.destreza      = 0;
         this.impulsao      = 0;
-        this.jododecabeca  = 0;
+        this.jogodecabeca  = 0;
         this.passe         = 0;
         this.remate        = 0;
-        this.posicao       = null;
         this.numCamisola   = 0;
         this.nome          = null;
     }
@@ -32,15 +32,14 @@ public class Jogador {
     /*
     Construtor de jogador parametrizado
      */
-    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jododecabeca, int passe, int remate, String posicao, String nome, int numCamisola) {
+    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jododecabeca, int passe, int remate, String nome, int numCamisola) {
         this.velocidade    = velocidade;
         this.resistencia   = resistencia;
         this.destreza      = destreza;
         this.impulsao      = impulsao;
-        this.jododecabeca  = jododecabeca;
+        this.jogodecabeca  = jododecabeca;
         this.passe         =  passe;
         this.remate        = remate;
-        this.posicao       = posicao;
         this.nome          = nome;
         this.numCamisola   = numCamisola;
     }
@@ -49,10 +48,9 @@ public class Jogador {
     Construtor de copia
      */
     public Jogador(Jogador j) {
-        this.posicao      = j.getPosicao();
         this.remate       = j.getRemate();
         this.passe        = j.getPasse();
-        this.jododecabeca = j.getJododecabeca();
+        this.jogodecabeca = j.getJogodecabeca();
         this.impulsao     = j.getImpulsao();
         this.destreza     = j.getDestreza();
         this.velocidade   = j.getVelocidade();
@@ -80,8 +78,8 @@ public class Jogador {
         return this.impulsao;
     }
 
-    public int getJododecabeca() {
-        return this.jododecabeca;
+    public int getJogodecabeca() {
+        return this.jogodecabeca;
     }
 
     public int getPasse() {
@@ -92,9 +90,6 @@ public class Jogador {
         return this.remate;
     }
 
-    public String getPosicao() {
-        return this.posicao;
-    }
 
     public int getNumCamisola() {
         return this.numCamisola;
@@ -124,8 +119,8 @@ public class Jogador {
         this.velocidade = velocidade;
     }
 
-    public void setJododecabeca(int jododecabeca) {
-        this.jododecabeca = jododecabeca;
+    public void setJogodecabeca(int jogodecabeca) {
+        this.jogodecabeca = jogodecabeca;
     }
 
     public void setPasse(int passe) {
@@ -136,9 +131,6 @@ public class Jogador {
         this.remate = remate;
     }
 
-    public void setPosicao(String posicao) {
-        this.posicao = posicao;
-    }
 
     public void setNome(String nome) {
         this.nome = nome;
@@ -147,7 +139,16 @@ public class Jogador {
     public void setNumCamisola(int numCamisola) {
         this.numCamisola = numCamisola;
     }
-
+    
+    public float getSomaAtributos (){
+        return this.getVelocidade()+this.getDestreza()+this.getRemate()+this.getPasse()+this.getResistencia()+this.getJogodecabeca()+this.getImpulsao();
+    }
+    
+    public float habilidadeJogador (){
+        float soma = this.getSomaAtributos();
+        return soma/7f;
+    }
+    
     /*
     Useful methods
     */
@@ -155,7 +156,7 @@ public class Jogador {
         if (this == o) return true;
         if (!(o instanceof Jogador)) return false;
         Jogador jogador = (Jogador) o;
-        return velocidade == jogador.velocidade && resistencia == jogador.resistencia && destreza == jogador.destreza && impulsao == jogador.impulsao && jododecabeca == jogador.jododecabeca && remate == jogador.remate && passe == jogador.passe && Objects.equals(posicao, jogador.posicao);
+        return velocidade == jogador.velocidade && resistencia == jogador.resistencia && destreza == jogador.destreza && impulsao == jogador.impulsao && jogodecabeca == jogador.jogodecabeca && remate == jogador.remate && passe == jogador.passe;
     }
 
     public Jogador clone() {
@@ -164,15 +165,14 @@ public class Jogador {
 
     @Override
     public String toString() {
-        return "Jogador{\n" +
+        return this.nome +"{\n" +
                 " velocidade=" + this.velocidade +
                 ",\n resistencia=" + this.resistencia +
                 ",\n destreza=" + this.destreza +
                 ",\n impulsao=" + this.impulsao +
-                ",\n jododecabeca=" + this.jododecabeca +
+                ",\n jogodecabeca=" + this.jogodecabeca +
                 ",\n remate=" + this.remate +
                 ",\n passe=" + this.passe +
-                ",\n posicao='" + this.posicao + '\'' +
                 ",\n nome='" + this.nome + '\'' +
                 ",\n numCamisola=" + this.numCamisola +
                 "\n}";

@@ -1,9 +1,11 @@
+package src;
+
 import java.util.ArrayList;
 
 public class Equipa {
     private ArrayList<Jogador> equipa;
     private String name;
-    private int numJogadores;
+    private int numJogadores = 0;
 
     /*
     Construtores de equipa
@@ -39,6 +41,7 @@ public class Equipa {
 
     public void setPlayer(Jogador j) {
         this.equipa.add(j);
+        this.numJogadores++;
     }
 
     public void setEquipa(ArrayList<Jogador> equipa) {
@@ -52,12 +55,13 @@ public class Equipa {
     public void setNumJogadores(int numJogadores) {
         this.numJogadores = numJogadores;
     }
+    
     /*
     useful methods
      */
     public String toString() {
-        return "Equipa{\n" +
-                "equipa=\n" + equipa +
+        return this.getName()+"{\n" +
+                "Equipa=\n" + equipa.toString() +
                 "\n}";
     }
 }
