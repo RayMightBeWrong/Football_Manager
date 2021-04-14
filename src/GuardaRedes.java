@@ -1,5 +1,5 @@
 package src;
-
+import java.math.BigDecimal;
 
 /**
  * Write a description of class Avancado here.
@@ -48,18 +48,17 @@ public class GuardaRedes extends Jogador
     }
     
     public String toString (){
-        return this.getNome()+"{\n" +
-                "Posicao = Guarda-Redes,Habilidade =" + this.habilidadeJogador() +
-                ",\n velocidade=" + this.getVelocidade() +
-                ",\n resistencia=" + this.getResistencia() +
-                ",\n destreza=" + this.getDestreza() +
-                ",\n impulsao=" + this.getImpulsao() +
-                ",\n jogodecabeca=" + this.getJogodecabeca() +
-                ",\n remate=" + this.getRemate() +
-                ",\n passe=" + this.getPasse() +
-                ",\n elasticidade= " +this.getElasticidade() +
-                ",\n numCamisola=" + this.getNumCamisola() +
-                "\n}";
+        return "Nome:"+this.getNome() + ",Posicao = Guarda-Redes,Habilidade =" + this.habilidadeJogador() +
+                ",\nAtributos : VL=" + this.getVelocidade() +
+                ",RES=" + this.getResistencia() +
+                ",DEST=" + this.getDestreza() +
+                ",IMP=" + this.getImpulsao() +
+                ",JDC=" + this.getJogodecabeca() +
+                ",REM=" + this.getRemate() +
+                ",PAS=" + this.getPasse() +
+                ",ELAS= " +this.getElasticidade() +
+                ",NUM=" + this.getNumCamisola() +
+                ",\n";
     }
     
     public GuardaRedes clone () {
@@ -86,6 +85,6 @@ public class GuardaRedes extends Jogador
         soma += this.getPasse()*0.1f;
         soma += this.getRemate()*0.01f;
         soma += this.getElasticidade()*0.31f;
-        return soma;
+        return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
     }
 }

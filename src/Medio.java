@@ -1,5 +1,6 @@
 package src;
 
+import java.math.BigDecimal;
 
 /**
  * Write a description of class Avancado here.
@@ -36,17 +37,16 @@ public class Medio extends Jogador
     }
     
     public String toString (){
-        return this.getNome()+"{\n" +
-                "Posicao = Medio,Habilidade =" + this.habilidadeJogador() +
-                ",\n velocidade=" + this.getVelocidade() +
-                ",\n resistencia=" + this.getResistencia() +
-                ",\n destreza=" + this.getDestreza() +
-                ",\n impulsao=" + this.getImpulsao() +
-                ",\n jogodecabeca=" + this.getJogodecabeca() +
-                ",\n remate=" + this.getRemate() +
-                ",\n passe=" + this.getPasse() +
-                ",\n numCamisola=" + this.getNumCamisola() +
-                "\n}";
+        return this.getNome() + ",Posicao = Medio,Habilidade =" + this.habilidadeJogador() +
+                ",\nAtributos : VL=" + this.getVelocidade() +
+                ",RES=" + this.getResistencia() +
+                ",DEST=" + this.getDestreza() +
+                ",IMP=" + this.getImpulsao() +
+                ",JDC=" + this.getJogodecabeca() +
+                ",REM=" + this.getRemate() +
+                ",PAS=" + this.getPasse() +
+                ",NUM=" + this.getNumCamisola() +
+                ",\n";
     }
     
     public Medio clone () {
@@ -72,6 +72,6 @@ public class Medio extends Jogador
         soma += this.getJogodecabeca()*0.05f;
         soma += this.getPasse()*0.25f;
         soma += this.getRemate()*0.1f;
-        return soma;
+        return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
     }
 }

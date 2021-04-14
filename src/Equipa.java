@@ -60,8 +60,8 @@ public class Equipa {
     useful methods
      */
     public String toString() {
-        return this.getName()+"{\n" +
-                "Equipa=\n" + equipa.toString() +
-                "\n}";
+        return  "Equipa=" + this.getName()+";\n" +
+                 "Jogadores:\n  " +equipa.toString() +
+                "\n";
     }
 }
