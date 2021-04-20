@@ -11,21 +11,27 @@ import java.math.BigDecimal;
 public class Medio extends Jogador
 {
     // instance variables - replace the example below with your own
+    private int recBola;
+    private int criatividade;
     
     /**
      * Construtor vazia da classe Avancado; 
      */
     public Medio()
     {
-       super(); 
+       super();
+       this.recBola = 0;
+       this.criatividade = 0;
     }
     
     /**
      * Constructor parametrizado da classe Avancado;
      */
     
-    public Medio (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate, String nome, int numCamisola){
+    public Medio (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int rec,int cri ,String nome, int numCamisola){
         super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola);
+        this.recBola = rec;
+        this.criatividade = cri;
     }
     
     /**
@@ -34,19 +40,39 @@ public class Medio extends Jogador
     
     public Medio (Medio copia){
         super(copia);
+        this.recBola = copia.getRecBola();
+        this.criatividade = copia.getCriatividade();
+    }
+    
+    public int getRecBola (){
+        return this.recBola;
+    }
+    
+    public int getCriatividade(){
+        return this.criatividade;
+    }
+    
+    public void setRecBola(int rec){
+        this.recBola = rec;
+    }
+    
+    public void setCriatividade(int cri){
+        this.criatividade = cri;
     }
     
     public String toString (){
-        return this.getNome() + ",Posicao = Medio,Habilidade =" + this.habilidadeJogador() +
-                ",\nAtributos : VL=" + this.getVelocidade() +
-                ",RES=" + this.getResistencia() +
-                ",DEST=" + this.getDestreza() +
-                ",IMP=" + this.getImpulsao() +
-                ",JDC=" + this.getJogodecabeca() +
-                ",REM=" + this.getRemate() +
-                ",PAS=" + this.getPasse() +
-                ",NUM=" + this.getNumCamisola() +
-                ",\n";
+        return "Nome: " + this.getNome() + "; Posicao = Medio; Habilidade =" + this.habilidadeJogador() +
+                ",Atributos : Vel=" + this.getVelocidade() +
+                ", Res=" + this.getResistencia() +
+                ", Dest=" + this.getDestreza() +
+                ", Imp=" + this.getImpulsao() +
+                ", Jdc=" + this.getJogodecabeca() +
+                ", Rem=" + this.getRemate() +
+                ", Pas=" + this.getPasse() +
+                ", Cri=" + this.getCriatividade() +
+                ", Rec=" + this.getRecBola() +
+                ", Numero=" + this.getNumCamisola() +
+                ";\n";
     }
     
     public Medio clone () {
@@ -57,7 +83,7 @@ public class Medio extends Jogador
         if (this == o) return true;
         if (!(o instanceof Medio)) return false;
         Medio jogador = (Medio) o;
-        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse();
+        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getCriatividade() == jogador.getCriatividade() && this.getRecBola() == jogador.getRecBola();
     }
     
     /**
@@ -65,13 +91,15 @@ public class Medio extends Jogador
      */
     
     public float habilidadeJogador (){
-        float soma = this.getVelocidade()*0.15f;
-        soma += this.getResistencia()*0.2f;
-        soma += this.getDestreza()*0.15f;
+        float soma = this.getVelocidade()*0.1f;
+        soma += this.getResistencia()*0.15f;
+        soma += this.getDestreza()*0.10f;
         soma += this.getImpulsao()*0.1f;
         soma += this.getJogodecabeca()*0.05f;
-        soma += this.getPasse()*0.25f;
+        soma += this.getPasse()*0.2f;
         soma += this.getRemate()*0.1f;
+        soma += this.getCriatividade()*0.1f;
+        soma += this.getRecBola()*0.1f;
         return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
     }
 }

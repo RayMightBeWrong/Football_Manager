@@ -1,9 +1,10 @@
 package src;
 
-import java.util.ArrayList;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Equipa {
-    private ArrayList<Jogador> equipa;
+    private Map<Integer,Jogador> equipa;
     private String name;
     private int numJogadores = 0;
 
@@ -11,20 +12,18 @@ public class Equipa {
     Construtores de equipa
      */
     public Equipa() {
-        this.equipa = new ArrayList<Jogador>();
+        this.equipa = new HashMap<Integer,Jogador>();
     }
 
     public void createTeam() {
-        this.equipa = new ArrayList<Jogador>();
-        Jogador j;
-        for(int i = 0; i < this.numJogadores; i++) this.equipa.add(i,new Jogador());
+        this.equipa = new HashMap<Integer,Jogador>();
     }
 
     /*
     Getter methods
      */
-    public Jogador getJogador(int i) {
-        return this.equipa.get(i);
+    public Jogador getJogador(int num) {
+        return this.equipa.get(num);
     }
 
     public int getNumJogadores() {
@@ -40,12 +39,12 @@ public class Equipa {
      */
 
     public void setPlayer(Jogador j) {
-        this.equipa.add(j);
+        this.equipa.put(j.getNumCamisola(),j.clone());
         this.numJogadores++;
     }
 
-    public void setEquipa(ArrayList<Jogador> equipa) {
-        this.equipa = equipa;
+    public void setEquipa(Map<Integer,Jogador> equipa) {
+        this.equipa = equipa.values().stream().collect(Collectors.toMap(j->j.getNumCamisola(),j->j.clone()));
     }
 
     public void setName(String name) {
@@ -60,8 +59,11 @@ public class Equipa {
     useful methods
      */
     public String toString() {
-        return  "Equipa=" + this.getName()+";\n" +
-                 "Jogadores:\n  " +equipa.toString() +
-                "\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append("Jogadores:\n");
+        for (Jogador j:this.equipa.values()) {
+            sb.append(j.toString());
+        }
+        return sb.toString();
     }
 }

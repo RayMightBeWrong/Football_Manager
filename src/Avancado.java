@@ -11,21 +11,23 @@ import java.math.BigDecimal;
 public class Avancado extends Jogador
 {
     // instance variables - replace the example below with your own
-    
+    private int compustura;
     /**
      * Construtor vazia da classe Avancado; 
      */
     public Avancado()
     {
-       super(); 
+       super();
+       this.compustura = 0;
     }
     
     /**
      * Constructor parametrizado da classe Avancado;
      */
     
-    public Avancado (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate, String nome, int numCamisola){
+    public Avancado (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int comp, String nome, int numCamisola){
         super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola);
+        this.compustura = comp;
     }
     
     /**
@@ -34,19 +36,29 @@ public class Avancado extends Jogador
     
     public Avancado (Avancado copia){
         super(copia);
+        this.compustura = copia.getCompustura();
+    }
+    
+    public int getCompustura(){
+        return this.compustura;
+    }
+    
+    public void setCompustura(int comp){
+        this.compustura = comp;
     }
     
     public String toString (){
-        return this.getNome() + ",Posicao = Avancado,Habilidade =" + this.habilidadeJogador() +
-                ",\nAtributos : VL=" + this.getVelocidade() +
-                ",RES=" + this.getResistencia() +
-                ",DEST=" + this.getDestreza() +
-                ",IMP=" + this.getImpulsao() +
-                ",JDC=" + this.getJogodecabeca() +
-                ",REM=" + this.getRemate() +
-                ",PAS=" + this.getPasse() +
-                ",NUM=" + this.getNumCamisola() +
-                ",\n";
+        return "Nome: " +this.getNome() + ", Posicao = Avancado; Habilidade =" + this.habilidadeJogador() +
+                ",Atributos : Vel=" + this.getVelocidade() +
+                ", Res=" + this.getResistencia() +
+                ", Dest=" + this.getDestreza() +
+                ", Imp=" + this.getImpulsao() +
+                ", Jdc=" + this.getJogodecabeca() +
+                ", Rem=" + this.getRemate() +
+                ", Pas=" + this.getPasse() +
+                ", Comp=" + this.getCompustura() +
+                ", Numero=" + this.getNumCamisola() +
+                ";\n";
     }
     
     public Avancado clone () {
@@ -57,7 +69,7 @@ public class Avancado extends Jogador
         if (this == o) return true;
         if (!(o instanceof Avancado)) return false;
         Avancado jogador = (Avancado) o;
-        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse();
+        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getCompustura() == jogador.getCompustura();
     }
     
     /**
@@ -65,13 +77,14 @@ public class Avancado extends Jogador
      */
     
     public float habilidadeJogador (){
-        float soma = this.getVelocidade()*0.15f;
+        float soma = this.getVelocidade()*0.1f;
         soma += this.getResistencia()*0.1f;
         soma += this.getDestreza()*0.1f;
-        soma += this.getImpulsao()*0.15f;
+        soma += this.getImpulsao()*0.1f;
         soma += this.getJogodecabeca()*0.15f;
         soma += this.getPasse()*0.1f;
         soma += this.getRemate()*0.25f;
+        soma += this.getCompustura() * 0.1f;
         return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
     }
 }

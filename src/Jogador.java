@@ -1,10 +1,9 @@
 package src;
 
-//import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class Jogador {
+public abstract class Jogador {
     private int velocidade;
     private int resistencia;
     private int destreza;
@@ -140,41 +139,14 @@ public class Jogador {
         this.numCamisola = numCamisola;
     }
     
-    public float getSomaAtributos (){
-        return this.getVelocidade()+this.getDestreza()+this.getRemate()+this.getPasse()+this.getResistencia()+this.getJogodecabeca()+this.getImpulsao();
-    }
-    
-    public float habilidadeJogador (){
-        float soma = this.getSomaAtributos();
-        return soma/7f;
-    }
+    abstract public float habilidadeJogador ();
     
     /*
     Useful methods
     */
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Jogador)) return false;
-        Jogador jogador = (Jogador) o;
-        return velocidade == jogador.velocidade && resistencia == jogador.resistencia && destreza == jogador.destreza && impulsao == jogador.impulsao && jogodecabeca == jogador.jogodecabeca && remate == jogador.remate && passe == jogador.passe;
-    }
+    abstract public boolean equals(Object o);
 
-    public Jogador clone() {
-        return new Jogador(this);
-    }
+    abstract public Jogador clone();
 
-    @Override
-    public String toString() {
-        return this.nome +"{\n" +
-                " velocidade=" + this.velocidade +
-                ",\n resistencia=" + this.resistencia +
-                ",\n destreza=" + this.destreza +
-                ",\n impulsao=" + this.impulsao +
-                ",\n jogodecabeca=" + this.jogodecabeca +
-                ",\n remate=" + this.remate +
-                ",\n passe=" + this.passe +
-                ",\n nome='" + this.nome + '\'' +
-                ",\n numCamisola=" + this.numCamisola +
-                "\n}";
-    }
+    abstract public String toString();
 }
