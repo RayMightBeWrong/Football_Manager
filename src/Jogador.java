@@ -1,7 +1,10 @@
-package src;
+//package src;
 
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public abstract class Jogador {
     private int velocidade;
@@ -13,6 +16,7 @@ public abstract class Jogador {
     private int passe;
     private String nome;
     private int numCamisola;
+    private List<String> historialEquipas;
     /*
     Construtor de jogador
      */
@@ -26,12 +30,13 @@ public abstract class Jogador {
         this.remate        = 0;
         this.numCamisola   = 0;
         this.nome          = null;
+        this.historialEquipas = new ArrayList<String>();
     }
 
     /*
     Construtor de jogador parametrizado
      */
-    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jododecabeca, int passe, int remate, String nome, int numCamisola) {
+    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jododecabeca, int passe, int remate, String nome, int numCamisola, List<String> historialEquipas) {
         this.velocidade    = velocidade;
         this.resistencia   = resistencia;
         this.destreza      = destreza;
@@ -41,6 +46,7 @@ public abstract class Jogador {
         this.remate        = remate;
         this.nome          = nome;
         this.numCamisola   = numCamisola;
+        setHistorialEquipas(historialEquipas);
     }
 
     /*
@@ -56,6 +62,7 @@ public abstract class Jogador {
         this.resistencia  = j.getResistencia();
         this.numCamisola  = j.getNumCamisola();
         this.nome         = j.getNome();
+        this.historialEquipas = j.getHistorialEquipas();
     }
 
     /*
@@ -98,6 +105,12 @@ public abstract class Jogador {
         return this.nome;
     }
 
+    public List<String> getHistorialEquipas() {
+        List<String> r = new ArrayList<>();
+        r = this.historialEquipas.stream().collect(Collectors.toList());
+        return r;
+    }
+
     /*
     Setter methods :)
      */
@@ -138,7 +151,17 @@ public abstract class Jogador {
     public void setNumCamisola(int numCamisola) {
         this.numCamisola = numCamisola;
     }
-    
+
+    public void setHistorialEquipas(List<String> historialEquipas) {
+        List<String> r = new ArrayList<>();
+        r = this.historialEquipas.stream().collect(Collectors.toList());
+        this.historialEquipas = r;
+    }
+
+    public void addEquipatoHistorial(String equipa){
+        this.historialEquipas.add(equipa);
+    }
+
     abstract public float habilidadeJogador ();
     
     /*

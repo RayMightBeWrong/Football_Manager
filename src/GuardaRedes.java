@@ -1,5 +1,6 @@
-package src;
+//package src;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * Write a description of class Avancado here.
@@ -27,8 +28,8 @@ public class GuardaRedes extends Jogador
      * Constructor parametrizado da classe GuardaRedes;
      */
     
-    public GuardaRedes (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int elasticidade,int reflexos, String nome, int numCamisola){
-        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola);
+    public GuardaRedes (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int elasticidade, int reflexos, String nome, int numCamisola, List<String> historialEquipas){
+        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola,historialEquipas);
         this.elasticidade = elasticidade;
         this.reflexos = reflexos;
     }
@@ -71,6 +72,7 @@ public class GuardaRedes extends Jogador
                 ", Elas= " +this.getElasticidade() +
                 ", Refl= " + this.getReflexos() +
                 ", Numero=" + this.getNumCamisola() +
+                ", Historial de Equipas" + this.getHistorialEquipas() +
                 ";\n";
     }
     
@@ -82,7 +84,7 @@ public class GuardaRedes extends Jogador
         if (this == o) return true;
         if (!(o instanceof GuardaRedes)) return false;
         GuardaRedes jogador = (GuardaRedes) o;
-        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getElasticidade()== jogador.getElasticidade() && this.getReflexos() == jogador.getReflexos();
+        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getElasticidade()== jogador.getElasticidade() && this.getReflexos() == jogador.getReflexos() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
     }
     
     /**
