@@ -1,5 +1,4 @@
-//package src;
-
+ 
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -20,23 +19,23 @@ public class Equipa {
     }
 
     public Equipa(Map<Integer, Jogador> equipa, String name, int numJogadores, Tatica tatica) {
-        this.equipa = new HashMap<Integer,Jogador>();
+        this.equipa = equipa.values().stream().collect(Collectors.toMap(j->j.getNumCamisola(),j->j.clone()));
         this.name = name;
         this.numJogadores = numJogadores;
         this.tatica = tatica;
     }
 
     public Equipa(Equipa e) {
-        this.equipa = new HashMap<Integer,Jogador>();
+        this.equipa = e.getJogadores();
         this.name = e.getName();
         this.numJogadores = e.getNumJogadores();
         this.tatica = e.getTatica();
     }
 
-    public void createTeam() {
-        this.equipa = new HashMap<Integer,Jogador>();
+    public Map <Integer,Jogador> getJogadores () {
+        return this.equipa.values().stream().collect(Collectors.toMap(j->j.getNumCamisola(),j->j.clone()));
     }
-
+    
     /*
     Getter methods
      */
@@ -61,6 +60,7 @@ public class Equipa {
      */
 
     public void setPlayer(Jogador j) {
+        j.addEquipatoHistorial(this.getName());
         this.equipa.put(j.getNumCamisola(),j.clone());
         this.numJogadores++;
     }
@@ -81,22 +81,41 @@ public class Equipa {
         this.tatica = tatica.clone();
     }
     
+    public void addTitular (Jogador j) {
+        if (this.equipa.containsKey(j.getNumCamisola()))
+                this.tatica.adicionaTitular(j);
+        }
+
+    public void removePlayer(Jogador j){
+        if(this.equipa.containsKey(j.getNumCamisola())) {
+            this.equipa.remove(j.getNumCamisola());
+            this.numJogadores--;
+        }
+
+        this.tatica.removeJogadorTatica(j);
+    }
+
+
+    public void addSuplente(Jogador  j) {
+            if (this.equipa.containsKey(j.getNumCamisola()))
+                    this.tatica.adicionaSuplente(j);
+    }
     /*
     useful methods
-     */
+    */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Jogadores:\n");
+        sb.append("Plantel: [\n");
         for (Jogador j:this.equipa.values()) {
             sb.append(j.toString());
         }
+        sb.append("]\n");
+        sb.append(this.tatica.toString());
         return sb.toString();
     }
 
-    public void removePlayer(int numCamisola){
-        if(this.equipa.containsKey(numCamisola)) {
-            this.equipa.remove(numCamisola);
-            this.numJogadores--;
-        }
+    
+    public Equipa clone() {
+        return new Equipa(this);
     }
 }

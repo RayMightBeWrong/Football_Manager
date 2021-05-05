@@ -1,0 +1,114 @@
+import java.time.LocalDateTime;
+
+/**
+ * Escreva a descri��o da classe Jogo aqui.
+ * 
+ * @author (seu nome) 
+ * @version (n�mero de vers�o ou data)
+ */
+public class Jogo
+{
+    // vari�veis de inst�ncia - substitua o exemplo abaixo pelo seu pr�prio
+    private Equipa visitado;
+    private Equipa visitante;
+    private int golosVisitado;
+    private int golosVisitante;
+    private int minutos;
+    private LocalDateTime dataJogo;
+    
+    /**
+     * COnstrutor para objetos da classe Jogo
+     */
+    public Jogo()
+    {
+        this.visitado = new Equipa();
+        this.visitante = new Equipa();
+        this.golosVisitado = 0;
+        this.golosVisitante = 0;
+        this.minutos = 0;
+        this.dataJogo = LocalDateTime.now();
+    }
+
+    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,LocalDateTime data) {
+        this.visitado = visitado.clone();
+        this.visitante = visitante.clone();
+        this.golosVisitado = goloVisitado;
+        this.golosVisitante = goloVisitante;
+        this.minutos = 0;
+        this.dataJogo = data;
+    }
+
+    public Jogo(Jogo j) {
+        this.visitado = j.getVisitado();
+        this.visitante = j.getVisitante();
+        this.golosVisitado = j.getGolosVisitado();
+        this.golosVisitante = j.getGolosVisitante();
+        this.minutos = j.getMinutos();
+        this.dataJogo = j.getData();
+    }
+    
+    public Equipa getVisitado() {
+        return this.visitado.clone();
+    }
+
+    public Equipa getVisitante() {
+        return this.visitante.clone();
+    }
+
+    public int getGolosVisitado() {
+        return this.golosVisitado;
+    }
+
+    public int getGolosVisitante() {
+        return this.golosVisitante;
+    }
+
+    public int getMinutos() {
+        return this.minutos;
+    }
+
+    public LocalDateTime getData() {
+        return this.dataJogo;
+    }
+
+    public void setVisitado(Equipa e) {
+        this.visitado = e.clone();
+    }
+
+    public void setVisitante(Equipa e) {
+        this.visitante = e.clone();
+    }
+
+    public void setGoloVisitado(int golo) {
+        this.golosVisitado = golo;
+    }
+
+    public void setGoloVisitante (int golo){
+        this.golosVisitante =golo;
+    }
+
+    public void setMinutos (int min) {
+        this.minutos = min;
+    }
+
+    public void setData (LocalDateTime data) {
+        this.dataJogo = data;
+    }
+
+    public Jogo clone() {
+        return new Jogo(this);
+    }
+
+    public String toString () {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.dataJogo.toString());
+        sb.append("Equipa da casa:").append(this.visitado.getName()).append("\n");
+        sb.append("Equipa de fora:").append(this.visitante.getName()).append("\n");
+        sb.append("Placard:").append(this.golosVisitado).append(" - ").append(this.golosVisitante).append("\n");
+        sb.append("Minuto:").append(this.getMinutos()).append("\n");
+        return sb.toString();
+    }
+
+    
+    
+}

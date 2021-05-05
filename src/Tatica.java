@@ -1,3 +1,6 @@
+ 
+
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -7,6 +10,7 @@ public class Tatica {
     private int[] formacao;
     private List<Jogador> titulares;
     private List<Jogador> suplentes;
+    private boolean add;
 
     public Tatica(){
         this.formacao = new int[3];
@@ -58,14 +62,19 @@ public class Tatica {
 
     public String toString(){
         StringBuilder sb = new StringBuilder();
-        sb.append("Formação: ");
+        sb.append("Formacao: ");
         sb.append(Arrays.toString(formacao));
         sb.append("\n");
-        sb.append("Titulares: ");
-        sb.append(this.titulares.stream().toString());
-        sb.append("\n");
-        sb.append("Suplentes: ");
-        sb.append(this.suplentes.stream().toString());
+        sb.append("Titulares: [\n");
+        for(Jogador j : this.titulares) {
+            sb.append(j.toString());
+        }
+        sb.append("]\n");
+        sb.append("Suplentes: [\n");
+        for(Jogador j : this.suplentes) {
+            sb.append(j.toString());
+        }
+        sb.append("]\n");
         return sb.toString();
     }
 
@@ -79,5 +88,18 @@ public class Tatica {
 
         Tatica t = (Tatica) o;
         return this.formacao.equals(t.formacao) && this.titulares.equals(t.titulares) && this.suplentes.equals(t.suplentes);
+    }
+
+    public void adicionaTitular(Jogador j) {
+        this.titulares.add(j.clone());
+    }
+
+    public void adicionaSuplente (Jogador j) {
+        this.suplentes.add(j.clone());
+    }
+
+    public void removeJogadorTatica(Jogador j) {
+        if (this.titulares.contains(j)) this.titulares.remove(j);
+        if (this.suplentes.contains(j)) this.suplentes.remove(j);
     }
 }

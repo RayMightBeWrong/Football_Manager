@@ -1,9 +1,6 @@
-//package src;
-
-
+ 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 public abstract class Jogador {
@@ -153,9 +150,7 @@ public abstract class Jogador {
     }
 
     public void setHistorialEquipas(List<String> historialEquipas) {
-        List<String> r = new ArrayList<>();
-        r = this.historialEquipas.stream().collect(Collectors.toList());
-        this.historialEquipas = r;
+        this.historialEquipas = historialEquipas.stream().collect(Collectors.toList());
     }
 
     public void addEquipatoHistorial(String equipa){

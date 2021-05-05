@@ -1,4 +1,6 @@
-//package src;
+ 
+
+
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -69,6 +71,8 @@ public class Lateral extends Jogador
                 ", Jdc=" + this.getJogodecabeca() +
                 ", Rem=" + this.getRemate() +
                 ", Pas=" + this.getPasse() +
+                ",Cru=" + this.getCruzamentos() +
+                ",Pos=" + this.getPosicionamento() +
                 ", Numero=" + this.getNumCamisola() +
                 ", Historial de Equipas" + this.getHistorialEquipas() +
                 ";\n";

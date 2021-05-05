@@ -1,13 +1,7 @@
-//package src;
-
+ 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-
-/**
- * Write a description of class Avancado here.
+ /* Write a description of class Avancado here.
  *
  * @author (your name)
  * @version (a version number or a date)
