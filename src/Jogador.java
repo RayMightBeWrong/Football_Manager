@@ -28,24 +28,24 @@ public abstract class Jogador {
         this.remate        = 0;
         this.altura = 0;
         this.numCamisola   = 0;
-        this.nome          = null;
+        this.nome          = "";
         this.historialEquipas = new ArrayList<String>();
     }
 
     /*
     Construtor de jogador parametrizado
      */
-    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jododecabeca, int passe, int remate, int altura,String nome, int numCamisola, List<String> historialEquipas) {
-        this.velocidade    = velocidade;
-        this.resistencia   = resistencia;
-        this.destreza      = destreza;
-        this.impulsao      = impulsao;
-        this.jogodecabeca  = jododecabeca;
-        this.passe         =  passe;
-        this.remate        = remate;
-        this.nome          = nome;
-        this.altura = altura;
-        this.numCamisola   = numCamisola;
+    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate, int altura,String nome, int numCamisola, List<String> historialEquipas) throws AtributoInvalidoException{
+        setVelocidade(velocidade);
+        setResistencia(resistencia);
+        setDestreza(destreza);
+        setImpulsao(impulsao);
+        setJogodecabeca(jogodecabeca);
+        setPasse(passe);
+        setRemate(remate);
+        setAltura(altura);
+        setNome(nome);
+        setNumCamisola(numCamisola);
         setHistorialEquipas(historialEquipas);
     }
 
@@ -119,44 +119,53 @@ public abstract class Jogador {
     Setter methods :)
      */
 
-    public void setResistencia(int resistencia) {
-        this.resistencia = resistencia;
+    public void setResistencia(int resistencia) throws AtributoInvalidoException {
+        if (resistencia >= 0 && resistencia <= 100) this.resistencia = resistencia;
+        else throw new AtributoInvalidoException("Atributo resistencia inserido invalido!");
     }
 
-    public void setDestreza(int destreza) {
-        this.destreza = destreza;
+    public void setDestreza(int destreza) throws AtributoInvalidoException{
+        if (destreza >= 0 && destreza <= 100) this.destreza = destreza;
+        else throw new AtributoInvalidoException("Atributo destreza inserido invalido!");
     }
 
-    public void setImpulsao(int impulsao) {
-        this.impulsao = impulsao;
+    public void setImpulsao(int impulsao) throws AtributoInvalidoException{
+        if (impulsao >= 0 && impulsao <= 100) this.impulsao = impulsao;
+        else throw new AtributoInvalidoException("Atributo impulsao inserido invalido!");
     }
 
-    public void setVelocidade(int velocidade) {
-        this.velocidade = velocidade;
+    public void setVelocidade(int velocidade) throws AtributoInvalidoException {
+        if (velocidade >= 0 && velocidade <= 100) this.velocidade = velocidade;
+        else throw new AtributoInvalidoException("Atributo velocidade inserido invalido!");
     }
 
-    public void setJogodecabeca(int jogodecabeca) {
-        this.jogodecabeca = jogodecabeca;
+    public void setJogodecabeca(int jogodecabeca) throws AtributoInvalidoException{
+        if (jogodecabeca >= 0 && jogodecabeca <= 100) this.jogodecabeca = jogodecabeca;
+        else throw new AtributoInvalidoException("Atributo jogo de cabeca inserido invalido!");
     }
 
-    public void setPasse(int passe) {
-        this.passe = passe;
+    public void setPasse(int passe) throws AtributoInvalidoException{
+        if (passe >= 0 && passe <= 100) this.passe = passe;
+        else throw new AtributoInvalidoException("Atributo passe inserido invalido!");
     }
 
-    public void setRemate(int remate) {
-        this.remate = remate;
+    public void setRemate(int remate) throws AtributoInvalidoException{
+        if (remate >= 0 && remate <= 100) this.remate = remate;
+        else throw new AtributoInvalidoException("Atributo remate inserido invalido!");
     }
 
-    public void setAltura (int altura) {
-        this.altura = altura;
+    public void setAltura (int altura) throws AtributoInvalidoException{
+        if (altura >= 130 && altura <= 240) this.altura = altura;
+        else throw new AtributoInvalidoException("Atributo altura inserido invalido!");
     }
 
     public void setNome(String nome) {
         this.nome = nome;
     }
 
-    public void setNumCamisola(int numCamisola) {
-        this.numCamisola = numCamisola;
+    public void setNumCamisola(int numCamisola) throws AtributoInvalidoException {
+        if (numCamisola >= 1 && numCamisola <= 100) this.numCamisola = numCamisola;
+        else throw new AtributoInvalidoException("Atributo numero camisola inserido invalido!");
     }
 
     public void setHistorialEquipas(List<String> historialEquipas) {

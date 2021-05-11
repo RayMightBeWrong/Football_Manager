@@ -26,9 +26,10 @@ public class Avancado extends Jogador
      * Constructor parametrizado da classe Avancado;
      */
     
-    public Avancado (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int comp,int altura, String nome, int numCamisola, List<String> historialEquipas){
+    public Avancado (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe
+                    , int remate,int comp,int altura, String nome, int numCamisola, List<String> historialEquipas) throws AtributoInvalidoException{
         super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola, historialEquipas);
-        this.compustura = comp;
+        setCompustura(comp);
     }
     
     /**
@@ -44,8 +45,9 @@ public class Avancado extends Jogador
         return this.compustura;
     }
     
-    public void setCompustura(int comp){
-        this.compustura = comp;
+    public void setCompustura(int comp) throws AtributoInvalidoException {
+        if (compustura >= 0 && compustura <= 100) this.compustura = comp;
+        else throw new AtributoInvalidoException("Atributo compustura inserido invalido!");
     }
     
     public String toString (){

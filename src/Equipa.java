@@ -59,10 +59,17 @@ public class Equipa {
     Setter methods
      */
 
-    public void setPlayer(Jogador j) {
-        j.addEquipatoHistorial(this.getName());
-        this.equipa.put(j.getNumCamisola(),j.clone());
-        this.numJogadores++;
+    public void addPlayer(Jogador j) throws NumeroExistenteException,JogadorExistenteException{
+        if (this.equipa.containsKey(j.getNumCamisola()))
+        throw new NumeroExistenteException("Numero ja ocupado!");
+        else if (this.equipa.containsValue(j)){
+            throw new JogadorExistenteException ("Jogador ja presente na equipa!");
+        }
+        else {
+            j.addEquipatoHistorial(this.getName());
+            this.equipa.putIfAbsent(j.getNumCamisola(),j.clone());
+            this.numJogadores++;
+        }
     }
 
     public void setEquipa(Map<Integer,Jogador> equipa) {

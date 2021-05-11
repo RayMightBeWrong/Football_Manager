@@ -29,10 +29,11 @@ public class Lateral extends Jogador
      * Constructor parametrizado da classe Lateral;
      */
     
-    public Lateral (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int cruzamentos, int posicionamento,int altura, String nome, int numCamisola, List<String> historialEquipas){
+    public Lateral (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe
+        , int remate, int cruzamentos, int posicionamento,int altura, String nome, int numCamisola, List<String> historialEquipas) throws AtributoInvalidoException {
         super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola,historialEquipas);
-        this.posicionamento = posicionamento;
-        this.cruzamentos = cruzamentos;
+        setPosicionamento(posicionamento);
+        setCruzamentos(cruzamentos);
     }
     
     /**
@@ -53,12 +54,14 @@ public class Lateral extends Jogador
         return this.cruzamentos;
     }
     
-    public void setPosicionamento(int pos) {
-        this.posicionamento = pos;
+    public void setPosicionamento(int pos) throws AtributoInvalidoException {
+        if (pos >= 0 && pos <= 100) this.posicionamento = pos;
+        else throw new AtributoInvalidoException("Atributo posicionamento invalido!");
     }
     
-    public void setCruzamentos(int cru) {
-        this.cruzamentos= cru;
+    public void setCruzamentos(int cru) throws AtributoInvalidoException {
+        if (cru >= 0 && cru <= 100) this.cruzamentos= cru;
+        else throw new AtributoInvalidoException("Atributo cruzamentos invalido!");
     }
     
     public String toString (){

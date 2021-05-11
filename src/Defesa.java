@@ -32,10 +32,11 @@ public class Defesa extends Jogador
      * Constructor parametrizado da classe Defesa;
      */
     
-    public Defesa (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int desarme,int posicionamento,int altura, String nome, int numCamisola, List<String> historialEquipas){
+    public Defesa (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe
+                , int remate,int desarme,int posicionamento,int altura, String nome, int numCamisola, List<String> historialEquipas) throws AtributoInvalidoException{
         super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola, historialEquipas);
-        this.posicionamento = posicionamento;
-        this.desarme = desarme;
+        setPosicionamento(posicionamento);
+        setDesarme(desarme);
     }
     
     /**
@@ -56,12 +57,14 @@ public class Defesa extends Jogador
         return this.desarme;
     }
     
-    public void setPosicionamento(int pos) {
-        this.posicionamento = pos;
+    public void setPosicionamento(int pos) throws AtributoInvalidoException{
+        if (pos >= 0 && pos <= 100) this.posicionamento = pos;
+        else throw new AtributoInvalidoException("Atributo posicionamento inserido invalido!");
     }
     
-    public void setDesarme(int des) {
-        this.desarme= des;
+    public void setDesarme(int des)throws AtributoInvalidoException {
+        if (des >= 0 && des <= 100) this.desarme= des;
+        else throw new AtributoInvalidoException("Atributo desarme inserido invalido!");
     }
     
     public String toString (){

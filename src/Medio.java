@@ -25,10 +25,11 @@ public class Medio extends Jogador {
      * Constructor parametrizado da classe Avancado;
      */
 
-    public Medio(int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int rec, int cri,int altura, String nome, int numCamisola, List<String> historialEquipas) {
+    public Medio(int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe
+            , int remate, int recBola, int criatividade,int altura, String nome, int numCamisola, List<String> historialEquipas)  throws AtributoInvalidoException{
         super(velocidade, resistencia, destreza, impulsao, jogodecabeca, passe, remate, altura,nome, numCamisola, historialEquipas);
-        this.recBola = rec;
-        this.criatividade = cri;
+        setRecBola(recBola);
+        setCriatividade(criatividade);
     }
 
     /**
@@ -49,12 +50,14 @@ public class Medio extends Jogador {
         return this.criatividade;
     }
 
-    public void setRecBola(int rec) {
-        this.recBola = rec;
+    public void setRecBola(int rec) throws AtributoInvalidoException {
+        if (rec >= 0 && rec <= 100) this.recBola = rec;
+        else throw new AtributoInvalidoException("Atributo recuperacao de bola inserido invalido!");
     }
 
-    public void setCriatividade(int cri) {
-        this.criatividade = cri;
+    public void setCriatividade(int cri) throws AtributoInvalidoException {
+        if (cri >= 0 && cri <= 100) this.criatividade = cri;
+        else throw new AtributoInvalidoException("Atributo criatividade inserido invalido!");
     }
 
     public String toString() {

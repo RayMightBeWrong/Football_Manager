@@ -29,10 +29,11 @@ public class GuardaRedes extends Jogador
      * Constructor parametrizado da classe GuardaRedes;
      */
     
-    public GuardaRedes (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int elasticidade, int reflexos,int altura, String nome, int numCamisola, List<String> historialEquipas){
+    public GuardaRedes (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe
+            , int remate, int elasticidade, int reflexos,int altura, String nome, int numCamisola, List<String> historialEquipas) throws AtributoInvalidoException{
         super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola,historialEquipas);
-        this.elasticidade = elasticidade;
-        this.reflexos = reflexos;
+        setElasticidade(elasticidade);
+        setReflexos(reflexos);
     }
     
     /**
@@ -53,12 +54,14 @@ public class GuardaRedes extends Jogador
         return this.elasticidade;
     }
     
-    public void setElasticidade(int elasticidade) {
-        this.elasticidade = elasticidade;
+    public void setElasticidade(int elasticidade) throws AtributoInvalidoException{
+        if (elasticidade >= 0 && elasticidade <= 100) this.elasticidade = elasticidade;
+        else throw new AtributoInvalidoException("Atributo elasticidade inserido invalido!");
     }
     
-    public void setReflexos(int reflexos) {
-        this.reflexos = reflexos;
+    public void setReflexos(int reflexos) throws AtributoInvalidoException {
+        if (reflexos >= 0 && reflexos <= 100) this.reflexos = reflexos;
+        else throw new AtributoInvalidoException("Atributo reflexos inserido invalido!");
     }
     
     public String toString (){
