@@ -6,11 +6,11 @@ import java.util.List;
 public class Interface {
     public static void main(String[] args) {
         List<String> equipas = new ArrayList<>();
-        Jogador avancado = new Avancado(16,15,12,13,16,15,20,20,"Sefo",10, equipas);
-        Jogador medio = new Medio(13,16,17,12,10,18,12,12,18,"GOD TARA",8, equipas);
-        Jogador defesa = new Defesa (14,12,14,15,17,12,7,15,16,"LUCAO",4, equipas);
-        Jogador guarda = new GuardaRedes (13,8,15,16,2,11,12,15,17,"LEITE",1, equipas);
-        Jogador lateral = new Lateral (14,2,12,12,12,13,16,18,12,"NUNO TAVARES",2, equipas);
+        Jogador avancado = new Avancado(86,75,92,53,76,65,100,100,185,"Sefo",10, equipas);
+        Jogador medio = new Medio(73,86,87,52,40,98,62,62,92,167,"GOD TARA",8, equipas);
+        Jogador defesa = new Defesa (74,62,74,85,87,52,37,85,96,190,"LUCAO",4, equipas);
+        Jogador guarda = new GuardaRedes (67,54,85,87,23,78,87,84,90,180,"LEITE",1, equipas);
+        Jogador lateral = new Lateral (74,32,52,52,62,63,86,98,62,200,"NUNO TAVARES",2, equipas);
         //System.out.println(j.toString());
         Equipa t1 = new Equipa();
         Equipa t2 = new Equipa();

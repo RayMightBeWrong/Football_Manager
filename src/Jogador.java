@@ -13,6 +13,7 @@ public abstract class Jogador {
     private int passe;
     private String nome;
     private int numCamisola;
+    private int altura;
     private List<String> historialEquipas;
     /*
     Construtor de jogador
@@ -25,6 +26,7 @@ public abstract class Jogador {
         this.jogodecabeca  = 0;
         this.passe         = 0;
         this.remate        = 0;
+        this.altura = 0;
         this.numCamisola   = 0;
         this.nome          = null;
         this.historialEquipas = new ArrayList<String>();
@@ -33,7 +35,7 @@ public abstract class Jogador {
     /*
     Construtor de jogador parametrizado
      */
-    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jododecabeca, int passe, int remate, String nome, int numCamisola, List<String> historialEquipas) {
+    public Jogador(int velocidade, int resistencia, int destreza, int impulsao,int jododecabeca, int passe, int remate, int altura,String nome, int numCamisola, List<String> historialEquipas) {
         this.velocidade    = velocidade;
         this.resistencia   = resistencia;
         this.destreza      = destreza;
@@ -42,6 +44,7 @@ public abstract class Jogador {
         this.passe         =  passe;
         this.remate        = remate;
         this.nome          = nome;
+        this.altura = altura;
         this.numCamisola   = numCamisola;
         setHistorialEquipas(historialEquipas);
     }
@@ -58,6 +61,7 @@ public abstract class Jogador {
         this.velocidade   = j.getVelocidade();
         this.resistencia  = j.getResistencia();
         this.numCamisola  = j.getNumCamisola();
+        this.altura = j.getAltura();
         this.nome         = j.getNome();
         this.historialEquipas = j.getHistorialEquipas();
     }
@@ -93,6 +97,9 @@ public abstract class Jogador {
         return this.remate;
     }
 
+    public int getAltura(){
+        return this.altura;
+    }
 
     public int getNumCamisola() {
         return this.numCamisola;
@@ -140,6 +147,9 @@ public abstract class Jogador {
         this.remate = remate;
     }
 
+    public void setAltura (int altura) {
+        this.altura = altura;
+    }
 
     public void setNome(String nome) {
         this.nome = nome;

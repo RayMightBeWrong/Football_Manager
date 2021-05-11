@@ -3,6 +3,7 @@
 
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -31,8 +32,8 @@ public class Defesa extends Jogador
      * Constructor parametrizado da classe Defesa;
      */
     
-    public Defesa (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int desarme,int posicionamento, String nome, int numCamisola, List<String> historialEquipas){
-        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola, historialEquipas);
+    public Defesa (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int desarme,int posicionamento,int altura, String nome, int numCamisola, List<String> historialEquipas){
+        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola, historialEquipas);
         this.posicionamento = posicionamento;
         this.desarme = desarme;
     }
@@ -64,7 +65,7 @@ public class Defesa extends Jogador
     }
     
     public String toString (){
-        return "Nome: " +this.getNome() + "; Posicao = Defesa; Habilidade =" + this.habilidadeJogador() +
+        return "Nome: " +this.getNome() + "; Posicao = Defesa; Altura = "+ this.getAltura() + ", Habilidade =" + this.habilidadeJogador() +
                 ";Atributos : Vel=" + this.getVelocidade() +
                 ", Res=" + this.getResistencia() +
                 ", Dest=" + this.getDestreza() +
@@ -87,7 +88,9 @@ public class Defesa extends Jogador
         if (this == o) return true;
         if (!(o instanceof Defesa)) return false;
         Defesa jogador = (Defesa) o;
-        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getDesarme() == jogador.getDesarme() && this.getPosicionamento() == jogador.getPosicionamento() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
+        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() 
+                                                                && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getAltura() == jogador.getAltura()
+                                                                && this.getDesarme() == jogador.getDesarme() && this.getPosicionamento() == jogador.getPosicionamento() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
     }
     
     /**
@@ -98,12 +101,13 @@ public class Defesa extends Jogador
         float soma = this.getVelocidade()*0.10f;
         soma += this.getResistencia()*0.05f;
         soma += this.getDestreza()*0.05f;
-        soma += this.getImpulsao()*0.15f;
+        soma += this.getImpulsao()*0.1f;
         soma += this.getJogodecabeca()*0.15f;
         soma += this.getPasse()*0.05f;
         soma += this.getRemate()*0.01f;
         soma += this.getDesarme()*0.22f;
         soma += this.getPosicionamento() * 0.22f;
-        return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
+        if (this.getAltura() >= 180) soma += 5;
+        return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
 }

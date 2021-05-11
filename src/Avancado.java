@@ -1,9 +1,7 @@
- 
-
-
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.math.RoundingMode;
 
 /**
  * Write a description of class Avancado here.
@@ -28,8 +26,8 @@ public class Avancado extends Jogador
      * Constructor parametrizado da classe Avancado;
      */
     
-    public Avancado (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int comp, String nome, int numCamisola, List<String> historialEquipas){
-        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola, historialEquipas);
+    public Avancado (int velocidade, int resistencia, int destreza, int impulsao,int jogodecabeca, int passe, int remate,int comp,int altura, String nome, int numCamisola, List<String> historialEquipas){
+        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola, historialEquipas);
         this.compustura = comp;
     }
     
@@ -51,7 +49,7 @@ public class Avancado extends Jogador
     }
     
     public String toString (){
-        return "Nome: " +this.getNome() + ", Posicao = Avancado; Habilidade =" + this.habilidadeJogador() +
+        return "Nome: " +this.getNome() + ", Posicao = Avancado; Altura = " + this.getAltura() + ",  Habilidade =" + this.habilidadeJogador() +
                 ",Atributos : Vel=" + this.getVelocidade() +
                 ", Res=" + this.getResistencia() +
                 ", Dest=" + this.getDestreza() +
@@ -73,7 +71,9 @@ public class Avancado extends Jogador
         if (this == o) return true;
         if (!(o instanceof Avancado)) return false;
         Avancado jogador = (Avancado) o;
-        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getCompustura() == jogador.getCompustura() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
+        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() 
+                && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getCompustura() == jogador.getCompustura()
+                && this.getAltura() == jogador.getAltura() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
     }
     
     /**
@@ -85,10 +85,11 @@ public class Avancado extends Jogador
         soma += this.getResistencia()*0.1f;
         soma += this.getDestreza()*0.1f;
         soma += this.getImpulsao()*0.1f;
-        soma += this.getJogodecabeca()*0.15f;
+        soma += this.getJogodecabeca()*0.1f;
         soma += this.getPasse()*0.1f;
         soma += this.getRemate()*0.25f;
         soma += this.getCompustura() * 0.1f;
-        return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
+        if (this.getAltura() >= 180) soma += 5;
+        return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
 }

@@ -1,10 +1,7 @@
  
-
-
-
-
 import java.math.BigDecimal;
 import java.util.List;
+import java.math.RoundingMode;
 
 /**
  * Write a description of class Avancado here.
@@ -32,8 +29,8 @@ public class GuardaRedes extends Jogador
      * Constructor parametrizado da classe GuardaRedes;
      */
     
-    public GuardaRedes (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int elasticidade, int reflexos, String nome, int numCamisola, List<String> historialEquipas){
-        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola,historialEquipas);
+    public GuardaRedes (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int elasticidade, int reflexos,int altura, String nome, int numCamisola, List<String> historialEquipas){
+        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola,historialEquipas);
         this.elasticidade = elasticidade;
         this.reflexos = reflexos;
     }
@@ -65,7 +62,7 @@ public class GuardaRedes extends Jogador
     }
     
     public String toString (){
-        return "Nome: "+this.getNome() + ", Posicao = Guarda-Redes; Habilidade =" + this.habilidadeJogador() +
+        return "Nome: "+this.getNome() + ", Posicao = Guarda-Redes; Altura = " + this.getAltura() +", Habilidade =" + this.habilidadeJogador() +
                 ";Atributos : Vel=" + this.getVelocidade() +
                 ", Res=" + this.getResistencia() +
                 ", Dest=" + this.getDestreza() +
@@ -88,7 +85,9 @@ public class GuardaRedes extends Jogador
         if (this == o) return true;
         if (!(o instanceof GuardaRedes)) return false;
         GuardaRedes jogador = (GuardaRedes) o;
-        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getElasticidade()== jogador.getElasticidade() && this.getReflexos() == jogador.getReflexos() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
+        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() 
+                    && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getElasticidade()== jogador.getElasticidade()
+                     && this.getReflexos() == jogador.getReflexos() && this.getAltura() == jogador.getAltura() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
     }
     
     /**
@@ -99,12 +98,13 @@ public class GuardaRedes extends Jogador
         float soma = this.getVelocidade()*0.1f;
         soma += this.getResistencia()*0.01f;
         soma += this.getDestreza()*0.16f;
-        soma += this.getImpulsao()*0.25f;
+        soma += this.getImpulsao()*0.2f;
         soma += this.getJogodecabeca()*0.01f;
         soma += this.getPasse()*0.05f;
         soma += this.getRemate()*0.01f;
         soma += this.getElasticidade()*0.25f;
         soma += this.getReflexos() * 0.25f;
-        return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
+        if (this.getAltura() >= 185) soma += 5;
+        return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
 }

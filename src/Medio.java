@@ -1,6 +1,7 @@
  
 import java.math.BigDecimal;
 import java.util.List;
+import java.math.RoundingMode;
  /* Write a description of class Avancado here.
  *
  * @author (your name)
@@ -24,8 +25,8 @@ public class Medio extends Jogador {
      * Constructor parametrizado da classe Avancado;
      */
 
-    public Medio(int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int rec, int cri, String nome, int numCamisola, List<String> historialEquipas) {
-        super(velocidade, resistencia, destreza, impulsao, jogodecabeca, passe, remate, nome, numCamisola, historialEquipas);
+    public Medio(int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int rec, int cri,int altura, String nome, int numCamisola, List<String> historialEquipas) {
+        super(velocidade, resistencia, destreza, impulsao, jogodecabeca, passe, remate, altura,nome, numCamisola, historialEquipas);
         this.recBola = rec;
         this.criatividade = cri;
     }
@@ -57,7 +58,7 @@ public class Medio extends Jogador {
     }
 
     public String toString() {
-        return "Nome: " + this.getNome() + "; Posicao = Medio; Habilidade =" + this.habilidadeJogador() +
+        return "Nome: " + this.getNome() + "; Posicao = Medio; Altura = " + this.getAltura() + ",Habilidade =" + this.habilidadeJogador() +
                 ",Atributos : Vel=" + this.getVelocidade() +
                 ", Res=" + this.getResistencia() +
                 ", Dest=" + this.getDestreza() +
@@ -97,6 +98,6 @@ public class Medio extends Jogador {
         soma += this.getRemate() * 0.1f;
         soma += this.getCriatividade() * 0.1f;
         soma += this.getRecBola() * 0.1f;
-        return BigDecimal.valueOf(soma).setScale(2, BigDecimal.ROUND_HALF_DOWN).floatValue();
+        return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
 }

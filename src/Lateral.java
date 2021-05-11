@@ -1,9 +1,8 @@
- 
-
 
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.math.RoundingMode;
 
 /**
  * Write a description of class Lateral here.
@@ -30,8 +29,8 @@ public class Lateral extends Jogador
      * Constructor parametrizado da classe Lateral;
      */
     
-    public Lateral (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int cruzamentos, int posicionamento, String nome, int numCamisola, List<String> historialEquipas){
-        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,nome,numCamisola,historialEquipas);
+    public Lateral (int velocidade, int resistencia, int destreza, int impulsao, int jogodecabeca, int passe, int remate, int cruzamentos, int posicionamento,int altura, String nome, int numCamisola, List<String> historialEquipas){
+        super(velocidade,resistencia,destreza,impulsao,jogodecabeca,passe,remate,altura,nome,numCamisola,historialEquipas);
         this.posicionamento = posicionamento;
         this.cruzamentos = cruzamentos;
     }
@@ -63,7 +62,7 @@ public class Lateral extends Jogador
     }
     
     public String toString (){
-        return "Nome: "+this.getNome() + "; Posicao = Lateral; Habilidade =" + this.habilidadeJogador() +
+        return "Nome: "+this.getNome() + "; Posicao = Lateral; Altura = " + this.getAltura() +"; Habilidade =" + this.habilidadeJogador() +
                 ";Atributos : Vel=" + this.getVelocidade() +
                 ", Res=" + this.getResistencia() +
                 ", Dest=" + this.getDestreza() +
@@ -86,7 +85,9 @@ public class Lateral extends Jogador
         if (this == o) return true;
         if (!(o instanceof Lateral)) return false;
         Lateral jogador = (Lateral) o;
-        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getCruzamentos() == jogador.getCruzamentos() && this.getPosicionamento() == jogador.getPosicionamento() && this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
+        return this.getVelocidade() == jogador.getVelocidade() && this.getResistencia() == jogador.getResistencia() && this.getDestreza() == jogador.getDestreza() && this.getImpulsao() == jogador.getImpulsao() 
+                && this.getJogodecabeca() == jogador.getJogodecabeca() && this.getRemate() == jogador.getRemate() && this.getPasse() == jogador.getPasse() && this.getCruzamentos() == jogador.getCruzamentos() 
+                && this.getPosicionamento() == jogador.getPosicionamento() && this.getAltura() == jogador.getAltura()&& this.getHistorialEquipas().equals(jogador.getHistorialEquipas());
     }
     
     /**
@@ -103,6 +104,6 @@ public class Lateral extends Jogador
         soma += this.getRemate()*0.05f;
         soma += this.getCruzamentos() * 0.2f;
         soma += this.getPosicionamento()* 0.1f;
-        return BigDecimal.valueOf(soma).setScale(2,BigDecimal.ROUND_HALF_DOWN).floatValue();
+        return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
 }
