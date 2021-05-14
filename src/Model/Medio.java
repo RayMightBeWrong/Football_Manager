@@ -4,7 +4,9 @@ package src.Model;
 import java.math.BigDecimal;
 import java.util.List;
 import java.math.RoundingMode;
- /* Write a description of class Avancado here.
+import java.util.Random;
+
+/* Write a description of class Avancado here.
  *
  * @author (your name)
  * @version (a version number or a date)
@@ -105,4 +107,22 @@ public class Medio extends Jogador {
         soma += this.getRecBola() * 0.1f;
         return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
+
+     public static Medio parse(String input) throws AtributoInvalidoException{
+         String[] campos = input.split(",");
+         Random rand = new Random();
+         return new Medio(Integer.parseInt(campos[2]),
+                 Integer.parseInt(campos[3]),
+                 Integer.parseInt(campos[4]),
+                 Integer.parseInt(campos[5]),
+                 Integer.parseInt(campos[6]),
+                 Integer.parseInt(campos[8]),
+                 Integer.parseInt(campos[7]),
+                 Integer.parseInt(campos[9]),
+                 rand.nextInt(60) + 40,
+                 rand.nextInt(37) + 158,
+                 campos[0],
+                 Integer.parseInt(campos[1]),
+                 null);
+     }
 }

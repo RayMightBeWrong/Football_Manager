@@ -4,6 +4,7 @@ package src.Model;
 import java.math.BigDecimal;
 import java.util.List;
 import java.math.RoundingMode;
+import java.util.Random;
 
 /**
  * Write a description of class Avancado here.
@@ -67,7 +68,7 @@ public class GuardaRedes extends Jogador
     }
     
     public String toString (){
-        return "Nome: "+this.getNome() + ", Posicao = Guarda-Redes; Altura = " + this.getAltura() +", Habilidade =" + this.habilidadeJogador() +
+        return "Nome: " + this.getNome() + ", Posicao = Guarda-Redes; Altura = " + this.getAltura() +", Habilidade =" + this.habilidadeJogador() +
                 ";Atributos : Vel=" + this.getVelocidade() +
                 ", Res=" + this.getResistencia() +
                 ", Dest=" + this.getDestreza() +
@@ -111,5 +112,23 @@ public class GuardaRedes extends Jogador
         soma += this.getReflexos() * 0.25f;
         if (this.getAltura() >= 185) soma += 5;
         return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
+    }
+
+    public static GuardaRedes parse(String input) throws AtributoInvalidoException{
+        String[] campos = input.split(",");
+        Random rand = new Random();
+        return new GuardaRedes(Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[8]),
+                Integer.parseInt(campos[7]),
+                Integer.parseInt(campos[9]),
+                rand.nextInt(50) + 50,
+                rand.nextInt(35) + 175,
+                campos[0],
+                Integer.parseInt(campos[1]),
+                null);
     }
 }

@@ -4,6 +4,7 @@ package src.Model;
 import java.math.BigDecimal;
 import java.util.List;
 import java.math.RoundingMode;
+import java.util.Random;
 
 /**
  * Write a description of class Avancado here.
@@ -95,5 +96,22 @@ public class Avancado extends Jogador
         soma += this.getCompustura() * 0.1f;
         if (this.getAltura() >= 180) soma += 5;
         return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
+    }
+
+    public static Avancado parse(String input) throws AtributoInvalidoException{
+        String[] campos = input.split(",");
+        Random rand = new Random();
+        return new Avancado(Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[8]),
+                Integer.parseInt(campos[7]),
+                rand.nextInt(70) + 30,
+                rand.nextInt(45) + 160,
+                campos[0],
+                Integer.parseInt(campos[1]),
+                null);
     }
 }

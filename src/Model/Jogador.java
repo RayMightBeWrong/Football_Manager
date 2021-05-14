@@ -170,7 +170,10 @@ public abstract class Jogador {
     }
 
     public void setHistorialEquipas(List<String> historialEquipas) {
-        this.historialEquipas = historialEquipas.stream().collect(Collectors.toList());
+        if(historialEquipas != null)
+            this.historialEquipas = historialEquipas.stream().collect(Collectors.toList());
+        else
+            this.historialEquipas = new ArrayList<String>();
     }
 
     public void addEquipatoHistorial(String equipa){

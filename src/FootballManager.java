@@ -17,8 +17,16 @@ public class FootballManager
     FMController controller;
     FMView view;
     
-    public static void main (String[] args) {
-        new FootballManager().run();
+    public static void main (String[] args){
+        try {
+            String s = "Cristiano Jose Goncalves Neiva Pereira,2,52,55,85,25,63,66,69";
+            Avancado j = Avancado.parse(s);
+            System.out.println(j.toString());
+        }
+        catch (AtributoInvalidoException e){
+            e.printStackTrace();
+        }
+        //new FootballManager().run();
     }
     
     /**

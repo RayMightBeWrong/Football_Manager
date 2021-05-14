@@ -69,7 +69,7 @@ public class Equipa {
     Setter methods
      */
 
-    public void addPlayer(Jogador j) throws NumeroExistenteException,JogadorExistenteException{
+    public void addPlayer(Jogador j) throws NumeroExistenteException, JogadorExistenteException{
         if (this.equipa.containsKey(j.getNumCamisola()))
         throw new NumeroExistenteException("Numero ja ocupado!");
         else if (this.equipa.containsValue(j)){
@@ -97,26 +97,7 @@ public class Equipa {
     public void setTatica(Tatica tatica){
         this.tatica = tatica.clone();
     }
-    
-    public void addTitular (Jogador j) {
-        if (this.equipa.containsKey(j.getNumCamisola()))
-                this.tatica.adicionaTitular(j);
-        }
 
-    public void removePlayer(Jogador j){
-        if(this.equipa.containsKey(j.getNumCamisola())) {
-            this.equipa.remove(j.getNumCamisola());
-            this.numJogadores--;
-        }
-
-        this.tatica.removeJogadorTatica(j);
-    }
-
-
-    public void addSuplente(Jogador  j) {
-            if (this.equipa.containsKey(j.getNumCamisola()))
-                    this.tatica.adicionaSuplente(j);
-    }
     /*
     useful methods
     */
@@ -130,7 +111,6 @@ public class Equipa {
         sb.append("]\n");
         return sb.toString();
     }
-
     
     public Equipa clone() {
         return new Equipa(this);
@@ -141,5 +121,28 @@ public class Equipa {
         if (!(o instanceof Equipa )) return false;
         Equipa equipa= (Equipa ) o;
         return this.getTatica().equals(equipa.getTatica()) && this.getNumJogadores() == equipa.getNumJogadores() && this.getName().equals(equipa.getName()) && this.getJogadores().equals(equipa.getJogadores());
+    }
+
+    public void addTitular (Jogador j) {
+        if (this.equipa.containsKey(j.getNumCamisola()))
+            this.tatica.adicionaTitular(j);
+    }
+
+    public void removePlayer(Jogador j){
+        if(this.equipa.containsKey(j.getNumCamisola())) {
+            this.equipa.remove(j.getNumCamisola());
+            this.numJogadores--;
+        }
+        this.tatica.removeJogadorTatica(j);
+    }
+
+    public void addSuplente(Jogador  j) {
+        if (this.equipa.containsKey(j.getNumCamisola()))
+            this.tatica.adicionaSuplente(j);
+    }
+
+    public static Equipa parse(String input){
+        String[] campos = input.split(",");
+        return new Equipa(campos[0]);
     }
 }

@@ -5,6 +5,7 @@ package src.Model;
 import java.math.BigDecimal;
 import java.util.List;
 import java.math.RoundingMode;
+import java.util.Random;
 
 /**
  * Write a description of class Lateral here.
@@ -110,5 +111,23 @@ public class Lateral extends Jogador
         soma += this.getCruzamentos() * 0.2f;
         soma += this.getPosicionamento()* 0.1f;
         return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
+    }
+
+    public static Lateral parse(String input) throws AtributoInvalidoException{
+        String[] campos = input.split(",");
+        Random rand = new Random();
+        return new Lateral(Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[8]),
+                Integer.parseInt(campos[7]),
+                Integer.parseInt(campos[9]),
+                rand.nextInt(50) + 50,
+                rand.nextInt(32) + 158,
+                campos[0],
+                Integer.parseInt(campos[1]),
+                null);
     }
 }

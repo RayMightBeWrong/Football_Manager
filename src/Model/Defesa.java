@@ -3,6 +3,7 @@ package src.Model;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Write a description of class Defesa here.
@@ -110,5 +111,23 @@ public class Defesa extends Jogador
         soma += this.getPosicionamento() * 0.22f;
         if (this.getAltura() >= 180) soma += 5;
         return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
+    }
+
+    public static Defesa parse(String input) throws AtributoInvalidoException{
+        String[] campos = input.split(",");
+        Random rand = new Random();
+        return new Defesa(Integer.parseInt(campos[2]),
+                Integer.parseInt(campos[3]),
+                Integer.parseInt(campos[4]),
+                Integer.parseInt(campos[5]),
+                Integer.parseInt(campos[6]),
+                Integer.parseInt(campos[8]),
+                Integer.parseInt(campos[7]),
+                rand.nextInt(50) + 50,
+                rand.nextInt(50) + 50,
+                rand.nextInt(35) + 170,
+                campos[0],
+                Integer.parseInt(campos[1]),
+                null);
     }
 }
