@@ -2,12 +2,14 @@ package src.Model;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.stream.Collectors;
 
 public class Tatica {
     private int[] formacao;
-    private List<Jogador> titulares;
-    private List<Jogador> suplentes;
+    private Map<Integer,Jogador> titulares;
+    private Map<Integer,Jogador> suplentes;
     private boolean add;
 
     public Tatica(){
@@ -15,17 +17,17 @@ public class Tatica {
         this.formacao[0] = 4;
         this.formacao[1] = 3;
         this.formacao[2] = 3;
-        this.titulares = new ArrayList<Jogador>();
-        this.suplentes = new ArrayList<Jogador>();
+        this.titulares = new HashMap<Integer, Jogador>();
+        this.suplentes = new HashMap<Integer, Jogador>();
     }
 
-    public Tatica(int d, int m, int a, List<Jogador> titulares, List<Jogador> suplentes){
+    public Tatica(int d, int m, int a, Map<Integer,Jogador> titulares, Map<Integer,Jogador> suplentes){
         this.formacao = new int[3];
         this.formacao[0] = d;
         this.formacao[1] = m;
         this.formacao[2] = a;
-        this.titulares = titulares.stream().map(Jogador::clone).collect(Collectors.toList());
-        this.suplentes = suplentes.stream().map(Jogador::clone).collect(Collectors.toList());
+        this.titulares = titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        this.suplentes = suplentes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public Tatica(Tatica t){
@@ -38,24 +40,24 @@ public class Tatica {
         return this.formacao.clone();
     }
 
-    public List<Jogador> getTitulares() {
-        return this.titulares.stream().map(Jogador::clone).collect(Collectors.toList());
+    public Map<Integer, Jogador> getTitulares() {
+        return this.titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public List<Jogador> getSuplentes() {
-        return this.suplentes.stream().map(Jogador::clone).collect(Collectors.toList());
+    public Map<Integer, Jogador> getSuplentes() {
+        return this.suplentes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public void setFormacao(int[] formacao) {
         this.formacao = formacao.clone();
     }
 
-    public void setTitulares(List<Jogador> titulares) {
-        this.titulares = titulares.stream().map(Jogador::clone).collect(Collectors.toList());
+    public void setTitulares(Map<Integer, Jogador> titulares) {
+        this.titulares = titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public void setSuplentes(List<Jogador> suplentes) {
-        this.suplentes = suplentes.stream().map(Jogador::clone).collect(Collectors.toList());
+    public void setSuplentes(Map<Integer, Jogador> suplentes) {
+        this.suplentes = suplentes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public String toString(){
@@ -64,12 +66,12 @@ public class Tatica {
         sb.append(Arrays.toString(formacao));
         sb.append("\n");
         sb.append("Titulares: [\n");
-        for(Jogador j : this.titulares) {
+        for(Jogador j : this.titulares.values()) {
             sb.append(j.toString());
         }
         sb.append("]\n");
         sb.append("Suplentes: [\n");
-        for(Jogador j : this.suplentes) {
+        for(Jogador j : this.suplentes.values()) {
             sb.append(j.toString());
         }
         sb.append("]\n");
@@ -89,15 +91,15 @@ public class Tatica {
     }
 
     public void adicionaTitular(Jogador j) {
-        this.titulares.add(j.clone());
+        this.titulares.putIfAbsent(j.getNumCamisola(), j.clone());
     }
 
     public void adicionaSuplente (Jogador j) {
-        this.suplentes.add(j.clone());
+        this.suplentes.putIfAbsent(j.getNumCamisola(), j.clone());
     }
 
     public void removeJogadorTatica(Jogador j) {
-        if (this.titulares.contains(j)) this.titulares.remove(j);
-        if (this.suplentes.contains(j)) this.suplentes.remove(j);
+        if (this.titulares.containsKey(j.getNumCamisola())) this.titulares.remove(j.getNumCamisola());
+        if (this.suplentes.containsKey(j.getNumCamisola())) this.suplentes.remove(j.getNumCamisola());
     }
 }

@@ -1,4 +1,5 @@
 package src.Model;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,7 +27,7 @@ public abstract class Jogador {
         this.jogodecabeca  = 0;
         this.passe         = 0;
         this.remate        = 0;
-        this.altura = 0;
+        this.altura        = 0;
         this.numCamisola   = 0;
         this.nome          = "";
         this.historialEquipas = new ArrayList<String>();
