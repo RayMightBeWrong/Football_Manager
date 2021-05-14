@@ -1,3 +1,5 @@
+package src.Model;
+
 import java.time.LocalDateTime;
 
 /**
@@ -14,6 +16,7 @@ public class Jogo
     private int golosVisitado;
     private int golosVisitante;
     private int minutos;
+    private String meteorologia;
     private LocalDateTime dataJogo;
     
     /**
@@ -26,15 +29,17 @@ public class Jogo
         this.golosVisitado = 0;
         this.golosVisitante = 0;
         this.minutos = 0;
+        this.meteorologia = "";
         this.dataJogo = LocalDateTime.now();
     }
 
-    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,LocalDateTime data) {
+    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,String meto,LocalDateTime data) {
         this.visitado = visitado.clone();
         this.visitante = visitante.clone();
         this.golosVisitado = goloVisitado;
         this.golosVisitante = goloVisitante;
         this.minutos = 0;
+        this.meteorologia = meto;
         this.dataJogo = data;
     }
 
@@ -44,6 +49,7 @@ public class Jogo
         this.golosVisitado = j.getGolosVisitado();
         this.golosVisitante = j.getGolosVisitante();
         this.minutos = j.getMinutos();
+        this.meteorologia = j.getMeteorologia();
         this.dataJogo = j.getData();
     }
     
@@ -65,6 +71,10 @@ public class Jogo
 
     public int getMinutos() {
         return this.minutos;
+    }
+
+    public String getMeteorologia() {
+        return this.meteorologia;
     }
 
     public LocalDateTime getData() {
@@ -91,6 +101,10 @@ public class Jogo
         this.minutos = min;
     }
 
+    public void setMeteorologia (String meto) {
+        this.meteorologia = meto;
+    }
+
     public void setData (LocalDateTime data) {
         this.dataJogo = data;
     }
@@ -107,6 +121,15 @@ public class Jogo
         sb.append("Placard:").append(this.golosVisitado).append(" - ").append(this.golosVisitante).append("\n");
         sb.append("Minuto:").append(this.getMinutos()).append("\n");
         return sb.toString();
+    }
+
+    public boolean equals (Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Jogo)) return false;
+        Jogo jogo = (Jogo) o;
+        return this.getGolosVisitado() == jogo.getGolosVisitado() && this.getGolosVisitante() == jogo.getGolosVisitante() && this.getMinutos() == jogo.getMinutos()
+                    && this.getMeteorologia().equals(jogo.getMeteorologia()) && this.getVisitado().equals(jogo.getVisitado()) && this.getVisitante().equals(jogo.getVisitante())
+                    && this.getData().equals(jogo.getData());
     }
 
     

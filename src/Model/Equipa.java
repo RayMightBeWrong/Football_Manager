@@ -1,3 +1,6 @@
+package src.Model;
+
+
  
 import java.util.*;
 import java.util.stream.Collectors;
@@ -18,6 +21,13 @@ public class Equipa {
         this.tatica = new Tatica();
     }
 
+    public Equipa (String name) {
+        this.equipa = new HashMap<Integer,Jogador>();
+        this.name = name;
+        this.numJogadores = 0;
+        this.tatica = new Tatica();
+    }
+
     public Equipa(Map<Integer, Jogador> equipa, String name, int numJogadores, Tatica tatica) {
         this.equipa = equipa.values().stream().collect(Collectors.toMap(j->j.getNumCamisola(),j->j.clone()));
         this.name = name;
@@ -26,14 +36,14 @@ public class Equipa {
     }
 
     public Equipa(Equipa e) {
-        this.equipa = e.getJogadores();
+        this.equipa = e.getJogadores().stream().collect(Collectors.toMap(j->j.getNumCamisola(),j->j.clone()));
         this.name = e.getName();
         this.numJogadores = e.getNumJogadores();
         this.tatica = e.getTatica();
     }
 
-    public Map <Integer,Jogador> getJogadores () {
-        return this.equipa.values().stream().collect(Collectors.toMap(j->j.getNumCamisola(),j->j.clone()));
+    public List<Jogador> getJogadores () {
+        return this.equipa.values().stream().collect(Collectors.toList());
     }
     
     /*
@@ -112,17 +122,24 @@ public class Equipa {
     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
+        sb.append("Nome da Equipa:").append(this.getName()).append("\n");
         sb.append("Plantel: [\n");
         for (Jogador j:this.equipa.values()) {
             sb.append(j.toString());
         }
         sb.append("]\n");
-        sb.append(this.tatica.toString());
         return sb.toString();
     }
 
     
     public Equipa clone() {
         return new Equipa(this);
+    }
+
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Equipa )) return false;
+        Equipa equipa= (Equipa ) o;
+        return this.getTatica().equals(equipa.getTatica()) && this.getNumJogadores() == equipa.getNumJogadores() && this.getName().equals(equipa.getName()) && this.getJogadores().equals(equipa.getJogadores());
     }
 }

@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.target=FMView
+comment1.params=ob\ value
+comment1.target=void\ update(java.util.Observable,\ java.lang.Object)
+comment10.params=
+comment10.target=void\ adicionarEquipa()
+comment11.params=
+comment11.target=void\ listarEquipas()
+comment12.params=posicao
+comment12.target=java.util.List\ lerStatJogador(int)
+comment2.params=cont
+comment2.target=FMView(src.Controller.FMController)
+comment3.params=
+comment3.target=void\ run()
+comment4.params=
+comment4.target=void\ runGestaoJogadores()
+comment5.params=
+comment5.target=void\ runGestaoEquipa()
+comment6.params=
+comment6.target=void\ criarJogador()
+comment7.params=
+comment7.target=void\ pesquisarJogador()
+comment8.params=
+comment8.target=void\ removerJogador()
+comment9.params=
+comment9.target=void\ calculaHabilidadeJogador()
+numComments=13

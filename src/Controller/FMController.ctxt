@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.target=FMController
+comment0.text=\r\n\ Escreva\ a\ descri\u00E7\u00E3o\ da\ classe\ FMController\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00FAmero\ de\ vers\u00E3o\ ou\ data)\r\n
+comment1.params=ob\ value
+comment1.target=void\ update(java.util.Observable,\ java.lang.Object)
+comment2.params=
+comment2.target=FMController()
+comment3.params=model
+comment3.target=FMController(src.Model.FMModel)
+comment4.params=
+comment4.target=int\ getComando()
+comment5.params=comando
+comment5.target=void\ setComando(int)
+comment6.params=args
+comment6.target=void\ processaComando(java.util.List)
+comment7.params=args
+comment7.target=void\ adicionaJogador(java.util.List)
+comment8.params=args
+comment8.target=void\ pesquisarJogador(java.util.List)
+numComments=9

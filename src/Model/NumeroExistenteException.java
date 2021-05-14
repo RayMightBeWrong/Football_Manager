@@ -1,9 +1,11 @@
+package src.Model;
+
 
 /**
- * Escreva a descrição da classe JogadorExistenteException aqui.
+ * Escreva a descriï¿½ï¿½o da classe JogadorExistenteException aqui.
  * 
  * @author (seu nome) 
- * @version (número de versão ou data)
+ * @version (nï¿½mero de versï¿½o ou data)
  */
 public class NumeroExistenteException extends Exception
 {

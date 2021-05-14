@@ -1,10 +1,7 @@
+package src.Model;
 
-/**
- * Escreva a descrição da classe AtributoInvalidoException aqui.
- * 
- * @author (seu nome) 
- * @version (número de versão ou data)
- */
+
+
 public class AtributoInvalidoException extends Exception
 {
     /**
