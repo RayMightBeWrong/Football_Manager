@@ -98,6 +98,23 @@ public class Tatica {
         this.suplentes.putIfAbsent(j.getNumCamisola(), j.clone());
     }
 
+    public void substituicao(int in, int out) throws JogadorNaoTitularException, JogadorNaoSuplenteException{
+        this.adicionaTitular(this.suplentes.get(in));
+        this.removeSuplente(in);
+        this.adicionaSuplente(this.suplentes.get(out));
+        this.removeTitular(out);
+    }
+
+    public void removeTitular(int j) throws JogadorNaoTitularException{
+        if (this.titulares.containsKey(j)) this.titulares.remove(j);
+        else throw new JogadorNaoTitularException("Jogador não existe nos titulares!");
+    }
+
+    public void removeSuplente(int j) throws JogadorNaoSuplenteException{
+        if (this.suplentes.containsKey(j)) this.suplentes.remove(j);
+        else throw new JogadorNaoSuplenteException("Jogador não existe nos suplentes!");
+    }
+
     public void removeJogadorTatica(Jogador j) {
         if (this.titulares.containsKey(j.getNumCamisola())) this.titulares.remove(j.getNumCamisola());
         if (this.suplentes.containsKey(j.getNumCamisola())) this.suplentes.remove(j.getNumCamisola());
