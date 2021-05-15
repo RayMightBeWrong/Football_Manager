@@ -1,6 +1,6 @@
-package src.View;
+package View;
 import java.util.*;
-import src.Controller.*;
+import Controller.*;
 
 public class FMView implements Observer{
     private Menu menuInicial, menuJogadores,menuEquipas;
@@ -14,8 +14,8 @@ public class FMView implements Observer{
     public FMView(FMController cont)
     {
         String[] opcoes1 = {"Gestao de jogadores","Gestao de equipas"};
-        String[] opcoes2 = {"Adicionar jogador","Pesquisar Jogador","Remover jogador","Calcular habilidade de jogador","Adicionar Jogador a uma equipa"};
-        String[] opcoes3 = {"Adicionar Equipa","Listar Equipas","Remover equipa"};
+        String[] opcoes2 = {"Criar jogador","Pesquisar Jogador","Remover jogador","Calcular habilidade de jogador","Adicionar Jogador a uma equipa"};
+        String[] opcoes3 = {"Criar Equipa","Listar Equipas","Remover equipa"};
         this.menuInicial = new Menu(opcoes1);
         this.menuJogadores = new Menu(opcoes2);
         this.menuEquipas = new Menu(opcoes3);

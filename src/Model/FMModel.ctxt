@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=FMModel
-comment0.text=\r\n\ Escreva\ a\ descri\uFFFD\uFFFDo\ da\ classe\ FootballManager\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\uFFFDmero\ de\ vers\uFFFDo\ ou\ data)\r\n
+comment0.text=\r\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ FootballManager\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\r\n
 comment1.params=
 comment1.target=FMModel()
 comment1.text=\r\n\ COnstrutor\ para\ objetos\ da\ classe\ FMModel\r\n
@@ -12,6 +12,12 @@ comment12.params=
 comment12.target=void\ listarEquipas()
 comment13.params=args
 comment13.target=void\ addJogadorEquipa(java.util.List)
+comment14.params=nomeF
+comment14.target=void\ escreverFicheiroTexto(java.lang.String)
+comment15.params=nomeF
+comment15.target=void\ guardarEstado(java.lang.String)
+comment16.params=nomeF
+comment16.target=FMModel\ carregarEstado(java.lang.String)
 comment2.params=jog\ equipas
 comment2.target=FMModel(java.util.Map,\ java.util.Map)
 comment3.params=
@@ -28,4 +34,4 @@ comment8.params=nome
 comment8.target=void\ removerEquipa(java.lang.String)
 comment9.params=nome
 comment9.target=Jogador\ getJogador(java.lang.String)
-numComments=14
+numComments=17

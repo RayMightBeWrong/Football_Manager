@@ -1,8 +1,7 @@
-package src.Controller;
+package Controller;
 
 import java.util.*;
-
-import src.Model.*;
+import Model.*;
 
 /**
  * Escreva a descrição da classe FMController aqui.

@@ -1,12 +1,13 @@
-package src.Model;
-import java.util.ArrayList;
+package Model;
+
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
-public class Tatica {
+public class Tatica implements Serializable{
     private int[] formacao;
     private Map<Integer,Jogador> titulares;
     private Map<Integer,Jogador> suplentes;

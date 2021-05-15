@@ -1,6 +1,4 @@
-package src.Model;
-
-
+package Model;
 /**
  * Escreva a descri��o da classe JogadorExistenteException aqui.
  * 

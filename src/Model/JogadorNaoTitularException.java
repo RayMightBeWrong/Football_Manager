@@ -1,4 +1,4 @@
-package src.Model;
+package Model;
 
 public class JogadorNaoTitularException extends Exception{
     public JogadorNaoTitularException(){

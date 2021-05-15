@@ -1,8 +1,9 @@
-package src;
+ 
 
-import src.Model.*;
-import src.View.*;
-import src.Controller.*;
+import Model.*;
+import View.*;
+import Controller.*;
+import java.io.*;
 
 
 /**
@@ -26,7 +27,7 @@ public class FootballManager
         catch (AtributoInvalidoException e){
             e.printStackTrace();
         }
-        //new FootballManager().run();
+        new FootballManager().run();
     }
     
     /**
@@ -35,8 +36,16 @@ public class FootballManager
     public FootballManager()
     {
         this.model = new FMModel();
+        /*try
+        {
+        this.model = FMModel.carregarEstado("estado.dat");
+        }
+        catch (Exception fnfe)
+        {
+            System.out.println("Erro ao carregar");
+        }
         //Ler estado de um ficheiro;
-        
+        */
         this.controller = new FMController(this.model);
         
         this.view= new FMView(this.controller);
@@ -48,5 +57,24 @@ public class FootballManager
     
     private void run() {
         this.view.run();
+        try
+        {
+            this.model.escreverFicheiroTexto("teste.txt");
+        }
+        catch (java.io.FileNotFoundException fnfe)
+        {
+            System.out.println("Ficheiro errado!");
+        }
+        try
+        {
+        this.model.guardarEstado("estado.dat");
+        }
+        catch (java.io.FileNotFoundException fnfe)
+        {
+            System.out.println(fnfe.getMessage());
+        }
+        catch (IOException io) {
+            System.out.println(io.getMessage());
+        }
     }
 }

@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.target=LinhaIncorretaException
+comment1.params=
+comment1.target=LinhaIncorretaException()
+comment2.params=s
+comment2.target=LinhaIncorretaException(java.lang.String)
+numComments=3

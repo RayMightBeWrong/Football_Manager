@@ -1,6 +1,4 @@
-package src.Model;
-
-
+package Model;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -68,19 +66,14 @@ public class Lateral extends Jogador
     }
     
     public String toString (){
-        return "Nome: "+this.getNome() + "; Posicao = Lateral; Altura = " + this.getAltura() +"; Habilidade =" + this.habilidadeJogador() +
-                ";Atributos : Vel=" + this.getVelocidade() +
-                ", Res=" + this.getResistencia() +
-                ", Dest=" + this.getDestreza() +
-                ", Imp=" + this.getImpulsao() +
-                ", Jdc=" + this.getJogodecabeca() +
-                ", Rem=" + this.getRemate() +
-                ", Pas=" + this.getPasse() +
-                ",Cru=" + this.getCruzamentos() +
-                ",Pos=" + this.getPosicionamento() +
-                ", Numero=" + this.getNumCamisola() +
-                ", Historial de Equipas" + this.getHistorialEquipas() +
-                ";\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append(this.getCruzamentos()).append(";");
+        sb.append(this.getPosicionamento()).append(";");
+        for (String e: this.getHistorialEquipas()){
+            sb.append(e).append(";");
+        }
+        return sb.toString();
     }
     
     public Lateral clone () {

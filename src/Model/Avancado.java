@@ -1,5 +1,4 @@
-package src.Model;
-
+package Model;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -54,18 +53,13 @@ public class Avancado extends Jogador
     }
     
     public String toString (){
-        return "Nome: " +this.getNome() + ", Posicao = Avancado; Altura = " + this.getAltura() + ",  Habilidade =" + this.habilidadeJogador() +
-                ",Atributos : Vel=" + this.getVelocidade() +
-                ", Res=" + this.getResistencia() +
-                ", Dest=" + this.getDestreza() +
-                ", Imp=" + this.getImpulsao() +
-                ", Jdc=" + this.getJogodecabeca() +
-                ", Rem=" + this.getRemate() +
-                ", Pas=" + this.getPasse() +
-                ", Comp=" + this.getCompustura() +
-                ", Numero=" + this.getNumCamisola() +
-                ", Historial de Equipas" + this.getHistorialEquipas() +
-                ";\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append(this.getCompustura()).append(";");
+        for (String e: this.getHistorialEquipas()){
+            sb.append(e).append(";");
+        }
+        return sb.toString();
     }
     
     public Avancado clone () {

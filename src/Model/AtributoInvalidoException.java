@@ -1,6 +1,4 @@
-package src.Model;
-
-
+package Model;
 
 public class AtributoInvalidoException extends Exception
 {

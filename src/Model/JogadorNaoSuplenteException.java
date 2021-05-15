@@ -1,4 +1,4 @@
-package src.Model;
+package Model;
 
 public class JogadorNaoSuplenteException extends Exception{
     public JogadorNaoSuplenteException()

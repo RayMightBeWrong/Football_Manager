@@ -1,4 +1,4 @@
-package src.Model;
+package Model;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;

@@ -1,4 +1,4 @@
-package src.Model;
+package Model;
 
  
 import java.math.BigDecimal;
@@ -65,19 +65,14 @@ public class Medio extends Jogador {
     }
 
     public String toString() {
-        return "Nome: " + this.getNome() + "; Posicao = Medio; Altura = " + this.getAltura() + ",Habilidade =" + this.habilidadeJogador() +
-                ",Atributos : Vel=" + this.getVelocidade() +
-                ", Res=" + this.getResistencia() +
-                ", Dest=" + this.getDestreza() +
-                ", Imp=" + this.getImpulsao() +
-                ", Jdc=" + this.getJogodecabeca() +
-                ", Rem=" + this.getRemate() +
-                ", Pas=" + this.getPasse() +
-                ", Cri=" + this.getCriatividade() +
-                ", Rec=" + this.getRecBola() +
-                ", Numero=" + this.getNumCamisola() +
-                ", Historial de Equipas" + this.getHistorialEquipas() +
-                ";\n";
+        StringBuilder sb = new StringBuilder();
+        sb.append(super.toString());
+        sb.append(this.getCriatividade()).append(";");
+        sb.append(this.getRecBola()).append(";");
+        for (String e: this.getHistorialEquipas()){
+            sb.append(e).append(";");
+        }
+        return sb.toString();
     }
 
     public Medio clone() {

@@ -1,4 +1,4 @@
-package src.Model;
+package Model;
 
 public class LinhaIncorretaException extends Exception {
     public LinhaIncorretaException(){

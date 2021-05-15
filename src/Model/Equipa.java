@@ -1,11 +1,12 @@
-package src.Model;
+package Model;
 
 
  
+import java.io.Serializable;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class Equipa {
+public class Equipa implements Serializable{
     private Map<Integer,Jogador> equipa;
     private String name;
     private int numJogadores;
@@ -103,12 +104,10 @@ public class Equipa {
     */
     public String toString() {
         StringBuilder sb = new StringBuilder();
-        sb.append("Nome da Equipa:").append(this.getName()).append("\n");
-        sb.append("Plantel: [\n");
+        sb.append("Equipa:").append(this.getName()).append("\n");
         for (Jogador j:this.equipa.values()) {
-            sb.append(j.toString());
+            sb.append(j.toString()).append("\n");
         }
-        sb.append("]\n");
         return sb.toString();
     }
     

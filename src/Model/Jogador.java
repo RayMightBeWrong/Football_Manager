@@ -1,10 +1,11 @@
-package src.Model;
+package Model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public abstract class Jogador {
+public abstract class Jogador implements Serializable ,Comparable<Jogador>{
     private int velocidade;
     private int resistencia;
     private int destreza;
@@ -189,5 +190,25 @@ public abstract class Jogador {
 
     abstract public Jogador clone();
 
-    abstract public String toString();
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getClass().getSimpleName()).append(":");
+        sb.append(this.getNome()).append(";");
+        sb.append(this.getNumCamisola()).append(";");
+        sb.append(this.getAltura()).append(";");
+        sb.append(this.getVelocidade()).append(";");
+        sb.append(this.getResistencia()).append(";");
+        sb.append(this.getDestreza()).append(";");
+        sb.append(this.getImpulsao()).append(";");
+        sb.append(this.getJogodecabeca()).append(";");
+        sb.append(this.getRemate()).append(";");
+        sb.append(this.getPasse()).append(";");
+        return sb.toString();
+    }
+    
+    public int compareTo (Jogador j) {
+        if (this.getNome().compareTo(j.getNome()) == 0)
+            return (int) (this.habilidadeJogador() - j.habilidadeJogador());
+        else return this.getNome().compareTo(j.getNome());
+    }
 }

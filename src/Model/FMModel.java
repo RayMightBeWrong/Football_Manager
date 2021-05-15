@@ -1,8 +1,17 @@
-package src.Model;
+package Model;
 
-import java.util.HashMap;
 import java.util.stream.Collectors;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.io.Serializable;
 import java.util.*;
+import java.io.FileInputStream;
  
 /**
  * Escreva a descri��o da classe FootballManager aqui.
@@ -10,7 +19,7 @@ import java.util.*;
  * @author (seu nome) 
  * @version (n�mero de vers�o ou data)
  */
-public class FMModel extends Observable
+public class FMModel extends Observable implements Serializable 
 {
     private Map<String,Jogador> jogadores ;
     private Map<String,Equipa> equipas;
@@ -21,31 +30,29 @@ public class FMModel extends Observable
      */
     public FMModel()
     {
-        this.jogadores = new HashMap<>();
+        this.jogadores = new TreeMap<>();
         this.equipas = new HashMap<>();
     }
 
-    public FMModel(Map<String,Jogador> jog,Map<String,Equipa> equipas) {
+    public FMModel(Map <String,Jogador> jog,Map<String,Equipa> equipas) {
         this.jogadores = jog.values().stream().collect(Collectors.toMap(j->j.getNome(),j->j.clone()));
         this.equipas = equipas.values().stream().collect(Collectors.toMap(e->e.getName(),e->e.clone()));
     }
 
     public List<Jogador> getListJogador() {
-       return this.jogadores.values().stream().map(Jogador::clone).collect(Collectors.toList());
+        return this.jogadores.values().stream().map(Jogador::clone).collect(Collectors.toList());
     }
 
     public List<Equipa> getListEquipa() {
         return this.equipas.values().stream().map(Equipa::clone).collect(Collectors.toList());
      }
 
-     public void addJogador (Jogador j) throws JogadorExistenteException{
-        if (!(this.jogadores.containsKey(j.getNome()))) {
-            this.jogadores.putIfAbsent(j.getNome(),j.clone());
-            valueFromModel = "Sucesso na criacao";
-            this.setChanged();
-            this.notifyObservers(valueFromModel);
+     public void addJogador (Jogador j) throws JogadorExistenteException {
+        if (!this.jogadores.containsKey(j.getNome())) {
+            this.jogadores.put(j.getNome(),j.clone());
+            this.valueFromModel = "Sucesso ao criar o jogador " + j.getNome();
         }
-        else throw new JogadorExistenteException("Jogador já existente!");
+        else throw new JogadorExistenteException ("Jogador ja existente");
      }
 
      public void addJogadorFromText (List<String> args) {
@@ -161,6 +168,7 @@ public class FMModel extends Observable
                 try
                 {
                     this.equipas.get(nomeE).addPlayer(j);
+                    this.jogadores.remove(nomeJ);
                     valueFromModel = "Sucesso ao adicionar o jogador a equipa";
                 }
                 catch (NumeroExistenteException | JogadorExistenteException e)
@@ -173,6 +181,35 @@ public class FMModel extends Observable
         else valueFromModel = "Jogador nao existe";
         this.setChanged();
         this.notifyObservers(valueFromModel);
-}
+    }
+
+    public void escreverFicheiroTexto (String nomeF) throws FileNotFoundException {
+        PrintWriter pw = new PrintWriter(nomeF);
+        for (Equipa e:this.equipas.values())
+            pw.println(e.toString());
+        pw.println("Equipa Sem equipa:");
+        for (Jogador j: this.jogadores.values())
+            pw.println(j.toString());
+        pw.flush();
+        pw.close();
+    }
+
+    public void guardarEstado (String nomeF) throws FileNotFoundException,IOException {
+        FileOutputStream fos = new FileOutputStream(nomeF);
+        ObjectOutputStream oos = new ObjectOutputStream(fos);
+        oos.writeObject(this);
+        oos.flush();
+        oos.close();
+    }
+
+    public static FMModel carregarEstado (String nomeF) throws FileNotFoundException,ClassNotFoundException,IOException {
+        FileInputStream fis = new FileInputStream(nomeF);
+        ObjectInputStream ois = new ObjectInputStream(fis);
+
+        FMModel novo = (FMModel) ois.readObject();
+
+        ois.close();
+        return novo;
+    }
 
 }
