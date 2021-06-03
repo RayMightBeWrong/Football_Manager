@@ -98,7 +98,63 @@ public class Equipa implements Serializable{
     public void setTatica(Tatica tatica){
         this.tatica = tatica.clone();
     }
+    
+    public void addTitular (Jogador j,int pos) {
+        if (this.equipa.containsKey(j.getNumCamisola()))
+        this.tatica.adicionaTitular(j,pos);
+    }
+    
+    public void removePlayer(Jogador j){
+        if(this.equipa.containsKey(j.getNumCamisola())) {
+            this.equipa.remove(j.getNumCamisola());
+            this.numJogadores--;
+        }
+        this.tatica.removeJogadorTatica(j);
+    }
+    
+    public void addSuplente(Jogador  j) {
+        if (this.equipa.containsKey(j.getNumCamisola()))
+        this.tatica.adicionaSuplente(j);
+    }
 
+    public float mediaHabilidadeTitular() {
+        float media = 0;
+        Map<Integer,List<Jogador>> titulares = this.tatica.getTitulares();
+        for (List<Jogador> l : titulares.values()) {
+            for (Jogador j:l)
+                media += j.habilidadeJogador();
+        }
+        return media/11;
+    }
+
+    public float calculaHabilidadeAtaque() {
+        float media = 0;
+        Map<Integer,List<Jogador>> titulares = this.tatica.getTitulares();
+        List<Jogador> medios = titulares.get(2);
+        List<Jogador> avancados = titulares.get(3);
+        for (Jogador j:medios)
+            media+= j.calculaHabilidadeMedio();
+        for (Jogador j:avancados)
+            media+= j.calculaHabilidadeAvancado();
+        return media;
+    }
+
+    public float calculaHabilidadeDefesa() {
+        float media = 0;
+        Map<Integer,List<Jogador>> titulares = this.tatica.getTitulares();
+        List<Jogador> guarda = titulares.get(0);
+        List<Jogador> defesas = titulares.get(1);
+        for (Jogador j:guarda)
+            media+= j.calculaHabilidadeGuardaRedes();
+        for (Jogador j:defesas)
+            media+= j.calculaHabilidadeDefesa();
+        return media;
+    }
+    
+    public static Equipa parse(String input){
+        String[] campos = input.split(",");
+        return new Equipa(campos[0]);
+    }
     /*
     useful methods
     */
@@ -114,7 +170,7 @@ public class Equipa implements Serializable{
     public Equipa clone() {
         return new Equipa(this);
     }
-
+    
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Equipa )) return false;
@@ -122,26 +178,4 @@ public class Equipa implements Serializable{
         return this.getTatica().equals(equipa.getTatica()) && this.getNumJogadores() == equipa.getNumJogadores() && this.getName().equals(equipa.getName()) && this.getJogadores().equals(equipa.getJogadores());
     }
 
-    public void addTitular (Jogador j) {
-        if (this.equipa.containsKey(j.getNumCamisola()))
-            this.tatica.adicionaTitular(j);
-    }
-
-    public void removePlayer(Jogador j){
-        if(this.equipa.containsKey(j.getNumCamisola())) {
-            this.equipa.remove(j.getNumCamisola());
-            this.numJogadores--;
-        }
-        this.tatica.removeJogadorTatica(j);
-    }
-
-    public void addSuplente(Jogador  j) {
-        if (this.equipa.containsKey(j.getNumCamisola()))
-            this.tatica.adicionaSuplente(j);
-    }
-
-    public static Equipa parse(String input){
-        String[] campos = input.split(",");
-        return new Equipa(campos[0]);
-    }
 }

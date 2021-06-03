@@ -190,6 +190,14 @@ public abstract class Jogador implements Serializable ,Comparable<Jogador>{
 
     abstract public Jogador clone();
 
+    abstract public float calculaHabilidadeGuardaRedes();
+
+    abstract public float calculaHabilidadeDefesa();
+    
+    abstract public float calculaHabilidadeMedio();
+
+    abstract public float calculaHabilidadeAvancado();
+
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append(this.getClass().getSimpleName()).append(":");

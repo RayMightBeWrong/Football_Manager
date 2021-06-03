@@ -12,6 +12,7 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 import java.util.*;
 import java.io.FileInputStream;
+import java.time.*;
  
 /**
  * Escreva a descri��o da classe FootballManager aqui.
@@ -181,6 +182,13 @@ public class FMModel extends Observable implements Serializable
         else valueFromModel = "Jogador nao existe";
         this.setChanged();
         this.notifyObservers(valueFromModel);
+    }
+    
+    public void comecarJogo(String eq1,String eq2) {
+        Equipa e1 = this.equipas.get(eq1);
+        Equipa e2 = this.equipas.get(eq2);
+        Jogo j = new Jogo(e1, e2,0,0,0,"Bom tempo",LocalDateTime.now());
+        j.iniciarJogo();
     }
 
     public void escreverFicheiroTexto (String nomeF) throws FileNotFoundException {

@@ -19,14 +19,7 @@ public class FootballManager
     FMView view;
     
     public static void main (String[] args){
-        try {
-            String s = "Cristiano Jose Goncalves Neiva Pereira,2,52,55,85,25,63,66,69";
-            Avancado j = Avancado.parse(s);
-            System.out.println(j.toString());
-        }
-        catch (AtributoInvalidoException e){
-            e.printStackTrace();
-        }
+        
         new FootballManager().run();
     }
     
@@ -36,7 +29,7 @@ public class FootballManager
     public FootballManager()
     {
         this.model = new FMModel();
-        /*try
+        try
         {
         this.model = FMModel.carregarEstado("estado.dat");
         }
@@ -45,7 +38,6 @@ public class FootballManager
             System.out.println("Erro ao carregar");
         }
         //Ler estado de um ficheiro;
-        */
         this.controller = new FMController(this.model);
         
         this.view= new FMView(this.controller);
@@ -59,7 +51,7 @@ public class FootballManager
         this.view.run();
         try
         {
-            this.model.escreverFicheiroTexto("teste.txt");
+            this.model.escreverFicheiroTexto("output.txt");
         }
         catch (java.io.FileNotFoundException fnfe)
         {

@@ -6,27 +6,30 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 import java.util.stream.Collectors;
+import java.util.ArrayList;
 
 public class Tatica implements Serializable{
     private int[] formacao;
-    private Map<Integer,Jogador> titulares;
+    private Map<Integer,List<Jogador>> titulares;
     private Map<Integer,Jogador> suplentes;
     private boolean add;
 
     public Tatica(){
-        this.formacao = new int[3];
-        this.formacao[0] = 4;
-        this.formacao[1] = 3;
-        this.formacao[2] = 3;
-        this.titulares = new HashMap<Integer, Jogador>();
+        this.formacao = new int[4];
+        this.formacao[0] = 1;
+        this.formacao[1] = 4;
+        this.formacao[2] = 4;
+        this.formacao[3] = 3;
+        this.titulares = new HashMap<Integer, List<Jogador>>();
         this.suplentes = new HashMap<Integer, Jogador>();
     }
 
-    public Tatica(int d, int m, int a, Map<Integer,Jogador> titulares, Map<Integer,Jogador> suplentes){
-        this.formacao = new int[3];
-        this.formacao[0] = d;
-        this.formacao[1] = m;
-        this.formacao[2] = a;
+    public Tatica(int d, int m, int a, Map<Integer,List<Jogador>> titulares, Map<Integer,Jogador> suplentes){
+        this.formacao = new int[4];
+        this.formacao[0] = 1;
+        this.formacao[1] = d;
+        this.formacao[2] = m;
+        this.formacao[3] = a;
         this.titulares = titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.suplentes = suplentes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
@@ -41,7 +44,7 @@ public class Tatica implements Serializable{
         return this.formacao.clone();
     }
 
-    public Map<Integer, Jogador> getTitulares() {
+    public Map<Integer, List<Jogador>> getTitulares() {
         return this.titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
@@ -53,7 +56,7 @@ public class Tatica implements Serializable{
         this.formacao = formacao.clone();
     }
 
-    public void setTitulares(Map<Integer, Jogador> titulares) {
+    public void setTitulares(Map<Integer, List<Jogador>> titulares) {
         this.titulares = titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
@@ -67,9 +70,9 @@ public class Tatica implements Serializable{
         sb.append(Arrays.toString(formacao));
         sb.append("\n");
         sb.append("Titulares: [\n");
-        for(Jogador j : this.titulares.values()) {
+        for(List<Jogador> l: this.titulares.values())
+            for (Jogador j : l)
             sb.append(j.toString());
-        }
         sb.append("]\n");
         sb.append("Suplentes: [\n");
         for(Jogador j : this.suplentes.values()) {
@@ -91,8 +94,12 @@ public class Tatica implements Serializable{
         return this.formacao.equals(t.formacao) && this.titulares.equals(t.titulares) && this.suplentes.equals(t.suplentes);
     }
 
-    public void adicionaTitular(Jogador j) {
-        this.titulares.putIfAbsent(j.getNumCamisola(), j.clone());
+    public void adicionaTitular(Jogador j,int posicao) {
+        if (this.titulares.containsKey(posicao));
+        else {
+            this.titulares.put(posicao,new ArrayList<Jogador>());
+        }
+        this.titulares.get(posicao).add(j.clone());
     }
 
     public void adicionaSuplente (Jogador j) {
@@ -100,10 +107,6 @@ public class Tatica implements Serializable{
     }
 
     public void substituicao(int in, int out) throws JogadorNaoTitularException, JogadorNaoSuplenteException{
-        this.adicionaTitular(this.suplentes.get(in));
-        this.removeSuplente(in);
-        this.adicionaSuplente(this.suplentes.get(out));
-        this.removeTitular(out);
     }
 
     public void removeTitular(int j) throws JogadorNaoTitularException{

@@ -109,6 +109,23 @@ public class GuardaRedes extends Jogador
         return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
 
+    public float calculaHabilidadeGuardaRedes(){
+        return this.habilidadeJogador();
+    }
+
+    public float calculaHabilidadeDefesa() {
+        return 10.0f;
+    }
+    
+    public float calculaHabilidadeMedio() {
+        return 10.0f;
+    }
+
+    public float calculaHabilidadeAvancado() {
+        return 10.0f;
+    }
+    
+
     public static GuardaRedes parse(String input) throws AtributoInvalidoException{
         String[] campos = input.split(",");
         Random rand = new Random();

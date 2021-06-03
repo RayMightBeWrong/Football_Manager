@@ -108,6 +108,37 @@ public class Defesa extends Jogador
         return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
     }
 
+    public float calculaHabilidadeGuardaRedes(){
+        return 10.0f;
+    }
+
+    public float calculaHabilidadeDefesa() {
+        return this.habilidadeJogador();
+    }
+    
+    public float calculaHabilidadeMedio() {
+        float soma = this.getVelocidade() * 0.1f;
+        soma += this.getResistencia() * 0.15f;
+        soma += this.getDestreza() * 0.10f;
+        soma += this.getImpulsao() * 0.1f;
+        soma += this.getJogodecabeca() * 0.05f;
+        soma += this.getPasse() * 0.2f;
+        soma += this.getRemate() * 0.1f;
+        return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
+    }
+
+    public float calculaHabilidadeAvancado() {
+        float soma = this.getVelocidade()*0.1f;
+        soma += this.getResistencia()*0.05f;
+        soma += this.getDestreza()*0.1f;
+        soma += this.getImpulsao()*0.1f;
+        soma += this.getJogodecabeca()*0.1f;
+        soma += this.getPasse()*0.05f;
+        soma += this.getRemate()*0.2f;
+        if (this.getAltura() >= 180) soma += 5;
+        return BigDecimal.valueOf(soma).setScale(2,RoundingMode.HALF_EVEN).floatValue();
+    }
+
     public static Defesa parse(String input) throws AtributoInvalidoException{
         String[] campos = input.split(",");
         Random rand = new Random();

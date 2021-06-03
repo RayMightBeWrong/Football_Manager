@@ -10,6 +10,9 @@ import java.time.LocalDateTime;
  */
 public class Jogo
 {
+    public final static int INTERVALO = 45;
+    public final static int FIMJOGO = 90;
+
     // vari�veis de inst�ncia - substitua o exemplo abaixo pelo seu pr�prio
     private Equipa visitado;
     private Equipa visitante;
@@ -113,6 +116,26 @@ public class Jogo
         return new Jogo(this);
     }
 
+
+    public void iniciarJogo() {
+        int posse = 0; // Bola começa na equipa de casa;
+        for (; this.getMinutos()< INTERVALO; this.minutos++) {
+            if (posse == 0) {
+                double ataque = this.getVisitado().calculaHabilidadeAtaque();
+                double defesa = this.getVisitante().calculaHabilidadeDefesa();
+                System.out.println("Ataque:"+ataque+",Defesa:"+defesa);
+                posse++;
+            }
+            else {
+                double ataque = this.getVisitante().calculaHabilidadeAtaque();
+                double defesa = this.getVisitado().calculaHabilidadeDefesa();
+                System.out.println("Ataque:"+ataque+",Defesa:"+defesa);
+                posse--;
+            }
+        }
+    }
+    
+    
     public String toString () {
         StringBuilder sb = new StringBuilder();
         sb.append(this.dataJogo.toString());
