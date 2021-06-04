@@ -1,6 +1,7 @@
 package Model;
 
 import java.time.LocalDateTime;
+import java.util.Random;
 
 /**
  * Escreva a descri��o da classe Jogo aqui.
@@ -121,21 +122,54 @@ public class Jogo
         int posse = 0; // Bola começa na equipa de casa;
         for (; this.getMinutos()< INTERVALO; this.minutos++) {
             if (posse == 0) {
-                double ataque = this.getVisitado().calculaHabilidadeAtaque();
-                double defesa = this.getVisitante().calculaHabilidadeDefesa();
+                float ataque = this.getVisitado().calculaHabilidadeAtaque();
+                float defesa = this.getVisitante().calculaHabilidadeDefesa();
                 System.out.println("Ataque:"+ataque+",Defesa:"+defesa);
-                posse++;
+                int resultado = simulaAtaque (ataque,defesa);
+                switch (resultado) {
+                    case 0 : break;
+                    case 1: this.setGoloVisitado(this.getGolosVisitado() + 1);
+                                posse++;
+                                break;
+                    case -1:posse++;
+                                break;
+                }
             }
             else {
-                double ataque = this.getVisitante().calculaHabilidadeAtaque();
-                double defesa = this.getVisitado().calculaHabilidadeDefesa();
+                float ataque = this.getVisitante().calculaHabilidadeAtaque();
+                float defesa = this.getVisitado().calculaHabilidadeDefesa();
                 System.out.println("Ataque:"+ataque+",Defesa:"+defesa);
-                posse--;
+                int resultado = simulaAtaque (ataque,defesa);
+                switch (resultado) {
+                    case 0 : break;
+                    case 1: this.setGoloVisitado(this.getGolosVisitado() + 1);
+                                posse--;
+                                break;
+                    case -1:posse--;
+                                break;
+                }
             }
         }
     }
     
-    
+    public int simulaAtaque (float ataque, float defesa) {
+        float diferenca = ataque - defesa;
+        Random rand = new Random();
+        double probabilidade = rand.nextDouble();
+        int resultado = 0;
+        if (diferenca > 0) {
+            if (probabilidade < diferenca/(20*100)) resultado = 1;
+            else if (probabilidade < (ataque/defesa)/5) resultado = 0;
+            else resultado = -1;
+        }
+        else {
+            if (probabilidade < (defesa/ataque)/2) resultado = -1;
+            else if (probabilidade <  (1- ((defesa/ataque)/2))/100) resultado = 1;
+            else resultado = 0;
+        }
+        return resultado;
+    }
+
     public String toString () {
         StringBuilder sb = new StringBuilder();
         sb.append(this.dataJogo.toString());

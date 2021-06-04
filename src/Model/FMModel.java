@@ -24,6 +24,7 @@ public class FMModel extends Observable implements Serializable
 {
     private Map<String,Jogador> jogadores ;
     private Map<String,Equipa> equipas;
+    private List<Jogo> jogos;
     private String valueFromModel;
 
     /**
@@ -33,11 +34,13 @@ public class FMModel extends Observable implements Serializable
     {
         this.jogadores = new TreeMap<>();
         this.equipas = new HashMap<>();
+        this.jogos = new ArrayList<>();
     }
 
-    public FMModel(Map <String,Jogador> jog,Map<String,Equipa> equipas) {
+    public FMModel(Map <String,Jogador> jog,Map<String,Equipa> equipas,List <Jogo> jogos) {
         this.jogadores = jog.values().stream().collect(Collectors.toMap(j->j.getNome(),j->j.clone()));
         this.equipas = equipas.values().stream().collect(Collectors.toMap(e->e.getName(),e->e.clone()));
+        this.jogos = jogos.stream().map(Jogo::clone).collect(Collectors.toList());
     }
 
     public List<Jogador> getListJogador() {
@@ -46,6 +49,10 @@ public class FMModel extends Observable implements Serializable
 
     public List<Equipa> getListEquipa() {
         return this.equipas.values().stream().map(Equipa::clone).collect(Collectors.toList());
+     }
+
+     public List <Jogo> getListJogos() {
+         return this.jogos.stream().map(Jogo::clone).collect(Collectors.toList());
      }
 
      public void addJogador (Jogador j) throws JogadorExistenteException {
@@ -141,6 +148,15 @@ public class FMModel extends Observable implements Serializable
 
      }
 
+     public void listarJogadoresFree () {
+         StringBuilder sb = new StringBuilder();
+         for (Jogador j : this.jogadores.values())
+                sb.append(j.toString());
+        valueFromModel = sb.toString();
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+     }
+
      public double calculaHabilidadeJogador(String nome)  throws JogadorNaoExistenteException {
         if (this.jogadores.containsKey(nome)) {
             Jogador j = this.jogadores.get(nome);
@@ -152,10 +168,10 @@ public class FMModel extends Observable implements Serializable
         else throw new JogadorNaoExistenteException("Jogador nao existe!");
      }
 
-     public void listarEquipas() {
-        valueFromModel ="";
-        for (Equipa e: this.equipas.values())
-                valueFromModel += e.toString(); 
+     public void listarEquipa(String nome) {
+        if (this.equipas.containsKey(nome))
+            valueFromModel = this.equipas.get(nome).toString();
+        else valueFromModel = "Equipa nao existente!";
         this.setChanged();
         this.notifyObservers(valueFromModel);
      }
@@ -163,16 +179,18 @@ public class FMModel extends Observable implements Serializable
     public void addJogadorEquipa(List<String> args){
         String nomeJ = args.get(0);
         String nomeE = args.get(1);
+        int numero = Integer.parseInt(args.get(2));
         if (this.jogadores.containsKey(nomeJ)) {
             Jogador j = this.jogadores.get(nomeJ);
             if (this.equipas.containsKey(nomeE)) {
                 try
                 {
+                    j.setNumCamisola(numero);
                     this.equipas.get(nomeE).addPlayer(j);
                     this.jogadores.remove(nomeJ);
                     valueFromModel = "Sucesso ao adicionar o jogador a equipa";
                 }
-                catch (NumeroExistenteException | JogadorExistenteException e)
+                catch (NumeroExistenteException | JogadorExistenteException | AtributoInvalidoException e)
                 {
                     valueFromModel = e.getMessage();
                 }

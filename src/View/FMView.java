@@ -3,7 +3,7 @@ import java.util.*;
 import Controller.*;
 
 public class FMView implements Observer{
-    private Menu menuInicial, menuJogadores,menuEquipas;
+    private Menu menuInicial, menuJogadores,menuEquipas,menuJogos;
     private String valueToPrint;
     private FMController controller;
     
@@ -13,12 +13,14 @@ public class FMView implements Observer{
     
     public FMView(FMController cont)
     {
-        String[] opcoes1 = {"Gestao de jogadores","Gestao de equipas"};
-        String[] opcoes2 = {"Criar jogador","Pesquisar Jogador","Remover jogador","Calcular habilidade de jogador","Adicionar Jogador a uma equipa"};
-        String[] opcoes3 = {"Criar Equipa","Listar Equipas","Remover equipa"};
+        String[] opcoes1 = {"Gestao de jogadores","Gestao de equipas","Gestao de jogos"};
+        String[] opcoes2 = {"Criar jogador","Pesquisar Jogador","Listar jogadores sem equipa","Calcular habilidade de jogador","Adicionar Jogador a uma equipa"};
+        String[] opcoes3 = {"Criar Equipa","Listar Equipa","Remover equipa","Escolher titulares"};
+        String[] opcoes4 = {"Criar jogo","Listar jogo","Simular jogo"};
         this.menuInicial = new Menu(opcoes1);
         this.menuJogadores = new Menu(opcoes2);
         this.menuEquipas = new Menu(opcoes3);
+        this.menuJogos = new Menu(opcoes4);
         this.controller = cont;
     }
 
@@ -29,6 +31,8 @@ public class FMView implements Observer{
                     case 1: this.runGestaoJogadores();
                                 break;
                     case 2: this.runGestaoEquipa();
+                                break;
+                    case 3:this.runGestaoJogo();
                                 break;
                 }
             System.out.println();
@@ -44,7 +48,7 @@ public class FMView implements Observer{
                                 break;
                     case 2: pesquisarJogador();
                                 break;
-                    case 3: removerJogador();
+                    case 3: listarJogadores();
                                 break;
                     case 4: calculaHabilidadeJogador();
                                 break;
@@ -61,13 +65,28 @@ public class FMView implements Observer{
                 switch (this.menuEquipas.getOpcao()){
                     case 1: adicionarEquipa();
                                 break;
-                    case 2: listarEquipas();
+                    case 2: listarEquipa();
                                 break;
                     case 3: removerEquipa();
                                 break;
                 }
         }
         while (this.menuEquipas.getOpcao() == -1);
+    }
+
+    private void runGestaoJogo() {
+        do {
+            this.menuJogos.executaMenu();
+                switch (this.menuJogos.getOpcao()){
+                    case 1:
+                                break;
+                    case 2: 
+                                break;
+                    case 3: 
+                                break;
+                }
+        }
+        while (this.menuJogos.getOpcao() == -1);
     }
 
     private void criarJogador() {
@@ -96,11 +115,9 @@ public class FMView implements Observer{
     }
 
 
-    private void removerJogador() {
+    private void listarJogadores() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome do jogador:");
-        args.add(sc.nextLine());
         this.controller.setComando(3);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
@@ -126,9 +143,13 @@ public class FMView implements Observer{
         System.out.println(valueToPrint);
     }
 
-    private void listarEquipas() {
+    private void listarEquipa() {
+        List <String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Digite o nome da equipa:");
+        args.add(sc.nextLine());
         this.controller.setComando(6);
-        this.controller.processaComando(new ArrayList<>());
+        this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
 
@@ -148,6 +169,8 @@ public class FMView implements Observer{
         System.out.print("Digite o nome do jogador:");
         args.add(sc.nextLine());
         System.out.print("Digite o nome da equipa:");
+        args.add(sc.nextLine());
+        System.out.print("Digite o numero do jogador na equipa:");
         args.add(sc.nextLine());
         this.controller.setComando(8);
         this.controller.processaComando(args);

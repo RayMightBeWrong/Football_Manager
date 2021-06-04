@@ -40,10 +40,10 @@ public class FMController extends Observable implements Observer
      switch (this.getComando()) {
          case 1 : adicionaJogador(args);break;
          case 2: pesquisarJogador(args.get(0));break;
-         case 3: removerJogador(args.get(0));break;
+         case 3: listarJogadoresFree();break;
          case 4: calculaHabilidadeJogador(args.get(0));break;
          case 5: adicionarEquipa(args.get(0));break;
-         case 6: listarEquipas();break;
+         case 6: listarEquipa(args.get(0));break;
          case 7: removerEquipa(args.get(0));break;
          case 8: adicionarJogadorEquipa(args);break;
      }
@@ -66,13 +66,8 @@ private void pesquisarJogador(String nome){
         this.notifyObservers(valueFromModel);
 }
 
-private void removerJogador(String nome) {
-    try{
-        this.model.removerJogador(nome);
-    }
-    catch (JogadorNaoExistenteException e) {
-        valueFromModel = e.getMessage();
-    }
+private void listarJogadoresFree() {
+    this.model.listarJogadoresFree();
     this.setChanged();
     this.notifyObservers(valueFromModel);
 }
@@ -94,8 +89,8 @@ private void adicionarEquipa (String nome) {
     this.notifyObservers(valueFromModel);
 }
 
-private void listarEquipas() {
-    this.model.listarEquipas();
+private void listarEquipa(String nome) {
+    this.model.listarEquipa(nome);
     this.setChanged();
     this.notifyObservers(valueFromModel);
 }
