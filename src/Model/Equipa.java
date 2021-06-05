@@ -50,8 +50,10 @@ public class Equipa implements Serializable{
     /*
     Getter methods
      */
-    public Jogador getJogador(int num) {
-        return this.equipa.get(num).clone();
+    public Jogador getJogador(int num) throws JogadorNaoExistenteException{
+        if (this.equipa.containsKey(num))
+            return this.equipa.get(num).clone();
+        else throw new JogadorNaoExistenteException("Jogador nao faz parte da equipa!");
     }
 
     public int getNumJogadores() {
@@ -99,27 +101,28 @@ public class Equipa implements Serializable{
         this.tatica = tatica.clone();
     }
     
-    public void addTitular (Jogador j,int pos) {
+    public void addTitular (Jogador j,int pos) throws JogadorExistenteException,TamanhoEquipaException, JogadorNaoExistenteException{
         if (this.equipa.containsKey(j.getNumCamisola()))
-        this.tatica.adicionaTitular(j,pos);
+            this.tatica.adicionaTitular(j, pos);
+        else throw new JogadorNaoExistenteException("Nao ha jogadores com esse numero!");
     }
     
     public void removePlayer(Jogador j){
         if(this.equipa.containsKey(j.getNumCamisola())) {
             this.equipa.remove(j.getNumCamisola());
             this.numJogadores--;
+            try{
+                this.tatica.removeTitular(j.getNumCamisola());
+            }
+            catch (JogadorNaoTitularException e){
+            }
         }
-        this.tatica.removeJogadorTatica(j);
     }
     
-    public void addSuplente(Jogador  j) {
-        if (this.equipa.containsKey(j.getNumCamisola()))
-        this.tatica.adicionaSuplente(j);
-    }
 
     public float mediaHabilidadeTitular() {
         float media = 0;
-        Map<Integer,List<Jogador>> titulares = this.tatica.getTitulares();
+        Map<Integer,List<Jogador>> titulares = this.tatica.getTatica();
         for (List<Jogador> l : titulares.values()) {
             for (Jogador j:l)
                 media += j.habilidadeJogador();
@@ -129,7 +132,7 @@ public class Equipa implements Serializable{
 
     public float calculaHabilidadeAtaque() {
         float media = 0;
-        Map<Integer,List<Jogador>> titulares = this.tatica.getTitulares();
+        Map<Integer,List<Jogador>> titulares = this.tatica.getTatica();
         List<Jogador> medios = titulares.get(2);
         List<Jogador> avancados = titulares.get(3);
         for (Jogador j:medios)
@@ -141,7 +144,7 @@ public class Equipa implements Serializable{
 
     public float calculaHabilidadeDefesa() {
         float media = 0;
-        Map<Integer,List<Jogador>> titulares = this.tatica.getTitulares();
+        Map<Integer,List<Jogador>> titulares = this.tatica.getTatica();
         List<Jogador> guarda = titulares.get(0);
         List<Jogador> defesas = titulares.get(1);
         for (Jogador j:guarda)

@@ -201,6 +201,41 @@ public class FMModel extends Observable implements Serializable
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
+
+    public void addJogadorTitular(List<String> args) {
+        String nomeE = args.get(0);
+        int num = Integer.parseInt(args.get(1));
+        int pos = Integer.parseInt(args.get(2));
+        Equipa e = this.equipas.get(nomeE);
+        try {
+            Jogador j = e.getJogador(num);
+            e.addTitular(j, pos);
+            valueFromModel = "Jogador adicionado ao titulares!";
+        } catch (JogadorExistenteException | TamanhoEquipaException | JogadorNaoExistenteException e1) {
+            valueFromModel = e1.getMessage();
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    public void listarTitularesEquipa(String nome) throws EquipaNaoExistenteException {
+        StringBuilder sb = new StringBuilder();
+        int i = 0;
+        if (this.equipas.containsKey(nome))
+            for (List<Jogador> l: this.equipas.get(nome).getTatica().getTatica().values()) {
+                if (i == 0) sb.append("Guarda-Redes: \n");
+                if (i == 1) sb.append("Defesas: \n");
+                if (i == 2) sb.append("Medios: \n");
+                if (i == 3) sb.append("Avancados: \n");
+                for (Jogador j: l)
+                    sb.append(j.toString());
+            }
+        else throw new EquipaNaoExistenteException("Equipa nao existe!");
+        if (this.equipas.get(nome).getTatica().getTitulares().values().size() == 0) valueFromModel = "Ainda nao foi escolhida nenhum titular";
+        else valueFromModel = sb.toString();
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
     
     public void comecarJogo(String eq1,String eq2) {
         Equipa e1 = this.equipas.get(eq1);

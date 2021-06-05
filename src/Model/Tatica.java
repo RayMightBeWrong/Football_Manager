@@ -10,8 +10,8 @@ import java.util.ArrayList;
 
 public class Tatica implements Serializable{
     private int[] formacao;
-    private Map<Integer,List<Jogador>> titulares;
-    private Map<Integer,Jogador> suplentes;
+    private Map<Integer,List<Jogador>> tatica;
+    private Map<Integer,Jogador> titulares;
     private boolean add;
 
     public Tatica(){
@@ -20,48 +20,56 @@ public class Tatica implements Serializable{
         this.formacao[1] = 4;
         this.formacao[2] = 4;
         this.formacao[3] = 3;
-        this.titulares = new HashMap<Integer, List<Jogador>>();
-        this.suplentes = new HashMap<Integer, Jogador>();
+        this.tatica = new HashMap<Integer, List<Jogador>>();
+        this.titulares = new HashMap<Integer, Jogador>();
+        this.add = true;
     }
 
-    public Tatica(int d, int m, int a, Map<Integer,List<Jogador>> titulares, Map<Integer,Jogador> suplentes){
+    public Tatica(int d, int m, int a, Map<Integer,List<Jogador>> tatica, Map<Integer,Jogador> titulares){
         this.formacao = new int[4];
         this.formacao[0] = 1;
         this.formacao[1] = d;
         this.formacao[2] = m;
         this.formacao[3] = a;
+        this.tatica = tatica.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
         this.titulares = titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
-        this.suplentes = suplentes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        if (this.titulares.values().size() < 11) this.add = true;
+        else this.add = false;
     }
 
     public Tatica(Tatica t){
         this.formacao = t.getFormacao();
+        this.tatica = t.getTatica();
         this.titulares = t.getTitulares();
-        this.suplentes = t.getSuplentes();
+        this.add = t.getAdd();
     }
-
+    
+    public boolean getAdd() {
+        return this.add;
+    }
+    
     public int[] getFormacao() {
         return this.formacao.clone();
     }
 
-    public Map<Integer, List<Jogador>> getTitulares() {
-        return this.titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    public Map<Integer, List<Jogador>> getTatica() {
+        return this.tatica.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public Map<Integer, Jogador> getSuplentes() {
-        return this.suplentes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    public Map<Integer, Jogador> getTitulares() {
+        return this.titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public void setFormacao(int[] formacao) {
         this.formacao = formacao.clone();
     }
 
-    public void setTitulares(Map<Integer, List<Jogador>> titulares) {
-        this.titulares = titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    public void setTatica(Map<Integer, List<Jogador>> tatica) {
+        this.tatica = tatica.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
-    public void setSuplentes(Map<Integer, Jogador> suplentes) {
-        this.suplentes = suplentes.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+    public void setTitulares(Map<Integer, Jogador> titulares) {
+        this.titulares = titulares.entrySet().stream().collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public String toString(){
@@ -70,14 +78,9 @@ public class Tatica implements Serializable{
         sb.append(Arrays.toString(formacao));
         sb.append("\n");
         sb.append("Titulares: [\n");
-        for(List<Jogador> l: this.titulares.values())
+        for(List<Jogador> l: this.tatica.values())
             for (Jogador j : l)
             sb.append(j.toString());
-        sb.append("]\n");
-        sb.append("Suplentes: [\n");
-        for(Jogador j : this.suplentes.values()) {
-            sb.append(j.toString());
-        }
         sb.append("]\n");
         return sb.toString();
     }
@@ -91,36 +94,39 @@ public class Tatica implements Serializable{
         if ((o == null) || this.getClass() != o.getClass()) return false;
 
         Tatica t = (Tatica) o;
-        return this.formacao.equals(t.formacao) && this.titulares.equals(t.titulares) && this.suplentes.equals(t.suplentes);
+        return this.formacao.equals(t.formacao) && this.titulares.equals(t.titulares) && this.tatica.equals(t.tatica);
     }
 
-    public void adicionaTitular(Jogador j,int posicao) {
-        if (this.titulares.containsKey(posicao));
-        else {
-            this.titulares.put(posicao,new ArrayList<Jogador>());
+    public void adicionaTitular(Jogador j,int posicao) throws JogadorExistenteException, TamanhoEquipaException{
+        System.out.println(this.add);
+        if (this.add) {
+            if (this.titulares.containsKey(j.getNumCamisola()))
+                throw new JogadorExistenteException("Jogador já está a titular!");
+            else {
+                if (this.tatica.containsKey(posicao));
+                else this.tatica.put(posicao,new ArrayList<>());
+                if (this.tatica.get(posicao).size() < this.formacao[posicao]) {
+                    this.titulares.put(j.getNumCamisola(),j.clone());
+                    this.tatica.get(posicao).add(j.clone());
+                }
+            else throw new TamanhoEquipaException("A formacao tatica nao esta a ser respeitada!");
+            }
+            if (this.titulares.values().size() >= 11) this.add = false;
         }
-        this.titulares.get(posicao).add(j.clone());
-    }
-
-    public void adicionaSuplente (Jogador j) {
-        this.suplentes.putIfAbsent(j.getNumCamisola(), j.clone());
-    }
+        else throw new TamanhoEquipaException("A equipa ja tem 11 titulares!");
+}
 
     public void substituicao(int in, int out) throws JogadorNaoTitularException, JogadorNaoSuplenteException{
     }
 
-    public void removeTitular(int j) throws JogadorNaoTitularException{
-        if (this.titulares.containsKey(j)) this.titulares.remove(j);
+    public void removeTitular(int num) throws JogadorNaoTitularException{
+        if (this.titulares.containsKey(num)) {
+            this.titulares.remove(num);
+            for (List<Jogador> l: this.tatica.values())
+                for (Jogador j:l)
+                    if (num == j.getNumCamisola()) l.remove(j);
+        }
         else throw new JogadorNaoTitularException("Jogador não existe nos titulares!");
     }
 
-    public void removeSuplente(int j) throws JogadorNaoSuplenteException{
-        if (this.suplentes.containsKey(j)) this.suplentes.remove(j);
-        else throw new JogadorNaoSuplenteException("Jogador não existe nos suplentes!");
-    }
-
-    public void removeJogadorTatica(Jogador j) {
-        if (this.titulares.containsKey(j.getNumCamisola())) this.titulares.remove(j.getNumCamisola());
-        if (this.suplentes.containsKey(j.getNumCamisola())) this.suplentes.remove(j.getNumCamisola());
-    }
 }

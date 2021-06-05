@@ -3,7 +3,7 @@ import java.util.*;
 import Controller.*;
 
 public class FMView implements Observer{
-    private Menu menuInicial, menuJogadores,menuEquipas,menuJogos;
+    private Menu menuInicial, menuJogadores,menuEquipas,menuJogos,menuTatica;
     private String valueToPrint;
     private FMController controller;
     
@@ -15,12 +15,14 @@ public class FMView implements Observer{
     {
         String[] opcoes1 = {"Gestao de jogadores","Gestao de equipas","Gestao de jogos"};
         String[] opcoes2 = {"Criar jogador","Pesquisar Jogador","Listar jogadores sem equipa","Calcular habilidade de jogador","Adicionar Jogador a uma equipa"};
-        String[] opcoes3 = {"Criar Equipa","Listar Equipa","Remover equipa","Escolher titulares"};
+        String[] opcoes3 = {"Criar Equipa","Listar Equipa","Remover equipa","Menu Tatica Equipa"};
         String[] opcoes4 = {"Criar jogo","Listar jogo","Simular jogo"};
+        String[] opcoes5 = {"Listar titulares","Adicionar titular","Remover titular"};
         this.menuInicial = new Menu(opcoes1);
         this.menuJogadores = new Menu(opcoes2);
         this.menuEquipas = new Menu(opcoes3);
         this.menuJogos = new Menu(opcoes4);
+        this.menuTatica = new Menu(opcoes5);
         this.controller = cont;
     }
 
@@ -69,6 +71,8 @@ public class FMView implements Observer{
                                 break;
                     case 3: removerEquipa();
                                 break;
+                    case 4: runGestaoTatica();
+                            break;
                 }
         }
         while (this.menuEquipas.getOpcao() == -1);
@@ -87,6 +91,24 @@ public class FMView implements Observer{
                 }
         }
         while (this.menuJogos.getOpcao() == -1);
+    }
+
+    private void runGestaoTatica() {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Digite o nome da equipa:");
+        String equipa = sc.nextLine();
+        do {
+            this.menuTatica.executaMenu();
+                switch (this.menuTatica.getOpcao()){
+                    case 1: listarTitulares(equipa);
+                                break;
+                    case 2: addJogadorTitular(equipa);
+                                break;
+                    case 3: //removerTitular();
+                                break;
+                }
+        }
+        while (this.menuTatica.getOpcao() != 0);
     }
 
     private void criarJogador() {
@@ -173,6 +195,30 @@ public class FMView implements Observer{
         System.out.print("Digite o numero do jogador na equipa:");
         args.add(sc.nextLine());
         this.controller.setComando(8);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+    }
+
+    private void addJogadorTitular(String nome) {
+        List <String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        args.add(nome);
+        this.controller.setComando(6);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+        System.out.print("Digite o numero do jogador na equipa:");
+        args.add(sc.nextLine());
+        System.out.print("Escolha a posicao(0-GR,1-DEF,2-MED,3-AVA):");
+        args.add(sc.nextLine());
+        this.controller.setComando(9);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+    }
+
+    private void listarTitulares(String nome) {
+        List <String> args = new ArrayList<>();
+        args.add(nome);
+        this.controller.setComando(10);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }

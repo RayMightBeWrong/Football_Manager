@@ -46,6 +46,8 @@ public class FMController extends Observable implements Observer
          case 6: listarEquipa(args.get(0));break;
          case 7: removerEquipa(args.get(0));break;
          case 8: adicionarJogadorEquipa(args);break;
+         case 9: adicionarJogadorTitular(args);break;
+         case 10: listarTitularesEquipa(args.get(0));break;
      }
    }
 
@@ -103,6 +105,22 @@ private void removerEquipa (String nome) {
 
 private void adicionarJogadorEquipa(List<String> args) {
     this.model.addJogadorEquipa(args);
+    this.setChanged();
+    this.notifyObservers(valueFromModel);
+}
+
+private void adicionarJogadorTitular (List<String> args) {
+    this.model.addJogadorTitular(args);
+    this.setChanged();
+    this.notifyObservers(valueFromModel);
+}
+
+private void listarTitularesEquipa(String nome) {
+    try {
+        this.model.listarTitularesEquipa(nome);
+    } catch (EquipaNaoExistenteException e) {
+        valueFromModel = e.getMessage();
+    }
     this.setChanged();
     this.notifyObservers(valueFromModel);
 }
