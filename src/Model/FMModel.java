@@ -220,29 +220,75 @@ public class FMModel extends Observable implements Serializable
 
     public void listarTitularesEquipa(String nome) throws EquipaNaoExistenteException {
         StringBuilder sb = new StringBuilder();
+        sb.append("Titulares : \n");
         int i = 0;
         if (this.equipas.containsKey(nome))
-            for (List<Jogador> l: this.equipas.get(nome).getTatica().getTatica().values()) {
-                if (i == 0) sb.append("Guarda-Redes: \n");
-                if (i == 1) sb.append("Defesas: \n");
-                if (i == 2) sb.append("Medios: \n");
-                if (i == 3) sb.append("Avancados: \n");
-                for (Jogador j: l)
-                    sb.append(j.toString());
+            for (Map.Entry<Integer,List<Jogador>> s : this.equipas.get(nome).getTatica().getTatica().entrySet()) {
+                i = s.getKey();
+                if (i == 0) sb.append("Guarda-Redes: [ ");
+                if (i == 1) sb.append("Defesas: [ ");
+                if (i == 2) sb.append("Medios: [ ");
+                if (i == 3) sb.append("Avancados: [ ");
+                for (Jogador j: s.getValue())
+                    sb.append(j.getNome()+", ");
+                sb.append("];\n");
             }
         else throw new EquipaNaoExistenteException("Equipa nao existe!");
-        if (this.equipas.get(nome).getTatica().getTitulares().values().size() == 0) valueFromModel = "Ainda nao foi escolhida nenhum titular";
+        if (this.equipas.get(nome).getTatica().getTitulares().values().size() == 0) valueFromModel = "Ainda nao foi escolhido nenhum titular";
         else valueFromModel = sb.toString();
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
-    
-    public void comecarJogo(String eq1,String eq2) {
-        Equipa e1 = this.equipas.get(eq1);
-        Equipa e2 = this.equipas.get(eq2);
-        Jogo j = new Jogo(e1, e2,0,0,0,"Bom tempo",LocalDateTime.now());
-        j.iniciarJogo();
+
+    public void listarNaoTitulares (String nome) throws EquipaNaoExistenteException {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Jogadores que podem ser escolhidos para titular!\n");
+        if (this.equipas.containsKey(nome)) {
+            Equipa e = this.equipas.get(nome);
+           List<Jogador> l = e.getTatica().getTitulares().values().stream().collect(Collectors.toList());
+           for (Jogador j: e.getJogadores())
+                if (l.contains(j));
+                else sb.append(j.toString());
+            valueFromModel = sb.toString();
+            this.setChanged();
+            this.notifyObservers(valueFromModel);
+        }
+        else throw new EquipaNaoExistenteException("Equipa nao existe!");
     }
+
+    public void removerTitular(String nome,int num) throws EquipaNaoExistenteException{
+        if (this.equipas.containsKey(nome)) {
+            Equipa e = this.equipas.get(nome);
+            try {
+                e.removeTitular(num);
+                valueFromModel = "Jogador removido com sucesso";
+            } catch (JogadorNaoTitularException e1) {
+                valueFromModel = e1.getMessage();
+            }
+            this.setChanged();
+            this.notifyObservers(valueFromModel);
+        }
+        else throw new EquipaNaoExistenteException("Equipa nao existe!");
+    }
+    
+    public void addJogo (String e1,String e2,LocalDate data) throws EquipaNaoExistenteException{
+        if (this.equipas.containsKey(e1) && this.equipas.containsKey(e2)) {
+            Equipa eq1 = this.equipas.get(e1);
+            Equipa eq2 = this.equipas.get(e2);
+            if (eq1.getTatica().getTitulares().values().size() < 11) valueFromModel = "Equipa de casa nao tem jogadores titulares suficientes!";
+            else if (eq2.getTatica().getTitulares().values().size() < 11) valueFromModel = "Equipa de fora nao tem jogadores titulares suficientes!";
+            else if (LocalDate.now().compareTo(data) > 0) valueFromModel = "Data do jogo anterior a data atual!";
+            else {
+                Jogo j = new Jogo(eq1,eq2,0,0,0,"Sol",data);
+                this.jogos.add(j);
+                valueFromModel = "Jogo criado com sucesso";
+            }
+            this.setChanged();
+            this.notifyObservers(valueFromModel);
+        }
+        else throw new EquipaNaoExistenteException("Equipa nao existe");
+    }
+
 
     public void escreverFicheiroTexto (String nomeF) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(nomeF);

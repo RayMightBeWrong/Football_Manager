@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.stream.Collectors;
 import java.util.ArrayList;
 
@@ -98,7 +99,6 @@ public class Tatica implements Serializable{
     }
 
     public void adicionaTitular(Jogador j,int posicao) throws JogadorExistenteException, TamanhoEquipaException{
-        System.out.println(this.add);
         if (this.add) {
             if (this.titulares.containsKey(j.getNumCamisola()))
                 throw new JogadorExistenteException("Jogador já está a titular!");
@@ -122,9 +122,13 @@ public class Tatica implements Serializable{
     public void removeTitular(int num) throws JogadorNaoTitularException{
         if (this.titulares.containsKey(num)) {
             this.titulares.remove(num);
-            for (List<Jogador> l: this.tatica.values())
-                for (Jogador j:l)
-                    if (num == j.getNumCamisola()) l.remove(j);
+            for (List<Jogador> l: this.tatica.values()) {
+                Iterator<Jogador> it = l.iterator(); 
+                while (it.hasNext()) {
+                        Jogador j = it.next();
+                        if (j.getNumCamisola() == num) it.remove();
+                }
+            }
         }
         else throw new JogadorNaoTitularException("Jogador não existe nos titulares!");
     }

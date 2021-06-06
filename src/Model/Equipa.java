@@ -118,6 +118,10 @@ public class Equipa implements Serializable{
             }
         }
     }
+
+    public void removeTitular (int num) throws JogadorNaoTitularException{
+        this.tatica.removeTitular(num);
+    }
     
 
     public float mediaHabilidadeTitular() {

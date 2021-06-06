@@ -1,5 +1,7 @@
 package Controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 import Model.*;
 
@@ -48,16 +50,19 @@ public class FMController extends Observable implements Observer
          case 8: adicionarJogadorEquipa(args);break;
          case 9: adicionarJogadorTitular(args);break;
          case 10: listarTitularesEquipa(args.get(0));break;
+         case 11: listarNaoTitulares (args.get(0));break;
+         case 12 : removerTitular(args);break;
+         case 13 : criarJogo(args);break;
      }
    }
 
-   private void adicionaJogador (List<String> args) {
-        this.model.addJogadorFromText(args);
-        this.setChanged();
-        this.notifyObservers(valueFromModel);
-}
-
-private void pesquisarJogador(String nome){
+private void adicionaJogador (List<String> args) {
+       this.model.addJogadorFromText(args);
+       this.setChanged();
+       this.notifyObservers(valueFromModel);
+    }
+    
+    private void pesquisarJogador(String nome){
         try {
             this.model.getJogador(nome);
         }
@@ -66,63 +71,102 @@ private void pesquisarJogador(String nome){
         }
         this.setChanged();
         this.notifyObservers(valueFromModel);
-}
-
-private void listarJogadoresFree() {
-    this.model.listarJogadoresFree();
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
-
-private void calculaHabilidadeJogador(String nome) {
-    try {
-        this.model.calculaHabilidadeJogador(nome);
     }
-    catch (JogadorNaoExistenteException e) {
-        valueFromModel = e.getMessage();
+    
+    private void listarJogadoresFree() {
+        this.model.listarJogadoresFree();
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
     }
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
-
-private void adicionarEquipa (String nome) {
-    this.model.addEquipa(nome);
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
-
-private void listarEquipa(String nome) {
-    this.model.listarEquipa(nome);
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
-
-private void removerEquipa (String nome) {
-    this.model.removerEquipa(nome);
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
-
-private void adicionarJogadorEquipa(List<String> args) {
-    this.model.addJogadorEquipa(args);
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
-
-private void adicionarJogadorTitular (List<String> args) {
-    this.model.addJogadorTitular(args);
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
-
-private void listarTitularesEquipa(String nome) {
-    try {
-        this.model.listarTitularesEquipa(nome);
-    } catch (EquipaNaoExistenteException e) {
-        valueFromModel = e.getMessage();
+    
+    private void calculaHabilidadeJogador(String nome) {
+        try {
+            this.model.calculaHabilidadeJogador(nome);
+        }
+        catch (JogadorNaoExistenteException e) {
+            valueFromModel = e.getMessage();
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
     }
-    this.setChanged();
-    this.notifyObservers(valueFromModel);
-}
+    
+    private void adicionarEquipa (String nome) {
+        this.model.addEquipa(nome);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+    
+    private void listarEquipa(String nome) {
+        this.model.listarEquipa(nome);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+    
+    private void removerEquipa (String nome) {
+        this.model.removerEquipa(nome);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+    
+    private void adicionarJogadorEquipa(List<String> args) {
+        this.model.addJogadorEquipa(args);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+    
+    private void adicionarJogadorTitular (List<String> args) {
+        this.model.addJogadorTitular(args);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+    
+    private void listarTitularesEquipa(String nome) {
+        try {
+            this.model.listarTitularesEquipa(nome);
+        } catch (EquipaNaoExistenteException e) {
+            valueFromModel = e.getMessage();
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+    
+    private void listarNaoTitulares(String nome) {
+        try {
+         this.model.listarNaoTitulares(nome);
+     } catch (EquipaNaoExistenteException e) {
+         valueFromModel = e.getMessage();
+     }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+   
+    private void removerTitular(List<String> args) {
+        int num = Integer.parseInt(args.get(1));
+        try {
+            this.model.removerTitular(args.get(0),num);
+        } catch (EquipaNaoExistenteException e) {
+            valueFromModel = e.getMessage();
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    
+    private void criarJogo(List<String> args) {
+        String e1 = args.get(0);
+        String e2 = args.get(1);
+        try{
+            LocalDate data = LocalDate.parse(args.get(2));
+            this.model.addJogo(e1,e2,data);
+        }
+        catch (DateTimeParseException e) {
+            valueFromModel = "Data inserida incorretamente";
+        }
+        catch (EquipaNaoExistenteException ex) {
+            valueFromModel = ex.getMessage();
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
 
 }

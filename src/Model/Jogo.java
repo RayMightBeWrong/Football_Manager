@@ -1,5 +1,6 @@
 package Model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
 
@@ -21,7 +22,7 @@ public class Jogo
     private int golosVisitante;
     private int minutos;
     private String meteorologia;
-    private LocalDateTime dataJogo;
+    private LocalDate dataJogo;
     
     /**
      * COnstrutor para objetos da classe Jogo
@@ -34,10 +35,10 @@ public class Jogo
         this.golosVisitante = 0;
         this.minutos = 0;
         this.meteorologia = "";
-        this.dataJogo = LocalDateTime.now();
+        this.dataJogo = LocalDate.now();
     }
 
-    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,String meto,LocalDateTime data) {
+    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,String meto,LocalDate data) {
         this.visitado = visitado.clone();
         this.visitante = visitante.clone();
         this.golosVisitado = goloVisitado;
@@ -81,7 +82,7 @@ public class Jogo
         return this.meteorologia;
     }
 
-    public LocalDateTime getData() {
+    public LocalDate getData() {
         return this.dataJogo;
     }
 
@@ -109,7 +110,7 @@ public class Jogo
         this.meteorologia = meto;
     }
 
-    public void setData (LocalDateTime data) {
+    public void setData (LocalDate data) {
         this.dataJogo = data;
     }
 
