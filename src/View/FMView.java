@@ -15,8 +15,8 @@ public class FMView implements Observer{
     {
         String[] opcoes1 = {"Gestao de jogadores","Gestao de equipas","Gestao de jogos"};
         String[] opcoes2 = {"Criar jogador","Pesquisar Jogador","Listar jogadores sem equipa","Calcular habilidade de jogador","Adicionar Jogador a uma equipa"};
-        String[] opcoes3 = {"Criar Equipa","Listar Equipa","Remover equipa","Menu Tatica Equipa"};
-        String[] opcoes4 = {"Criar jogo","Listar jogo","Simular jogo"};
+        String[] opcoes3 = {"Criar Equipa","Listar jogadores de uma equipa","Remover equipa"};
+        String[] opcoes4 = {"Criar jogo","Listar jogos","Simular jogo","Menu Tatica Equipa"};
         String[] opcoes5 = {"Listar titulares","Adicionar titular","Remover titular"};
         this.menuInicial = new Menu(opcoes1);
         this.menuJogadores = new Menu(opcoes2);
@@ -71,8 +71,6 @@ public class FMView implements Observer{
                                 break;
                     case 3: removerEquipa();
                                 break;
-                    case 4: runGestaoTatica();
-                            break;
                 }
         }
         while (this.menuEquipas.getOpcao() == -1);
@@ -84,35 +82,40 @@ public class FMView implements Observer{
                 switch (this.menuJogos.getOpcao()){
                     case 1: criarJogo();
                                 break;
-                    case 2: 
+                    case 2: listarJogos();
                                 break;
-                    case 3: 
+                    case 3: simulaJogo();
+                                break;
+                    case 4: runGestaoTatica();
                                 break;
                 }
         }
         while (this.menuJogos.getOpcao() == -1);
     }
 
+    
     private void runGestaoTatica() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome da equipa:");
-        String equipa = sc.nextLine();
+        System.out.print("Digite o ID do jogo que pretende alterar:");
+        String jogo = Integer.toString(sc.nextInt());
+        System.out.print("Editar a equipa de casa(0) ou a equipa visitante (1):");
+        String equipa = Integer.toString(sc.nextInt());
         do {
             this.menuTatica.executaMenu();
-                switch (this.menuTatica.getOpcao()){
-                    case 1: listarTitulares(equipa);
-                                break;
-                    case 2: addJogadorTitular(equipa);
-                                break;
-                    case 3: removerTitular(equipa);
-                                break;
-                }
+            switch (this.menuTatica.getOpcao()){
+                case 1: listarTitulares(jogo,equipa);
+                break;
+                case 2: addJogadorTitular(jogo,equipa);
+                break;
+                case 3: removerTitular(jogo,equipa);
+                break;
+            }
         }
         while (this.menuTatica.getOpcao() != 0);
     }
-
     
-
+    
+    
     private void criarJogador() {
         Scanner sc = new Scanner(System.in);
         System.out.println("Escolha a posicao do jogador:");
@@ -127,7 +130,7 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
+    
     private void pesquisarJogador() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
@@ -137,16 +140,15 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
-
+    
+    
     private void listarJogadores() {
         List <String> args = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
         this.controller.setComando(3);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
+    
     private void calculaHabilidadeJogador() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
@@ -166,7 +168,7 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
+    
     private void listarEquipa() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
@@ -176,7 +178,7 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
+    
     private void removerEquipa() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
@@ -186,7 +188,7 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
+    
     private void adicionarJogadorEquipa() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
@@ -200,10 +202,11 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
-    private void addJogadorTitular(String nome) {
+    
+    private void addJogadorTitular(String jogo,String nome) {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
+        args.add(jogo);
         args.add(nome);
         this.controller.setComando(10);
         this.controller.processaComando(args);
@@ -219,10 +222,11 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
-    private void removerTitular(String nome) {
+    
+    private void removerTitular(String jogo,String nome) {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
+        args.add(jogo);
         args.add(nome);
         System.out.print("Digite o numero do jogador a remover!");
         args.add(sc.nextLine());
@@ -230,15 +234,16 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
-    private void listarTitulares(String nome) {
+    
+    private void listarTitulares(String jogo, String nome) {
         List <String> args = new ArrayList<>();
+        args.add(jogo);
         args.add(nome);
         this.controller.setComando(10);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }
-
+    
     private void criarJogo() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
@@ -249,6 +254,22 @@ public class FMView implements Observer{
         System.out.print("Digite a data do jogo (AA-MM-DD):");
         args.add(sc.nextLine());
         this.controller.setComando(13);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+    }
+    
+    private void listarJogos() {
+        this.controller.setComando(14);
+        this.controller.processaComando(new ArrayList<>());
+        System.out.println(valueToPrint);
+    }
+    
+    private void simulaJogo() {
+        List <String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Digite o ID do jogo para simular:");
+        args.add(Integer.toString(sc.nextInt()));
+        this.controller.setComando(15);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
     }

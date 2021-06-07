@@ -49,12 +49,15 @@ public class FMController extends Observable implements Observer
          case 7: removerEquipa(args.get(0));break;
          case 8: adicionarJogadorEquipa(args);break;
          case 9: adicionarJogadorTitular(args);break;
-         case 10: listarTitularesEquipa(args.get(0));break;
-         case 11: listarNaoTitulares (args.get(0));break;
+         case 10: listarTitularesEquipa(args);break;
+         case 11: listarNaoTitulares (args);break;
          case 12 : removerTitular(args);break;
          case 13 : criarJogo(args);break;
+         case 14 : listarJogos();break;
+         case 15: simulaJogo(args);break;
      }
    }
+
 
 private void adicionaJogador (List<String> args) {
        this.model.addJogadorFromText(args);
@@ -120,19 +123,19 @@ private void adicionaJogador (List<String> args) {
         this.notifyObservers(valueFromModel);
     }
     
-    private void listarTitularesEquipa(String nome) {
-        try {
-            this.model.listarTitularesEquipa(nome);
-        } catch (EquipaNaoExistenteException e) {
-            valueFromModel = e.getMessage();
-        }
+    private void listarTitularesEquipa(List<String> args) {
+            int id = Integer.parseInt(args.get(0));
+            int eq = Integer.parseInt(args.get(1));
+            this.model.listarTitularesEquipa(id,eq);
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
     
-    private void listarNaoTitulares(String nome) {
+    private void listarNaoTitulares(List<String> args) {
         try {
-         this.model.listarNaoTitulares(nome);
+            int id = Integer.parseInt(args.get(0));
+            int eq = Integer.parseInt(args.get(1));
+            this.model.listarNaoTitulares(id,eq);
      } catch (EquipaNaoExistenteException e) {
          valueFromModel = e.getMessage();
      }
@@ -141,12 +144,10 @@ private void adicionaJogador (List<String> args) {
     }
    
     private void removerTitular(List<String> args) {
-        int num = Integer.parseInt(args.get(1));
-        try {
-            this.model.removerTitular(args.get(0),num);
-        } catch (EquipaNaoExistenteException e) {
-            valueFromModel = e.getMessage();
-        }
+            int id = Integer.parseInt(args.get(0));
+            int eq = Integer.parseInt(args.get(1));
+            int num = Integer.parseInt(args.get(2));
+            this.model.removerTitular(id,eq,num);
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
@@ -169,4 +170,16 @@ private void adicionaJogador (List<String> args) {
         this.notifyObservers(valueFromModel);
     }
 
+    private void listarJogos() {
+        this.model.listarJogos();
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void simulaJogo(List <String> args) {
+        int id = Integer.parseInt(args.get(0));
+        this.model.simulaJogo(id);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
 }

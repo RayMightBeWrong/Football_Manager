@@ -117,41 +117,6 @@ public class Jogo
     public Jogo clone() {
         return new Jogo(this);
     }
-
-
-    public void iniciarJogo() {
-        int posse = 0; // Bola começa na equipa de casa;
-        for (; this.getMinutos()< INTERVALO; this.minutos++) {
-            if (posse == 0) {
-                float ataque = this.getVisitado().calculaHabilidadeAtaque();
-                float defesa = this.getVisitante().calculaHabilidadeDefesa();
-                System.out.println("Ataque:"+ataque+",Defesa:"+defesa);
-                int resultado = simulaAtaque (ataque,defesa);
-                switch (resultado) {
-                    case 0 : break;
-                    case 1: this.setGoloVisitado(this.getGolosVisitado() + 1);
-                                posse++;
-                                break;
-                    case -1:posse++;
-                                break;
-                }
-            }
-            else {
-                float ataque = this.getVisitante().calculaHabilidadeAtaque();
-                float defesa = this.getVisitado().calculaHabilidadeDefesa();
-                System.out.println("Ataque:"+ataque+",Defesa:"+defesa);
-                int resultado = simulaAtaque (ataque,defesa);
-                switch (resultado) {
-                    case 0 : break;
-                    case 1: this.setGoloVisitado(this.getGolosVisitado() + 1);
-                                posse--;
-                                break;
-                    case -1:posse--;
-                                break;
-                }
-            }
-        }
-    }
     
     public int simulaAtaque (float ataque, float defesa) {
         float diferenca = ataque - defesa;

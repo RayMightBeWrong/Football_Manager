@@ -26,7 +26,7 @@ public class Parser {
                     equipas.put(e.getName(), e);
                     ultima = e;
                     break;
-                case "Guarda-Redes":
+                case "GuardaRedes":
                     j = GuardaRedes.parse(linhaPartida[1]);
                     jogadores.put(j.getNumCamisola(), j);
                     if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
