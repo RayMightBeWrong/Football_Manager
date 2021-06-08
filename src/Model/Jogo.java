@@ -3,6 +3,10 @@ package Model;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Random;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * Escreva a descri��o da classe Jogo aqui.
@@ -21,8 +25,9 @@ public class Jogo
     private int golosVisitado;
     private int golosVisitante;
     private int minutos;
-    private String meteorologia;
     private LocalDate dataJogo;
+    Map<Integer, Integer> subsCasa = new HashMap<>();
+    Map<Integer, Integer> subsFora = new HashMap<>();
     
     /**
      * COnstrutor para objetos da classe Jogo
@@ -34,18 +39,31 @@ public class Jogo
         this.golosVisitado = 0;
         this.golosVisitante = 0;
         this.minutos = 0;
-        this.meteorologia = "";
         this.dataJogo = LocalDate.now();
+        this.subsCasa = new HashMap<>();
+        this.subsFora = new HashMap<>();
     }
 
-    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,String meto,LocalDate data) {
+    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado, int goloVisitante, int minutos, LocalDate data){
         this.visitado = visitado.clone();
         this.visitante = visitante.clone();
         this.golosVisitado = goloVisitado;
         this.golosVisitante = goloVisitante;
         this.minutos = 0;
-        this.meteorologia = meto;
         this.dataJogo = data;
+        this.subsCasa = new HashMap<>();
+        this.subsFora = new HashMap<>();
+    }
+
+    public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,LocalDate data, Map<Integer, Integer> subsCasa, Map<Integer, Integer> subsFora) {
+        this.visitado = visitado.clone();
+        this.visitante = visitante.clone();
+        this.golosVisitado = goloVisitado;
+        this.golosVisitante = goloVisitante;
+        this.minutos = 0;
+        this.dataJogo = data;
+        this.subsCasa = new HashMap<>(subsCasa);
+        this.subsFora = new HashMap<>(subsFora);
     }
 
     public Jogo(Jogo j) {
@@ -54,7 +72,6 @@ public class Jogo
         this.golosVisitado = j.getGolosVisitado();
         this.golosVisitante = j.getGolosVisitante();
         this.minutos = j.getMinutos();
-        this.meteorologia = j.getMeteorologia();
         this.dataJogo = j.getData();
     }
     
@@ -78,12 +95,16 @@ public class Jogo
         return this.minutos;
     }
 
-    public String getMeteorologia() {
-        return this.meteorologia;
-    }
-
     public LocalDate getData() {
         return this.dataJogo;
+    }
+
+    public Map<Integer, Integer> getSubsCasa(){
+        return this.subsCasa;
+    }
+
+    public Map<Integer, Integer> getSubsFora(){
+        return this.subsFora;
     }
 
     public void setVisitado(Equipa e) {
@@ -106,12 +127,16 @@ public class Jogo
         this.minutos = min;
     }
 
-    public void setMeteorologia (String meto) {
-        this.meteorologia = meto;
-    }
-
     public void setData (LocalDate data) {
         this.dataJogo = data;
+    }
+
+    public void setSubsCasa(Map<Integer, Integer> subsCasa){
+        this.subsCasa = new HashMap<>(subsCasa);
+    }
+
+    public void setSubsFora(Map<Integer, Integer> subsFora){
+        this.subsFora = new HashMap<>(subsFora);
     }
 
     public Jogo clone() {
@@ -136,6 +161,38 @@ public class Jogo
         return resultado;
     }
 
+    public static Jogo parse(String input, Map<String, Equipa> equipas) throws EquipaNaoExistenteException{
+        String[] campos = input.split(",");
+        Equipa casa = equipas.get(campos[0]);
+        Equipa fora = equipas.get(campos[1]);
+        if (casa == null)
+            throw new EquipaNaoExistenteException(campos[0] + " não consta na lista de equipas.");
+        if(fora == null)
+            throw new EquipaNaoExistenteException(campos[0] + " não consta na lista de equipas.");
+        String[] data = campos[4].split("-");
+        List<Integer> jc = new ArrayList<>();
+        List<Integer> jf = new ArrayList<>();
+        Map<Integer, Integer> subsC = new HashMap<>();
+        Map<Integer, Integer> subsF = new HashMap<>();
+        for (int i = 5; i < 16; i++){
+            jc.add(Integer.parseInt(campos[i]));
+        }
+        for (int i = 16; i < 19; i++){
+            String[] sub = campos[i].split("->");
+            subsC.put(Integer.parseInt(sub[0]), Integer.parseInt(sub[1]));
+        }
+        for (int i = 19; i < 30; i++){
+            jf.add(Integer.parseInt(campos[i]));
+        }
+        for (int i = 30; i < 33; i++){
+            String[] sub = campos[i].split("->");
+            subsF.put(Integer.parseInt(sub[0]), Integer.parseInt(sub[1]));
+        }
+        //public Jogo(Equipa visitado, Equipa visitante, int goloVisitado,int goloVisitante,int minutos,LocalDate data, subs1, subs2)
+        return new Jogo(casa, fora, Integer.parseInt(campos[2]), Integer.parseInt(campos[3]), FIMJOGO,
+                        LocalDate.of(Integer.parseInt(data[0]), Integer.parseInt(data[1]), Integer.parseInt(data[2])), subsC, subsF);
+    }
+
     public String toString () {
         StringBuilder sb = new StringBuilder();
         sb.append(this.dataJogo.toString());
@@ -151,8 +208,8 @@ public class Jogo
         if (!(o instanceof Jogo)) return false;
         Jogo jogo = (Jogo) o;
         return this.getGolosVisitado() == jogo.getGolosVisitado() && this.getGolosVisitante() == jogo.getGolosVisitante() && this.getMinutos() == jogo.getMinutos()
-                    && this.getMeteorologia().equals(jogo.getMeteorologia()) && this.getVisitado().equals(jogo.getVisitado()) && this.getVisitante().equals(jogo.getVisitante())
-                    && this.getData().equals(jogo.getData());
+                    && this.getVisitado().equals(jogo.getVisitado()) && this.getVisitante().equals(jogo.getVisitante())
+                    && this.getData().equals(jogo.getData()) && this.getSubsCasa().equals(jogo.getSubsCasa()) && this.getSubsFora().equals(jogo.getSubsFora());
     }
 
     

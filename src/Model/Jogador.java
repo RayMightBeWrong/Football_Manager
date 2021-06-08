@@ -166,7 +166,7 @@ public abstract class Jogador implements Serializable ,Comparable<Jogador>{
     }
 
     public void setNumCamisola(int numCamisola) throws AtributoInvalidoException {
-        if (numCamisola >= 1 && numCamisola <= 100) this.numCamisola = numCamisola;
+        if (numCamisola >= 0 && numCamisola <= 100) this.numCamisola = numCamisola;
         else throw new AtributoInvalidoException("Atributo numero camisola inserido invalido!");
     }
 

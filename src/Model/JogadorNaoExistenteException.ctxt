@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=JogadorNaoExistenteException
-comment0.text=\r\n\ Escreva\ a\ descri\u00C3\u00A7\u00C3\u00A3o\ da\ classe\ JogadorNaoExistenteException\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00C3\u00BAmero\ de\ vers\u00C3\u00A3o\ ou\ data)\r\n
+comment0.text=\n\ Escreva\ a\ descri\u00C3\u00A7\u00C3\u00A3o\ da\ classe\ JogadorNaoExistenteException\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00C3\u00BAmero\ de\ vers\u00C3\u00A3o\ ou\ data)\n
 comment1.params=
 comment1.target=JogadorNaoExistenteException()
 comment2.params=msg

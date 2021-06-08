@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=NumeroExistenteException
-comment0.text=\r\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ JogadorExistenteException\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\r\n
+comment0.text=\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ JogadorExistenteException\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\n
 comment1.params=
 comment1.target=NumeroExistenteException()
-comment1.text=\r\n\ COnstrutor\ para\ objetos\ da\ classe\ JogadorExistenteException\r\n
+comment1.text=\n\ COnstrutor\ para\ objetos\ da\ classe\ JogadorExistenteException\n
 comment2.params=msg
 comment2.target=NumeroExistenteException(java.lang.String)
 numComments=3

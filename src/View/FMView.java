@@ -112,6 +112,7 @@ public class FMView implements Observer{
             }
         }
         while (this.menuTatica.getOpcao() != 0);
+        sc.close();
     }
     
     
@@ -129,6 +130,7 @@ public class FMView implements Observer{
         this.controller.setComando(1);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void pesquisarJogador() {
@@ -139,6 +141,7 @@ public class FMView implements Observer{
         this.controller.setComando(2);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     
@@ -157,6 +160,7 @@ public class FMView implements Observer{
         this.controller.setComando(4);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void adicionarEquipa() {
@@ -167,6 +171,7 @@ public class FMView implements Observer{
         this.controller.setComando(5);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void listarEquipa() {
@@ -177,6 +182,7 @@ public class FMView implements Observer{
         this.controller.setComando(6);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void removerEquipa() {
@@ -187,6 +193,7 @@ public class FMView implements Observer{
         this.controller.setComando(7);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void adicionarJogadorEquipa() {
@@ -201,6 +208,7 @@ public class FMView implements Observer{
         this.controller.setComando(8);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void addJogadorTitular(String jogo,String nome) {
@@ -221,6 +229,7 @@ public class FMView implements Observer{
         this.controller.setComando(9);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void removerTitular(String jogo,String nome) {
@@ -233,6 +242,7 @@ public class FMView implements Observer{
         this.controller.setComando(12);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void listarTitulares(String jogo, String nome) {
@@ -256,6 +266,7 @@ public class FMView implements Observer{
         this.controller.setComando(13);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void listarJogos() {
@@ -272,6 +283,7 @@ public class FMView implements Observer{
         this.controller.setComando(15);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
 
     private List<String> lerStatJogador(int posicao) {
@@ -321,6 +333,7 @@ public class FMView implements Observer{
                             args.add(sc.next());
                             break;
         }
+        sc.close();
         return args;
     }
 

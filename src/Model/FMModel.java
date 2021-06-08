@@ -37,7 +37,7 @@ public class FMModel extends Observable implements Serializable
         this.jogos = new ArrayList<>();
     }
 
-    public FMModel(Map <String,Jogador> jog,Map<String,Equipa> equipas,List <Jogo> jogos) {
+    public FMModel(Map <String,Jogador> jog,Map<String,Equipa> equipas,List<Jogo> jogos) {
         this.jogadores = jog.values().stream().collect(Collectors.toMap(j->j.getNome(),j->j.clone()));
         this.equipas = equipas.values().stream().collect(Collectors.toMap(e->e.getName(),e->e.clone()));
         this.jogos = jogos.stream().map(Jogo::clone).collect(Collectors.toList());
@@ -186,7 +186,7 @@ public class FMModel extends Observable implements Serializable
                 try
                 {
                     j.setNumCamisola(numero);
-                    this.equipas.get(nomeE).addPlayer(j);
+                    this.equipas.get(nomeE).addPlayer(j, false);
                     this.jogadores.remove(nomeJ);
                     valueFromModel = "Sucesso ao adicionar o jogador a equipa";
                 }
@@ -286,7 +286,7 @@ public class FMModel extends Observable implements Serializable
             Equipa eq2 = this.equipas.get(e2);
             if (LocalDate.now().compareTo(data) > 0) valueFromModel = "Data do jogo anterior a data atual!";
             else {
-                Jogo j = new Jogo(eq1,eq2,0,0,0,"Sol",data);
+                Jogo j = new Jogo(eq1,eq2,0,0,0,data);
                 this.jogos.add(j);
                 valueFromModel = "Jogo criado com sucesso";
             }

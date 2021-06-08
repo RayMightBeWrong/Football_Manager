@@ -40,7 +40,7 @@ public class FootballManager
         //Ler estado de um ficheiro;
         this.controller = new FMController(this.model);
         
-        this.view= new FMView(this.controller);
+        this.view = new FMView(this.controller);
         
         this.model.addObserver(this.controller);
         
@@ -48,6 +48,27 @@ public class FootballManager
     }
     
     private void run() {
+        try{
+            this.model = Parser.parse();
+        }
+        catch(LinhaIncorretaException lie){
+            System.out.println("Erro: " + lie.getMessage());
+        }
+        catch(NumeroExistenteException nee){
+            System.out.println("Erro: " + nee.getMessage());
+        }
+        catch(JogadorExistenteException jee){
+            System.out.println("Erro: " + jee.getMessage());
+        }
+        catch(AtributoInvalidoException aie){
+            System.out.println("Erro: " + aie.getMessage());
+        }
+        catch(EquipaNaoExistenteException enee){
+            System.out.println("Erro: " + enee.getMessage());
+        }
+
+        System.out.println(this.model.getListJogador().size());
+
         this.view.run();
         try
         {

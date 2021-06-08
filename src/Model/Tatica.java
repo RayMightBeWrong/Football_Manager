@@ -20,7 +20,7 @@ public class Tatica implements Serializable{
         this.formacao[0] = 1;
         this.formacao[1] = 4;
         this.formacao[2] = 4;
-        this.formacao[3] = 3;
+        this.formacao[3] = 2;
         this.tatica = new HashMap<Integer, List<Jogador>>();
         this.titulares = new HashMap<Integer, Jogador>();
         this.add = true;

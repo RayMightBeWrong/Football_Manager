@@ -2,7 +2,7 @@
 comment0.target=AtributoInvalidoException
 comment1.params=
 comment1.target=AtributoInvalidoException()
-comment1.text=\r\n\ COnstrutor\ para\ objetos\ da\ classe\ AtributoInvalidoException\r\n
+comment1.text=\n\ COnstrutor\ para\ objetos\ da\ classe\ AtributoInvalidoException\n
 comment2.params=msg
 comment2.target=AtributoInvalidoException(java.lang.String)
 numComments=3

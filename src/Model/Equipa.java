@@ -72,21 +72,8 @@ public class Equipa implements Serializable{
     Setter methods
      */
 
-    public void addPlayer(Jogador j) throws NumeroExistenteException, JogadorExistenteException{
-        if (this.equipa.containsKey(j.getNumCamisola()))
-        throw new NumeroExistenteException("Numero ja ocupado!");
-        else if (this.equipa.containsValue(j)){
-            throw new JogadorExistenteException ("Jogador ja presente na equipa!");
-        }
-        else {
-            j.addEquipatoHistorial(this.getName());
-            this.equipa.putIfAbsent(j.getNumCamisola(),j.clone());
-            this.numJogadores++;
-        }
-    }
-
     public void setEquipa(Map<Integer,Jogador> equipa) {
-        this.equipa = equipa.values().stream().collect(Collectors.toMap(j->j.getNumCamisola(),j->j.clone()));
+        this.equipa = equipa.values().stream().collect(Collectors.toMap(j->j.getNumCamisola(), j->j.clone()));
     }
 
     public void setName(String name) {
@@ -99,6 +86,45 @@ public class Equipa implements Serializable{
 
     public void setTatica(Tatica tatica){
         this.tatica = tatica.clone();
+    }
+
+    public int defineNumPosition(Jogador j){
+        String role = j.getClass().getSimpleName();
+        int r = -1;
+
+        switch(role){
+            case "GuardaRedes": r = 0;
+            break;
+
+            case "Defesa": r = 1;
+            break;
+
+            case "Lateral": r = 2;
+            break;
+
+            case "Medio": r = 3;
+            break;
+
+            case "Avancado": r = 4;
+            break;
+        }
+
+        return r;
+    }
+
+    public void addPlayer(Jogador j, Boolean isTitular) throws NumeroExistenteException, JogadorExistenteException{
+        if (this.equipa.containsKey(j.getNumCamisola()))
+        throw new NumeroExistenteException("Numero ja ocupado!");
+        else if (this.equipa.containsValue(j)){
+            throw new JogadorExistenteException ("Jogador ja presente na equipa!");
+        }
+        else {
+            j.addEquipatoHistorial(this.getName());
+            this.equipa.putIfAbsent(j.getNumCamisola(),j.clone());
+            //if(isTitular)
+                //addTitular(j, defineNumPosition(j));
+            this.numJogadores++;
+        }
     }
     
     public void addTitular (Jogador j,int pos) throws JogadorExistenteException,TamanhoEquipaException, JogadorNaoExistenteException{

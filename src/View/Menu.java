@@ -56,6 +56,7 @@ public class Menu
             System.out.println("Opcao inválida .Tente de novo");
            op = -1;
         }
+        sc.close();
         return op;
     }
 }
