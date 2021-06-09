@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.target=EquipaNaoExistenteException
+comment0.text=\r\n\ Escreva\ a\ descri\u00E7\u00E3o\ da\ classe\ EquipaNaoExistenteException\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00FAmero\ de\ vers\u00E3o\ ou\ data)\r\n
+comment1.params=
+comment1.target=EquipaNaoExistenteException()
+comment1.text=\r\n\ COnstrutor\ para\ objetos\ da\ classe\ EquipaNaoExistenteException\r\n
+comment2.params=msg
+comment2.target=EquipaNaoExistenteException(java.lang.String)
+numComments=3

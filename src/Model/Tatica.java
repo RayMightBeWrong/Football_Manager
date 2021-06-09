@@ -18,9 +18,9 @@ public class Tatica implements Serializable{
     public Tatica(){
         this.formacao = new int[4];
         this.formacao[0] = 1;
-        this.formacao[1] = 4;
-        this.formacao[2] = 4;
-        this.formacao[3] = 2;
+        this.formacao[1] = 11;
+        this.formacao[2] = 11;
+        this.formacao[3] = 11;
         this.tatica = new HashMap<Integer, List<Jogador>>();
         this.titulares = new HashMap<Integer, Jogador>();
         this.add = true;
@@ -51,6 +51,11 @@ public class Tatica implements Serializable{
     
     public int[] getFormacao() {
         return this.formacao.clone();
+    }
+
+    public void calculaFormacao () {
+        for (Map.Entry<Integer,List<Jogador>> p  : this.tatica.entrySet()) 
+            this.formacao[p.getKey()] = p.getValue().size();
     }
 
     public Map<Integer, List<Jogador>> getTatica() {
@@ -111,12 +116,34 @@ public class Tatica implements Serializable{
                 }
             else throw new TamanhoEquipaException("A formacao tatica nao esta a ser respeitada!");
             }
-            if (this.titulares.values().size() >= 11) this.add = false;
+            if (this.titulares.values().size() >= 11) {
+                this.add = false;
+                this.calculaFormacao();
+            }
         }
         else throw new TamanhoEquipaException("A equipa ja tem 11 titulares!");
 }
 
-    public void substituicao(int in, int out) throws JogadorNaoTitularException, JogadorNaoSuplenteException{
+    public void substituicao(Jogador in, int out) throws TamanhoEquipaException, JogadorExistenteException, JogadorNaoTitularException{
+        if (this.titulares.containsKey(out)) {
+            int pos = this.getPosicaoJogador(out);
+            this.removeTitular(out);
+            this.adicionaTitular(in, pos);
+        }
+    }
+
+    private int getPosicaoJogador (int j) {
+        if (this.titulares.containsKey(j)) {
+            this.titulares.remove(j);
+            for (Map.Entry<Integer,List<Jogador> > l: this.tatica.entrySet()) {
+                    Iterator<Jogador> it = l.getValue().iterator();
+                    while (it.hasNext()) {
+                        Jogador jog = it.next();
+                        if (jog.getNumCamisola() == j) return l.getKey();
+                    }
+            }
+        }
+        return -1;
     }
 
     public void removeTitular(int num) throws JogadorNaoTitularException{

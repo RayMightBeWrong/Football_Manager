@@ -112,7 +112,7 @@ Lateral:Rodrigo Jorge Pinto Guimaraes,48,60,64,7,25,65,38,75,55
 Medio:Carlos Humberto da Silva Ferreira,47,43,10,6,63,63,53,36,9
 Medio:Pedro Calheno Pinto,10,61,60,66,71,14,45,92,49
 Medio:Alexandre Rodrigues Balde,31,87,58,72,70,13,60,50,54
-Medio:Pedro Henrique Pessôa Camargo,32,68,51,33,53,69,74,50,4
+Medio:Pedro Henrique PessÃ´a Camargo,32,68,51,33,53,69,74,50,4
 Avancado:Delio Miguel Lopes Alves,33,62,69,74,74,59,56,75
 Avancado:Joao Manuel Silva Antunes,36,53,42,59,74,61,82,100
 Lateral:Daniel Barbosa Faria,2,47,30,71,65,97,6,60,70

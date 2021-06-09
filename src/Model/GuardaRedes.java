@@ -69,7 +69,17 @@ public class GuardaRedes extends Jogador
     
     public String toString (){
         StringBuilder sb = new StringBuilder();
-        sb.append(super.toString());
+        sb.append("Guarda-Redes").append(":");
+        sb.append(this.getNome()).append(";");
+        sb.append(this.getNumCamisola()).append(";");
+        sb.append(this.getAltura()).append(";");
+        sb.append(this.getVelocidade()).append(";");
+        sb.append(this.getResistencia()).append(";");
+        sb.append(this.getDestreza()).append(";");
+        sb.append(this.getImpulsao()).append(";");
+        sb.append(this.getJogodecabeca()).append(";");
+        sb.append(this.getRemate()).append(";");
+        sb.append(this.getPasse()).append(";");
         sb.append(this.getElasticidade()).append(";");
         sb.append(this.getReflexos()).append(";");
         for (String e: this.getHistorialEquipas()){

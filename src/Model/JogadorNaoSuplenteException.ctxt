@@ -1,7 +1,0 @@
-#BlueJ class context
-comment0.target=JogadorNaoSuplenteException
-comment1.params=
-comment1.target=JogadorNaoSuplenteException()
-comment2.params=msg
-comment2.target=JogadorNaoSuplenteException(java.lang.String)
-numComments=3

@@ -41,20 +41,19 @@ public class FMController extends Observable implements Observer
    public void processaComando(List<String> args) {
      switch (this.getComando()) {
          case 1 : adicionaJogador(args);break;
-         case 2: pesquisarJogador(args.get(0));break;
-         case 3: listarJogadoresFree();break;
-         case 4: calculaHabilidadeJogador(args.get(0));break;
-         case 5: adicionarEquipa(args.get(0));break;
-         case 6: listarEquipa(args.get(0));break;
-         case 7: removerEquipa(args.get(0));break;
-         case 8: adicionarJogadorEquipa(args);break;
-         case 9: adicionarJogadorTitular(args);break;
-         case 10: listarTitularesEquipa(args);break;
-         case 11: listarNaoTitulares (args);break;
-         case 12 : removerTitular(args);break;
-         case 13 : criarJogo(args);break;
-         case 14 : listarJogos();break;
-         case 15: simulaJogo(args);break;
+         case 2: listarJogadoresFree();break;
+         case 3: adicionarJogadorEquipa(args);break;
+         case 4: adicionarEquipa(args.get(0));break;
+         case 5: listarEquipa(args.get(0));break;
+         case 6: listarEquipas();break;
+         case 7: calcularHabilidadeEquipa(args.get(0));break;
+         case 8 : criarJogo(args);break;
+         case 9 : listarJogos();break;
+         case 10: simulaJogo(args);break;
+         case 11: adicionarJogadorTitular(args);break;
+         case 12: listarTitularesEquipa(args);break;
+         case 13 : removerTitular(args);break;
+         case 14: listarNaoTitulares (args);break;
      }
    }
 
@@ -64,35 +63,20 @@ private void adicionaJogador (List<String> args) {
        this.setChanged();
        this.notifyObservers(valueFromModel);
     }
-    
-    private void pesquisarJogador(String nome){
-        try {
-            this.model.getJogador(nome);
-        }
-        catch (JogadorNaoExistenteException e) {
-            valueFromModel = e.getMessage();
-        }
-        this.setChanged();
-        this.notifyObservers(valueFromModel);
-    }
+
     
     private void listarJogadoresFree() {
         this.model.listarJogadoresFree();
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
-    
-    private void calculaHabilidadeJogador(String nome) {
-        try {
-            this.model.calculaHabilidadeJogador(nome);
-        }
-        catch (JogadorNaoExistenteException e) {
-            valueFromModel = e.getMessage();
-        }
+
+    private void adicionarJogadorEquipa(List<String> args) {
+        this.model.addJogadorEquipa(args);
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
-    
+
     private void adicionarEquipa (String nome) {
         this.model.addEquipa(nome);
         this.setChanged();
@@ -104,15 +88,15 @@ private void adicionaJogador (List<String> args) {
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
-    
-    private void removerEquipa (String nome) {
-        this.model.removerEquipa(nome);
+   
+    private void listarEquipas() {
+        this.model.listarEquipas();
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
-    
-    private void adicionarJogadorEquipa(List<String> args) {
-        this.model.addJogadorEquipa(args);
+
+    private void calcularHabilidadeEquipa(String nome) {
+        this.model.calcularHabilidadeEquipa(nome);
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }

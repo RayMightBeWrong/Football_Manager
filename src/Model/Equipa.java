@@ -99,20 +99,20 @@ public class Equipa implements Serializable{
             case "Defesa": r = 1;
             break;
 
-            case "Lateral": r = 2;
+            case "Lateral": r = 1;
             break;
 
-            case "Medio": r = 3;
+            case "Medio": r = 2;
             break;
 
-            case "Avancado": r = 4;
+            case "Avancado": r = 3;
             break;
         }
 
         return r;
     }
 
-    public void addPlayer(Jogador j, Boolean isTitular) throws NumeroExistenteException, JogadorExistenteException{
+    public void addPlayer(Jogador j) throws NumeroExistenteException, JogadorExistenteException{
         if (this.equipa.containsKey(j.getNumCamisola()))
         throw new NumeroExistenteException("Numero ja ocupado!");
         else if (this.equipa.containsValue(j)){
@@ -121,16 +121,25 @@ public class Equipa implements Serializable{
         else {
             j.addEquipatoHistorial(this.getName());
             this.equipa.putIfAbsent(j.getNumCamisola(),j.clone());
-            //if(isTitular)
-                //addTitular(j, defineNumPosition(j));
             this.numJogadores++;
         }
     }
     
-    public void addTitular (Jogador j,int pos) throws JogadorExistenteException,TamanhoEquipaException, JogadorNaoExistenteException{
-        if (this.equipa.containsKey(j.getNumCamisola()))
+    public void addTitular (int num,int pos) throws JogadorExistenteException,TamanhoEquipaException, JogadorNaoExistenteException{
+        if (this.equipa.containsKey(num)) {
+            Jogador j = this.equipa.get(num);
             this.tatica.adicionaTitular(j, pos);
+        }
         else throw new JogadorNaoExistenteException("Nao ha jogadores com esse numero!");
+    }
+
+    public void adicionaTitulares (List<Integer> jogadores) throws JogadorExistenteException,TamanhoEquipaException, JogadorNaoExistenteException{
+        for (Integer j : jogadores) {
+            if (this.equipa.containsKey(j)) {
+                    this.addTitular(j, defineNumPosition(this.equipa.get(j)));
+            }
+        }
+        this.tatica.calculaFormacao();
     }
     
     public void removePlayer(Jogador j){
@@ -149,6 +158,11 @@ public class Equipa implements Serializable{
         this.tatica.removeTitular(num);
     }
     
+    public void substituicao (int in,int out) throws JogadorExistenteException, TamanhoEquipaException, JogadorNaoExistenteException, JogadorNaoTitularException{
+        if (this.equipa.containsKey(in))
+            this.tatica.substituicao(this.equipa.get(in), out);
+        else throw new JogadorNaoExistenteException("Jogador nao faz parte da equipa");
+    }
 
     public float mediaHabilidadeTitular() {
         float media = 0;
@@ -182,6 +196,13 @@ public class Equipa implements Serializable{
         for (Jogador j:defesas)
             media+= j.calculaHabilidadeDefesa();
         return media;
+    }
+
+    public float calculaHabilidadeEquipa () {
+        float media = 0;
+        for (Jogador j : this.getJogadores())
+            media += j.habilidadeJogador();
+        return media /numJogadores;
     }
     
     public static Equipa parse(String input){

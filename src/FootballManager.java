@@ -31,11 +31,11 @@ public class FootballManager
         this.model = new FMModel();
         try
         {
-        this.model = FMModel.carregarEstado("estado.dat");
+        this.model = Parser.parse("logs.txt");
         }
         catch (Exception fnfe)
         {
-            System.out.println("Erro ao carregar");
+            System.out.println(fnfe.getMessage());
         }
         //Ler estado de um ficheiro;
         this.controller = new FMController(this.model);
@@ -48,26 +48,6 @@ public class FootballManager
     }
     
     private void run() {
-        try{
-            this.model = Parser.parse();
-        }
-        catch(LinhaIncorretaException lie){
-            System.out.println("Erro: " + lie.getMessage());
-        }
-        catch(NumeroExistenteException nee){
-            System.out.println("Erro: " + nee.getMessage());
-        }
-        catch(JogadorExistenteException jee){
-            System.out.println("Erro: " + jee.getMessage());
-        }
-        catch(AtributoInvalidoException aie){
-            System.out.println("Erro: " + aie.getMessage());
-        }
-        catch(EquipaNaoExistenteException enee){
-            System.out.println("Erro: " + enee.getMessage());
-        }
-
-        System.out.println(this.model.getListJogador().size());
 
         this.view.run();
         try
