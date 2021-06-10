@@ -40,24 +40,25 @@ public class FMController extends Observable implements Observer
 
    public void processaComando(List<String> args) {
      switch (this.getComando()) {
-         case 1 : adicionaJogador(args);break;
+         case 1: adicionaJogador(args);break;
          case 2: listarJogadoresFree();break;
          case 3: moverJogadorEquipa(args);break;
-         case 4 : calcularHabilidadeJogador(args.get(0));break;
+         case 4: calcularHabilidadeJogador(args.get(0));break;
          case 5: adicionarEquipa(args.get(0));break;
          case 6: listarEquipa(args.get(0));break;
          case 7: listarEquipas();break;
          case 8: calcularHabilidadeEquipa(args.get(0));break;
-         case 9 : criarJogo(args);break;
-         case 10 : listarJogos();break;
+         case 9: criarJogo(args);break;
+         case 10: listarJogos();break;
          case 11: simulaJogo(args);break;
          case 12: adicionarJogadorTitular(args);break;
          case 13: listarTitularesEquipa(args);break;
-         case 14 : removerTitular(args);break;
+         case 14: removerTitular(args);break;
          case 15: listarNaoTitulares (args);break;
          case 16: imprimirEquipa(args);break;
          case 17: listarJogosSimulaveis();break;
          case 18: adicionarSubstituicao(args);break;
+         case 19: carregarFicheiroTexto(args);break;
      }
    }
 
@@ -197,6 +198,18 @@ private void adicionaJogador (List<String> args) {
         int entrada = Integer.parseInt(args.get(2));
         int saida = Integer.parseInt(args.get(3));
         this.model.adicionarSubstituicao(id,equipa,entrada,saida);        
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void carregarFicheiroTexto(List<String> args){
+        String fich = args.get(0);
+        try{
+            this.model = Parser.parse(fich);
+        }
+        catch(Exception e){
+            valueFromModel = e.getMessage();
+        }
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }

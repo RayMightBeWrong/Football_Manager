@@ -31,7 +31,7 @@ public class FootballManager
         this.model = new FMModel();
         try
         {
-        this.model = Parser.parse("logs.txt");
+        this.model = Parser.parse("logsV2.txt");
         }
         catch (Exception fnfe)
         {

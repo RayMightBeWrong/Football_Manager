@@ -4,7 +4,7 @@ import Controller.*;
 import Model.AtributoInvalidoException;
 
 public class FMView implements Observer{
-    private Menu menuInicial, menuJogadores,menuEquipas,menuJogos,menuTatica;
+    private Menu menuInicial, menuJogadores,menuEquipas,menuJogos,menuTatica,menuFicheiros;
     private String valueToPrint;
     private FMController controller;
     
@@ -14,16 +14,18 @@ public class FMView implements Observer{
     
     public FMView(FMController cont)
     {
-        String[] opcoes1 = {"Gestao de jogadores","Gestao de equipas","Gestao de jogos"};
+        String[] opcoes1 = {"Gestao de jogadores","Gestao de equipas","Gestao de jogos","Ler/Guardar Ficheiros"};
         String[] opcoes2 = {"Criar jogador","Listar jogadores","Trocar jogador de equipa","Calcular Habilidade Jogador"};
         String[] opcoes3 = {"Criar Equipa","Listar jogadores de uma equipa","Listar Equipas","Calcular habilidade de uma equipa"};
         String[] opcoes4 = {"Criar jogo","Listar jogos","Simular jogo","Menu Tatica Equipa"};
         String[] opcoes5 = {"Listar titulares","Adicionar titular","Remover titular","Adicionar substituicao"};
+        String[] opcoes6 = {"Carregar Ficheiro de Texto","Carregar estado","Guardar estado"};
         this.menuInicial = new Menu(opcoes1);
         this.menuJogadores = new Menu(opcoes2);
         this.menuEquipas = new Menu(opcoes3);
         this.menuJogos = new Menu(opcoes4);
         this.menuTatica = new Menu(opcoes5);
+        this.menuFicheiros = new Menu(opcoes6);
         this.controller = cont;
     }
 
@@ -35,7 +37,9 @@ public class FMView implements Observer{
                                 break;
                     case 2: this.runGestaoEquipa();
                                 break;
-                    case 3:this.runGestaoJogo();
+                    case 3: this.runGestaoJogo();
+                                break;
+                    case 4: this.runGestaoFicheiros();
                                 break;
                 }
             System.out.println();
@@ -92,6 +96,22 @@ public class FMView implements Observer{
                     case 3: simulaJogo();
                                 break;
                     case 4: runGestaoTatica();
+                                break;
+                }
+        }
+        while (this.menuJogos.getOpcao() != 0);
+    }
+
+    private void runGestaoFicheiros(){
+        System.out.println();
+        do {
+            this.menuFicheiros.executaMenu();
+                switch (this.menuFicheiros.getOpcao()){
+                    case 1: carregarFicheiroTexto();
+                                break;
+                    case 2: //carregarEstado()listarJogos();
+                                break;
+                    case 3: //guardarEstado()simulaJogo();
                                 break;
                 }
         }
@@ -359,6 +379,16 @@ public class FMView implements Observer{
         catch (NumberFormatException e) {
             System.out.println("Tem de ser introduzido um numero!");
         }
+        sc.close();
+    }
+
+    private void carregarFicheiroTexto(){
+        List<String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Insira o nome do ficheiro: ");
+        String fich = sc.next();
+        System.out.println(fich);
+        sc.close();
     }
 
     private List<String> lerStatJogador(int posicao) {
@@ -411,6 +441,5 @@ public class FMView implements Observer{
         sc.close();
         return args;
     }
-
 
 }

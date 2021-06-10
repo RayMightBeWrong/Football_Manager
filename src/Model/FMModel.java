@@ -323,7 +323,7 @@ public class FMModel extends Observable implements Serializable
             else {
                 Jogo j = new Jogo(eq1,eq2,0,0,0,data);
                 this.jogos.add(j);
-                valueFromModel = "Jogo criado com sucesso";
+                valueFromModel = "Jogo criado com sucesso\n";
             }
             this.setChanged();
             this.notifyObservers(valueFromModel);
