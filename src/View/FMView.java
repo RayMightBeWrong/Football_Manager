@@ -151,6 +151,9 @@ public class FMView implements Observer{
             }
             while (this.menuTatica.getOpcao() != 0);
         }
+        catch(IndexOutOfBoundsException iobe){
+            System.out.println("Esse ID de jogo nao existe");
+        }
         catch(InputMismatchException ime){
             System.out.println("Nao introduziu um ID (numero inteiro)!");
         }
@@ -320,12 +323,20 @@ public class FMView implements Observer{
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
         System.out.print("Digite o numero do jogador na equipa:");
-        args.add(sc.nextLine());
-        System.out.print("Escolha a posicao(0-GR,1-DEF,2-MED,3-AVA):");
-        args.add(sc.nextLine());
-        this.controller.setComando(12);
-        this.controller.processaComando(args);
-        System.out.println(valueToPrint);
+        try{
+            args.add(sc.nextLine());
+            System.out.print("Escolha a posicao(0-GR,1-DEF,2-MED,3-AVA):");
+            args.add(sc.nextLine());
+            this.controller.setComando(12);
+            this.controller.processaComando(args);
+            System.out.println(valueToPrint);
+        }
+        catch(NumberFormatException nfe){
+            System.out.println("Nao introduziu um numero");
+        }
+        catch(IndexOutOfBoundsException iobe){
+            System.out.println("Nao introduziu um dos numeros disponiveis");
+        }
         sc.close();
     }
     
@@ -343,11 +354,19 @@ public class FMView implements Observer{
         Scanner sc = new Scanner(System.in);
         args.add(jogo);
         args.add(nome);
-        System.out.print("Digite o numero do jogador a remover!");
-        args.add(sc.nextLine());
-        this.controller.setComando(14);
+        this.controller.setComando(13);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        System.out.print("Digite o numero do jogador a remover: ");
+        try{
+            args.add(sc.nextLine());
+            this.controller.setComando(14);
+            this.controller.processaComando(args);
+            System.out.println(valueToPrint);
+        }
+        catch (NumberFormatException nfe){
+            System.out.println("Nao introduziu um numero");
+        }
         sc.close();
     }
 

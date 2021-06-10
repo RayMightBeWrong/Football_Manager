@@ -494,7 +494,7 @@ public class FMModel extends Observable implements Serializable
     }
     }
     catch (IndexOutOfBoundsException ie) {
-        valueFromModel = ie.getMessage();
+        valueFromModel = "Nao existe esse ID de jogo";
     }
     this.setChanged();
     this.notifyObservers(valueFromModel);
