@@ -1,8 +1,13 @@
 package Controller;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.*;
+
+import javax.imageio.IIOException;
+
 import Model.*;
 
 /**
@@ -58,7 +63,8 @@ public class FMController extends Observable implements Observer
          case 16: imprimirEquipa(args);break;
          case 17: listarJogosSimulaveis();break;
          case 18: adicionarSubstituicao(args);break;
-         case 19: carregarFicheiroTexto(args);break;
+         case 19: carregaEstado(args);break;
+         case 20: guardarEstado(args);break;
      }
    }
 
@@ -202,13 +208,32 @@ private void adicionaJogador (List<String> args) {
         this.notifyObservers(valueFromModel);
     }
 
-    private void carregarFicheiroTexto(List<String> args){
+    private void carregaEstado(List <String> args){
         String fich = args.get(0);
         try{
-            this.model = Parser.parse(fich);
+            FMModel newModel = this.model.carregarEstado(fich);
+            if(newModel != null){
+                this.model = newModel;
+            }
         }
-        catch(Exception e){
-            valueFromModel = e.getMessage();
+        catch(IOException e){
+            valueFromModel = "Ficheiro nao encontrado";
+        }
+        catch(ClassNotFoundException e){
+            valueFromModel = "Erro de leitura";
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void guardarEstado(List <String> args){
+        String fich = args.get(0);
+        try{
+            this.model.guardarEstado(fich);
+            valueFromModel = fich + " gravado com sucesso!";
+        }
+        catch(IOException e){
+            valueFromModel = "Ficheiro nao encontrado";
         }
         this.setChanged();
         this.notifyObservers(valueFromModel);

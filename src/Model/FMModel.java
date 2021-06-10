@@ -509,20 +509,41 @@ public class FMModel extends Observable implements Serializable
     }
 
     public void guardarEstado (String nomeF) throws FileNotFoundException,IOException {
-        FileOutputStream fos = new FileOutputStream(nomeF);
-        ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(this);
-        oos.flush();
-        oos.close();
+        try{
+            FileOutputStream fos = new FileOutputStream(nomeF);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+            oos.writeObject(this);
+            oos.flush();
+            oos.close();
+        }
+        catch(IOException e){
+            valueFromModel = e.getMessage();
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
     }
 
-    public static FMModel carregarEstado (String nomeF) throws FileNotFoundException,ClassNotFoundException,IOException {
-        FileInputStream fis = new FileInputStream(nomeF);
-        ObjectInputStream ois = new ObjectInputStream(fis);
+    public FMModel carregarEstado (String nomeF) throws FileNotFoundException,ClassNotFoundException,IOException {
+        FMModel novo = null;
+        try{
+            FileInputStream fis = new FileInputStream(nomeF);
+            ObjectInputStream ois = new ObjectInputStream(fis);
 
-        FMModel novo = (FMModel) ois.readObject();
-
-        ois.close();
+            novo = (FMModel) ois.readObject();
+            ois.close();
+            valueFromModel = nomeF + " carregado com sucesso!";
+        }
+        catch(FileNotFoundException e){
+            novo = null;
+            valueFromModel = e.getMessage();
+            throw new FileNotFoundException("Ficheiro nao encontrado");
+        }
+        catch(ClassNotFoundException e){
+            novo = null;
+            valueFromModel = e.getMessage();
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
         return novo;
     }
 

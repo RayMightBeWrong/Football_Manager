@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Parser {
 
-    public static FMModel parse(String nomeF) throws LinhaIncorretaException, NumeroExistenteException, JogadorExistenteException, AtributoInvalidoException, EquipaNaoExistenteException {
+    public static FMModel parse(String nomeF) throws IOException, LinhaIncorretaException, NumeroExistenteException, JogadorExistenteException, AtributoInvalidoException, EquipaNaoExistenteException {
         List<String> linhas = lerFicheiro(nomeF);
         Map<String, Equipa> equipas = new HashMap<>(); //nome, equipa
         Map<String, Jogador> jogadores = new HashMap<>(); //numero, jogador
@@ -34,35 +34,35 @@ public class Parser {
                     j = GuardaRedes.parse(linhaPartida[1]);
                     jogadores.put(j.getNome(), j);
                     i ++;
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException("Linha incorreta."); //we need to insert the player into the team
                     ultima.addPlayer(j); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Defesa":
                     j = Defesa.parse(linhaPartida[1]);
                     jogadores.put(j.getNome(), j);
                     i ++;
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException("Linha incorreta."); //we need to insert the player into the team
                     ultima.addPlayer(j); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Medio":
                     j = Medio.parse(linhaPartida[1]);
                     jogadores.put(j.getNome(), j);
                     i ++;
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException("Linha incorreta."); //we need to insert the player into the team
                     ultima.addPlayer(j); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Lateral":
                     j = Lateral.parse(linhaPartida[1]);
                     jogadores.put(j.getNome(), j);
                     i ++;
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException("Linha incorreta."); //we need to insert the player into the team
                     ultima.addPlayer(j); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Avancado":
                     j = Avancado.parse(linhaPartida[1]);
                     jogadores.put(j.getNome(), j);
                     i ++;
-                    if (ultima == null) throw new LinhaIncorretaException(); //we need to insert the player into the team
+                    if (ultima == null) throw new LinhaIncorretaException("Linha incorreta."); //we need to insert the player into the team
                     ultima.addPlayer(j); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Jogo":
@@ -73,22 +73,26 @@ public class Parser {
                     }
                     catch (TamanhoEquipaException | JogadorNaoExistenteException e1)
                     {
-                        throw new LinhaIncorretaException();
+                        throw new LinhaIncorretaException("Linha incorreta.");
                     }
                     i = 0;
                     break;
                 default:
-                    throw new LinhaIncorretaException();
+                    throw new LinhaIncorretaException("Linha incorreta.");
             }
         }
         
         return new FMModel(jogadores, equipas, jogos);
     }
 
-    public static List<String> lerFicheiro(String nomeFich) {
+    public static List<String> lerFicheiro(String nomeFich) throws IOException{
         List<String> lines;
-        try { lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8); }
-        catch(IOException exc) { lines = new ArrayList<>(); }
+        try { 
+            lines = Files.readAllLines(Paths.get(nomeFich), StandardCharsets.UTF_8); 
+        }
+        catch(IOException exc) { 
+            throw new IOException("Ficheiro nao encontrado.");
+        }
         return lines;
     }
 }

@@ -19,7 +19,7 @@ public class FMView implements Observer{
         String[] opcoes3 = {"Criar Equipa","Listar jogadores de uma equipa","Listar Equipas","Calcular habilidade de uma equipa"};
         String[] opcoes4 = {"Criar jogo","Listar jogos","Simular jogo","Menu Tatica Equipa"};
         String[] opcoes5 = {"Listar titulares","Adicionar titular","Remover titular","Adicionar substituicao"};
-        String[] opcoes6 = {"Carregar Ficheiro de Texto","Carregar estado","Guardar estado"};
+        String[] opcoes6 = {"Carregar estado","Guardar estado"};
         this.menuInicial = new Menu(opcoes1);
         this.menuJogadores = new Menu(opcoes2);
         this.menuEquipas = new Menu(opcoes3);
@@ -107,11 +107,9 @@ public class FMView implements Observer{
         do {
             this.menuFicheiros.executaMenu();
                 switch (this.menuFicheiros.getOpcao()){
-                    case 1: carregarFicheiroTexto();
+                    case 1: carregarEstado();
                                 break;
-                    case 2: //carregarEstado()listarJogos();
-                                break;
-                    case 3: //guardarEstado()simulaJogo();
+                    case 2: guardarEstado();
                                 break;
                 }
         }
@@ -156,9 +154,6 @@ public class FMView implements Observer{
         catch(InputMismatchException ime){
             System.out.println("Nao introduziu um ID (numero inteiro)!");
         }
-   //     catch(IndexOutOfBoundsException iobe){
-    //        System.out.println("Nao existe esse ID!");
-   //     }
         sc.close();
     }
     
@@ -365,12 +360,12 @@ public class FMView implements Observer{
             this.controller.setComando(15);
             this.controller.processaComando(args);
             System.out.println(valueToPrint);
-            System.out.print("Digite o numero do jogador para entrar:");
+            System.out.print("Digite o numero do jogador para entrar: ");
             args.add(sc.nextLine());
             this.controller.setComando(13);
             this.controller.processaComando(args);
             System.out.println(valueToPrint);
-            System.out.print("Digite o numero do jogador para sair :");
+            System.out.print("Digite o numero do jogador para sair: ");
             args.add(sc.nextLine());
             this.controller.setComando(18);
             this.controller.processaComando(args);
@@ -379,15 +374,6 @@ public class FMView implements Observer{
         catch (NumberFormatException e) {
             System.out.println("Tem de ser introduzido um numero!");
         }
-        sc.close();
-    }
-
-    private void carregarFicheiroTexto(){
-        List<String> args = new ArrayList<>();
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Insira o nome do ficheiro: ");
-        String fich = sc.next();
-        System.out.println(fich);
         sc.close();
     }
 
@@ -440,6 +426,30 @@ public class FMView implements Observer{
         }
         sc.close();
         return args;
+    }
+
+    private void carregarEstado(){
+        List <String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("");
+        System.out.print("Digite o nome do ficheiro a ler: ");
+        args.add(sc.nextLine());
+        this.controller.setComando(19);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+        sc.close();
+    }
+
+    private void guardarEstado(){
+        List <String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("");
+        System.out.print("Digite o nome do ficheiro a guardar: ");
+        args.add(sc.nextLine());
+        this.controller.setComando(20);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+        sc.close();
     }
 
 }

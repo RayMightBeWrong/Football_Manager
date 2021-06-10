@@ -50,6 +50,7 @@ public class FootballManager
     private void run() {
 
         this.view.run();
+        
         try
         {
             this.model.escreverFicheiroTexto("output.txt");

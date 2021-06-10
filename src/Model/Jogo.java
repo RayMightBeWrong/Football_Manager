@@ -166,7 +166,7 @@ public class Jogo implements Serializable
         }
         return resultado;
     }
-    
+
     public void adicionaSubstituicao (int eq,int ent,int saida) {
         if (eq == 0) {
             if (this.subsCasa.size() < 3) {
