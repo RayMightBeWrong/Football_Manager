@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=Jogo
-comment0.text=\r\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ Jogo\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\r\n
+comment0.text=\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ Jogo\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\n
 comment1.params=
 comment1.target=Jogo()
-comment1.text=\r\n\ COnstrutor\ para\ objetos\ da\ classe\ Jogo\r\n
+comment1.text=\n\ COnstrutor\ para\ objetos\ da\ classe\ Jogo\n
 comment10.params=
 comment10.target=java.time.LocalDate\ getData()
 comment11.params=

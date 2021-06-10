@@ -54,6 +54,7 @@ public class FMController extends Observable implements Observer
          case 12: listarTitularesEquipa(args);break;
          case 13 : removerTitular(args);break;
          case 14: listarNaoTitulares (args);break;
+         case 15: imprimirEquipa(args);break;
      }
    }
 
@@ -108,9 +109,9 @@ private void adicionaJogador (List<String> args) {
     }
     
     private void listarTitularesEquipa(List<String> args) {
-            int id = Integer.parseInt(args.get(0));
-            int eq = Integer.parseInt(args.get(1));
-            this.model.listarTitularesEquipa(id,eq);
+        int id = Integer.parseInt(args.get(0));
+        int eq = Integer.parseInt(args.get(1));
+        this.model.listarTitularesEquipa(id,eq);
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }
@@ -163,6 +164,14 @@ private void adicionaJogador (List<String> args) {
     private void simulaJogo(List <String> args) {
         int id = Integer.parseInt(args.get(0));
         this.model.simulaJogo(id);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void imprimirEquipa(List<String> args){
+        int id = Integer.parseInt(args.get(0));
+        int equipa = Integer.parseInt(args.get(1));
+        this.model.imprimirEquipa(id, equipa);
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }

@@ -49,11 +49,11 @@ public class Menu
             op = sc.nextInt();
         }
         catch (InputMismatchException e) {
-            System.out.println("Nao escreveu um inteiro.Tente novamente");
+            System.out.println("Nao escreveu um inteiro. Tente novamente.");
             op = -1;
         }
         if (op < 0 ||  op > this.opcoes.size()) {
-            System.out.println("Opcao inválida .Tente de novo");
+            System.out.println("Opcao invalida. Tente de novo.");
            op = -1;
         }
         sc.close();

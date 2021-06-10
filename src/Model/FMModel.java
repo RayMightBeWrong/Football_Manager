@@ -102,6 +102,7 @@ public class FMModel extends Observable implements Serializable
                 this.valueFromModel = e.getMessage();
             }
             break;
+        default: this.valueFromModel = "Posição não é válida!";
     }
          this.setChanged();
          this.notifyObservers(valueFromModel);
@@ -151,8 +152,10 @@ public class FMModel extends Observable implements Serializable
 
      public void listarJogadoresFree () {
          StringBuilder sb = new StringBuilder();
-         for (Jogador j : this.jogadores.values())
-                sb.append(j.toString());
+         for (Jogador j : this.jogadores.values()){
+            sb.append("\n");
+            sb.append(j.toString());  
+        }
         valueFromModel = sb.toString();
         this.setChanged();
         this.notifyObservers(valueFromModel);
@@ -252,12 +255,12 @@ public class FMModel extends Observable implements Serializable
         else e = jogo.getVisitante();
         for (Map.Entry<Integer,List<Jogador>> s : e.getTatica().getTatica().entrySet()) {
                 int i = s.getKey();
-                if (i == 0) sb.append("Guarda-Redes: [ ");
-                if (i == 1) sb.append("Defesas: [ ");
-                if (i == 2) sb.append("Medios: [ ");
-                if (i == 3) sb.append("Avancados: [ ");
+                if (i == 0) sb.append("Guarda-Redes: [ | ");
+                if (i == 1) sb.append("Defesas: [ | ");
+                if (i == 2) sb.append("Medios: [ | ");
+                if (i == 3) sb.append("Avancados: [ | ");
                 for (Jogador j: s.getValue())
-                    sb.append(j.getNome()+", ");
+                    sb.append(j.getNumCamisola() + " - " + j.getNome() + " | ");
                 sb.append("];\n");
         }
         if (e.getTatica().getTitulares().values().size() == 0) valueFromModel = "Ainda nao foi escolhido nenhum titular";
@@ -276,7 +279,10 @@ public class FMModel extends Observable implements Serializable
         List<Jogador> l = e.getTatica().getTitulares().values().stream().collect(Collectors.toList());
         for (Jogador j: e.getJogadores())
             if (l.contains(j));
-            else sb.append(j.toString());
+            else{ 
+                sb.append(j.toString());
+                sb.append("\n");
+            }
         valueFromModel = sb.toString();
         this.setChanged();
         this.notifyObservers(valueFromModel);
@@ -328,10 +334,27 @@ public class FMModel extends Observable implements Serializable
         this.notifyObservers(valueFromModel);
     }
 
+    public void imprimirEquipa(int id, int equipa){
+        StringBuilder sb = new StringBuilder();
+        Jogo j = this.jogos.get(id - 1);
+        Equipa teamToPrint;
+        if(equipa == 0)
+            teamToPrint = j.getVisitado();
+        else
+            teamToPrint = j.getVisitante();
+
+        sb.append("\n============= ");
+        sb.append(teamToPrint.getName());
+        sb.append(" =============");
+        valueFromModel = sb.toString();
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
     public void simulaJogo(int id) {
         StringBuilder sb = new StringBuilder();
         Jogo jogo = this.jogos.get(id-1);
-        if (jogo.getMinutos() == Jogo.FIMJOGO) valueFromModel = "Jogo j� realizado.Resultado final :" + jogo.getGolosVisitado() + " - " + jogo.getGolosVisitante() + "\n";
+        if (jogo.getMinutos() == Jogo.FIMJOGO) valueFromModel = "Jogo ja realizado. Resultado final: " + jogo.getGolosVisitado() + " - " + jogo.getGolosVisitante() + "\n";
         else {
         if (jogo.getVisitado().getTatica().getTitulares().values().size() == 11 || jogo.getVisitante().getTatica().getTitulares().values().size() == 11) {
         int posse = new Random().nextInt(2); // Quem começa com a bola

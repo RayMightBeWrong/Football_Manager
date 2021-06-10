@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=Menu
-comment0.text=\r\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ Menu\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\r\n
+comment0.text=\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ Menu\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\n
 comment1.params=opcoes
 comment1.target=Menu(java.lang.String[])
 comment2.params=

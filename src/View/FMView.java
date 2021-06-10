@@ -1,6 +1,7 @@
 package View;
 import java.util.*;
 import Controller.*;
+import Model.AtributoInvalidoException;
 
 public class FMView implements Observer{
     private Menu menuInicial, menuJogadores,menuEquipas,menuJogos,menuTatica;
@@ -42,9 +43,11 @@ public class FMView implements Observer{
         while (this.menuInicial.getOpcao() != 0);
     }
 
-    private void runGestaoJogadores() {
+    private void runGestaoJogadores(){
+        System.out.println();
         do {
             this.menuJogadores.executaMenu();
+            System.out.println();
                 switch (this.menuJogadores.getOpcao()){
                     case 1: criarJogador();
                                 break;
@@ -58,6 +61,7 @@ public class FMView implements Observer{
     }
 
     private void runGestaoEquipa() {
+        System.out.println();
         do {
             this.menuEquipas.executaMenu();
                 switch (this.menuEquipas.getOpcao()){
@@ -75,6 +79,7 @@ public class FMView implements Observer{
     }
 
     private void runGestaoJogo() {
+        System.out.println();
         do {
             this.menuJogos.executaMenu();
                 switch (this.menuJogos.getOpcao()){
@@ -93,44 +98,75 @@ public class FMView implements Observer{
 
     
     private void runGestaoTatica() {
+        List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o ID do jogo que pretende alterar:");
-        String jogo = Integer.toString(sc.nextInt());
-        System.out.print("Editar a equipa de casa(0) ou a equipa visitante (1):");
-        String equipa = Integer.toString(sc.nextInt());
-        do {
-            this.menuTatica.executaMenu();
-            switch (this.menuTatica.getOpcao()){
-                case 1: listarTitulares(jogo,equipa);
-                break;
-                case 2: addJogadorTitular(jogo,equipa);
-                break;
-                case 3: removerTitular(jogo,equipa);
-                break;
+        System.out.print("Digite o ID do jogo que pretende alterar: ");
+        try{
+            String jogo = Integer.toString(sc.nextInt());
+            args.add(jogo);
+            System.out.print("Editar a equipa de casa(0) ou a equipa visitante (1): ");
+            int equipaI = sc.nextInt();
+            String equipa = Integer.toString(equipaI);
+            while(equipaI != 0 && equipaI != 1){
+                System.out.println("\nResponda so com 0 ou 1!");
+                System.out.print("Editar a equipa de casa(0) ou a equipa visitante (1): ");
+                equipaI = sc.nextInt();
+                equipa = Integer.toString(equipaI);
             }
+            args.add(equipa);
+            this.controller.setComando(15);
+            this.controller.processaComando(args);
+            System.out.println(valueToPrint);
+            do {
+                this.menuTatica.executaMenu();
+                switch (this.menuTatica.getOpcao()){
+                    case 1: listarTitulares(jogo,equipa);
+                    break;
+                    case 2: addJogadorTitular(jogo,equipa);
+                    break;
+                    case 3: removerTitular(jogo,equipa);
+                    break;
+                }
+            }
+            while (this.menuTatica.getOpcao() != 0);
         }
-        while (this.menuTatica.getOpcao() != 0);
+        catch(InputMismatchException ime){
+            System.out.println("Nao introduziu um ID (numero inteiro)!");
+        }
+   //     catch(IndexOutOfBoundsException iobe){
+    //        System.out.println("Nao existe esse ID!");
+   //     }
         sc.close();
     }
     
     
     
-    private void criarJogador() {
+    private void criarJogador(){
         Scanner sc = new Scanner(System.in);
-        System.out.println("Escolha a posicao do jogador:");
+        System.out.println("=================================");
         System.out.println("1 - GuardaRedes");
         System.out.println("2 - Defesa");
         System.out.println("3 - Lateral");
         System.out.println("4 - Medio");
         System.out.println("5 - Avancado");
-        int posicao = sc.nextInt();
-        List<String> args = lerStatJogador(posicao);
-        this.controller.setComando(1);
-        this.controller.processaComando(args);
-        System.out.println(valueToPrint);
+        System.out.print("Escolha a posicao do jogador: ");
+        int posicao = -1;
+        try{
+            posicao = sc.nextInt();
+            if(posicao > 0 && posicao < 6){
+                List<String> args = lerStatJogador(posicao);
+                this.controller.setComando(1);
+                this.controller.processaComando(args);
+                System.out.println(valueToPrint);
+            }
+            else
+                System.out.println("Posicao invalida!");
+        }
+        catch (InputMismatchException ime){
+            System.out.println("Nao introduziu um numero");
+        }
         sc.close();
     }
-    
     
     
     private void listarJogadores() {
@@ -143,22 +179,27 @@ public class FMView implements Observer{
     private void adicionarJogadorEquipa() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome do jogador:");
+        System.out.print("Digite o nome do jogador: ");
         args.add(sc.nextLine());
-        System.out.print("Digite o nome da equipa:");
+        System.out.print("Digite o nome da equipa: ");
         args.add(sc.nextLine());
-        System.out.print("Digite o numero do jogador na equipa:");
-        args.add(sc.nextLine());
-        this.controller.setComando(3);
-        this.controller.processaComando(args);
-        System.out.println(valueToPrint);
+        try{
+            System.out.print("Digite o numero do jogador na equipa: ");
+            args.add(sc.nextLine());
+            this.controller.setComando(3);
+            this.controller.processaComando(args);
+            System.out.println(valueToPrint);
+        }
+        catch (NumberFormatException nfe){
+            System.out.println("Nao introduziu um numero!");
+        }
         sc.close();
     }
     
     private void adicionarEquipa() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome da equipa:");
+        System.out.print("Digite o nome da equipa: ");
         args.add(sc.nextLine());
         this.controller.setComando(4);
         this.controller.processaComando(args);
@@ -169,8 +210,9 @@ public class FMView implements Observer{
     private void listarEquipa() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome da equipa:");
+        System.out.print("Digite o nome da equipa: ");
         args.add(sc.nextLine());
+        System.out.println("");
         this.controller.setComando(5);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
@@ -178,6 +220,7 @@ public class FMView implements Observer{
     }
 
     private void listarEquipas() {
+        System.out.println("");
         this.controller.setComando(6);
         this.controller.processaComando(new ArrayList<>());
         System.out.println(valueToPrint);
@@ -186,21 +229,23 @@ public class FMView implements Observer{
     private void calcularHabilidadeEquipa () {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome da equipa:");
+        System.out.print("Digite o nome da equipa: ");
         args.add(sc.nextLine());
         this.controller.setComando(7);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
+        sc.close();
     }
     
     private void criarJogo() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome da equipa de casa:");
+        System.out.println("");
+        System.out.print("Digite o nome da equipa de casa: ");
         args.add(sc.nextLine());
-        System.out.print("Digite o nome da equipa de fora:");
+        System.out.print("Digite o nome da equipa de fora: ");
         args.add(sc.nextLine());
-        System.out.print("Digite a data do jogo (AA-MM-DD):");
+        System.out.print("Digite a data do jogo (AAAA-MM-DD): ");
         args.add(sc.nextLine());
         this.controller.setComando(8);
         this.controller.processaComando(args);
@@ -209,6 +254,7 @@ public class FMView implements Observer{
     }
     
     private void listarJogos() {
+        System.out.println("");
         this.controller.setComando(9);
         this.controller.processaComando(new ArrayList<>());
         System.out.println(valueToPrint);
@@ -217,11 +263,19 @@ public class FMView implements Observer{
     private void simulaJogo() {
         List <String> args = new ArrayList<>();
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o ID do jogo para simular:");
-        args.add(Integer.toString(sc.nextInt()));
-        this.controller.setComando(10);
-        this.controller.processaComando(args);
-        System.out.println(valueToPrint);
+        System.out.print("Digite o ID do jogo para simular: ");
+        try{
+            args.add(Integer.toString(sc.nextInt()));
+            this.controller.setComando(10);
+            this.controller.processaComando(args);
+            System.out.println(valueToPrint);
+        }
+        catch (InputMismatchException ime){
+            System.out.println("Nao introduziu um ID (numero inteiro)!");
+        }
+    //    catch (IndexOutOfBoundsException iobe){
+      //      System.out.println("Nao existe esse ID!");
+        //}
         sc.close();
     }
 
@@ -272,46 +326,46 @@ public class FMView implements Observer{
         List<String> args = new ArrayList<>();
         args.add(Integer.toString(posicao));
         Scanner sc = new Scanner(System.in);
-        System.out.print("Insira o nome do Jogador:");
+        System.out.print("Insira o nome do Jogador: ");
         args.add(sc.nextLine());
-        System.out.print("Insira a altura do jogador:");
+        System.out.print("Insira a altura do jogador (em cm): ");
         args.add(sc.next());
-        System.out.print("Insira a velocidade do jogador:");
+        System.out.print("Insira a velocidade do jogador: ");
         args.add(sc.next());
-        System.out.print("Insira a resistencia do jogador:");
+        System.out.print("Insira a resistencia do jogador: ");
         args.add(sc.next());
-        System.out.print("Insira a destreza do jogador:");
+        System.out.print("Insira a destreza do jogador: ");
         args.add(sc.next());
-        System.out.print("Insira a impulsao do jogador:");
+        System.out.print("Insira a impulsao do jogador: ");
         args.add(sc.next());
-        System.out.print("Insira o jogo de cabeca do jogador:");
+        System.out.print("Insira o jogo de cabeca do jogador: ");
         args.add(sc.next());
-        System.out.print("Insira o remate do jogador:");
+        System.out.print("Insira o remate do jogador: ");
         args.add(sc.next());
-        System.out.print("Insira o passe do jogador:");
+        System.out.print("Insira o passe do jogador: ");
         args.add(sc.next());
         switch (posicao) {
-                case 1: System.out.print("Insira a elasticidade do jogador:");
+                case 1: System.out.print("Insira a elasticidade do jogador: ");
                             args.add(sc.next());
-                            System.out.print("Insira os reflexos do jogador:");
-                            args.add(sc.next());
-                            break;
-                case 2: System.out.print("Insira o desarme do jogador:");
-                            args.add(sc.next());
-                            System.out.print("Insira o posicionamento do jogador:");
+                            System.out.print("Insira os reflexos do jogador: ");
                             args.add(sc.next());
                             break;
-                            case 3: System.out.print("Insira os cruzamentos do jogador:");
+                case 2: System.out.print("Insira o desarme do jogador: ");
                             args.add(sc.next());
-                            System.out.print("Insira o posicionamento do jogador:");
+                            System.out.print("Insira o posicionamento do jogador: ");
                             args.add(sc.next());
                             break;
-                case 4:System.out.print("Insira a recuperacao de bola do jogador:");
+                            case 3: System.out.print("Insira os cruzamentos do jogador: ");
                             args.add(sc.next());
-                            System.out.print("Insira a criatividade do jogador:");
+                            System.out.print("Insira o posicionamento do jogador: ");
+                            args.add(sc.next());
+                            break;
+                case 4:System.out.print("Insira a recuperacao de bola do jogador: ");
+                            args.add(sc.next());
+                            System.out.print("Insira a criatividade do jogador: ");
                              args.add(sc.next());
                             break;
-                case 5:System.out.print("Insira a compustura do jogador:");
+                case 5:System.out.print("Insira a compustura do jogador: ");
                             args.add(sc.next());
                             break;
         }
