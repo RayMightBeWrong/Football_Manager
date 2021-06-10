@@ -166,12 +166,30 @@ public class Jogo implements Serializable
         }
         return resultado;
     }
+    
+    public void adicionaSubstituicao (int eq,int ent,int saida) {
+        if (eq == 0) {
+            if (this.subsCasa.size() < 3) {
+                Pair<Integer,Integer> sub = new Pair(ent,saida);
+                this.subsCasa.add(sub);
+            }
+        }
+        else {
+            if (this.subsFora.size() < 3) {
+                Pair<Integer,Integer> sub = new Pair(ent,saida);
+                this.subsFora.add(sub);
+            }
+        }
+    }
 
-    public void aplicaSubs (int ind)  throws JogadorNaoTitularException,JogadorNaoExistenteException,TamanhoEquipaException,JogadorExistenteException {
+    public void aplicaSubsCasa (int ind)  throws JogadorNaoTitularException,JogadorNaoExistenteException,TamanhoEquipaException,JogadorExistenteException {
         Pair<Integer,Integer> subc = this.getSubsCasa().get(ind);
-        Pair<Integer,Integer> subf = this.getSubsFora().get(ind);
         this.visitado.substituicao(subc.getKey(),subc.getValue());
-        this.visitante.substituicao(subf.getKey(),subf.getValue());
+    }
+
+    public void aplicaSubsFora (int ind) throws JogadorNaoTitularException,JogadorNaoExistenteException,TamanhoEquipaException,JogadorExistenteException {
+        Pair<Integer,Integer> subsF = this.getSubsFora().get(ind);
+        this.visitante.substituicao(subsF.getKey(),subsF.getValue());
     }
 
     public static Jogo parse(String input, Map<String, Equipa> equipas) throws EquipaNaoExistenteException, JogadorExistenteException,TamanhoEquipaException, JogadorNaoExistenteException{

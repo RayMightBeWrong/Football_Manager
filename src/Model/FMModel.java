@@ -161,22 +161,21 @@ public class FMModel extends Observable implements Serializable
         this.notifyObservers(valueFromModel);
      }
 
-     public double calculaHabilidadeJogador(String nome)  throws JogadorNaoExistenteException {
-        if (this.jogadores.containsKey(nome)) {
-            Jogador j = this.jogadores.get(nome);
-            valueFromModel = "Habilidade do " + nome + " : " + j.habilidadeJogador();
-            this.setChanged();
-            this.notifyObservers(valueFromModel);
-            return j.habilidadeJogador();
-         }
-        else throw new JogadorNaoExistenteException("Jogador nao existe!");
-     }
-
      public void listarEquipa(String nome) {
         if (this.equipas.containsKey(nome))
             valueFromModel = this.equipas.get(nome).toString();
         else valueFromModel = "Equipa nao existente!";
         this.setChanged();
+        this.notifyObservers(valueFromModel);
+     }
+
+     public void calculaHabilidadeJogador (String nome) {
+         if (this.jogadores.containsKey(nome)) {
+             Jogador j = this.jogadores.get(nome);
+             valueFromModel = "A habilidade do jogador " + nome + " e " + j.habilidadeJogador();
+         }
+         else valueFromModel = "Jogador inexistente!";
+         this.setChanged();
         this.notifyObservers(valueFromModel);
      }
 
@@ -189,10 +188,13 @@ public class FMModel extends Observable implements Serializable
             if (this.equipas.containsKey(nomeE)) {
                 try
                 {
-                    j.setNumCamisola(numero);
-                    this.equipas.get(nomeE).addPlayer(j);
-                    this.jogadores.remove(nomeJ);
-                    valueFromModel = "Sucesso ao adicionar o jogador a equipa";
+                    List<String> l = j.getHistorialEquipas();
+                    if (l.size() > 0) {
+                        this.equipas.get(l.get(l.size()-1)).removePlayer(j);
+                        j.setNumCamisola(numero);
+                        this.equipas.get(nomeE).addPlayer(j);
+                        valueFromModel = "Sucesso ao adicionar o jogador a equipa";
+                    }
                 }
                 catch (NumeroExistenteException | JogadorExistenteException | AtributoInvalidoException e)
                 {
@@ -304,6 +306,14 @@ public class FMModel extends Observable implements Serializable
             this.setChanged();
             this.notifyObservers(valueFromModel);
     }
+
+    public void adicionarSubstituicao (int id,int eq,int ent,int saida) {
+        Jogo jogo = this.jogos.get(id-1);
+        jogo.adicionaSubstituicao(eq,ent,saida);
+        valueFromModel = "Substituicao adicionada com sucesso";
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
     
     public void addJogo (String e1,String e2,LocalDate data) throws EquipaNaoExistenteException{
         if (this.equipas.containsKey(e1) && this.equipas.containsKey(e2)) {
@@ -325,10 +335,26 @@ public class FMModel extends Observable implements Serializable
         int i = 1;
         StringBuilder sb = new StringBuilder();
         for (Jogo j: this.jogos) {
-            sb.append("ID:").append(i).append(", Visitado -> ").append(j.getVisitado().getName()).append(", Visitante -> ").append(j.getVisitante().getName()).append("\n");
+            sb.append("ID:").append(i).append(", Visitado -> ").append(j.getVisitado().getName()).append(", Visitante -> ").append(j.getVisitante().getName())
+                .append("; Minuto : ").append(j.getMinutos()).append("; Resultado : ").append(j.getGolosVisitado()).append(" - ").append(j.getGolosVisitante()).append("\n");
             i++;
         }
         if (this.jogos.size() < 1) valueFromModel = "Ainda nao se adicionaram os jogos";
+        else valueFromModel = sb.toString();
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    public void listarJogosSimulaveis() {
+        int i = 1;
+        StringBuilder sb = new StringBuilder();
+        for (Jogo j: this.jogos) {
+            if (j.getMinutos() < 90) 
+                sb.append("ID:").append(i).append(", Visitado -> ").append(j.getVisitado().getName()).append(", Visitante -> ").append(j.getVisitante().getName())
+                    .append("; Minuto : ").append(j.getMinutos()).append("; Resultado : ").append(j.getGolosVisitado()).append(" - ").append(j.getGolosVisitante()).append("\n");
+            i++;
+        }
+        if (this.jogos.stream().filter(j->j.getMinutos() < 90).count() < 1) valueFromModel = "Nao ha jogos possiveis de simular!";
         else valueFromModel = sb.toString();
         this.setChanged();
         this.notifyObservers(valueFromModel);
@@ -353,12 +379,14 @@ public class FMModel extends Observable implements Serializable
 
     public void simulaJogo(int id) {
         StringBuilder sb = new StringBuilder();
+        try {
         Jogo jogo = this.jogos.get(id-1);
         if (jogo.getMinutos() == Jogo.FIMJOGO) valueFromModel = "Jogo ja realizado. Resultado final: " + jogo.getGolosVisitado() + " - " + jogo.getGolosVisitante() + "\n";
         else {
-        if (jogo.getVisitado().getTatica().getTitulares().values().size() == 11 || jogo.getVisitante().getTatica().getTitulares().values().size() == 11) {
+        if (jogo.getVisitado().getTatica().getTitulares().values().size() == 11 &&  jogo.getVisitante().getTatica().getTitulares().values().size() == 11 ) {
         int posse = new Random().nextInt(2); // Quem começa com a bola
         sb.append("O jogo vai comecar!\n");
+        Pair <Integer,Integer> subc = new Pair(0,0),subf = new Pair(0,0);
         for (;jogo.getMinutos() < Jogo.INTERVALO;jogo.setMinutos(jogo.getMinutos() + 1)){
             if (posse == 0) {
                 float ataque = jogo.getVisitado().calculaHabilidadeAtaque();
@@ -394,41 +422,37 @@ public class FMModel extends Observable implements Serializable
             }
         }
         sb.append("Intervalo! Placard :").append(jogo.getGolosVisitado()).append(" - ").append(jogo.getGolosVisitante()).append("\n");
-        Pair<Integer,Integer> subc = jogo.getSubsCasa().get(0);Pair<Integer,Integer> subf = jogo.getSubsFora().get(0);
         try
         {
-            jogo.aplicaSubs(0);
+            if (jogo.getSubsCasa().size() > 0 ) { subc = jogo.getSubsCasa().get(0); jogo.aplicaSubsCasa(0); sb.append("Substituicao na equipa da casa : Entra o numero " + subc.getKey()).append(" e sai o numero ").append(subc.getValue()).append("\n");}
+            if (jogo.getSubsFora().size() > 0 ) { subf = jogo.getSubsFora().get(0);jogo.aplicaSubsFora(0);sb.append("Substituicao na equipa de fora : Entra o numero " + subf.getKey()).append(" e sai o numero ").append(subf.getValue()).append("\n");}
         }
         catch (Exception e1)
         {
             sb.append(e1.getMessage());
         }
-        sb.append("Substituicao na equipa da casa : Entra o numero " + subc.getKey()).append(" e sai o numero ").append(subc.getValue()).append("\n");
-        sb.append("Substituicao na equipa de fora : Entra o numero " + subf.getKey()).append(" e sai o numero ").append(subf.getValue()).append("\n");
         for (;jogo.getMinutos() < Jogo.FIMJOGO;jogo.setMinutos(jogo.getMinutos() + 1)){
             if (jogo.getMinutos() == 60) {
                 try
                 {
-                    jogo.aplicaSubs(1);subc = jogo.getSubsCasa().get(1); subf = jogo.getSubsFora().get(1);
+                    if (jogo.getSubsCasa().size() > 1 ) { subc = jogo.getSubsCasa().get(1); jogo.aplicaSubsCasa(1);sb.append("Substituicao na equipa da casa : Entra o numero " + subc.getKey()).append(" e sai o numero ").append(subc.getValue()).append("\n");}
+                    if (jogo.getSubsFora().size() > 1 ) {subf = jogo.getSubsFora().get(1);jogo.aplicaSubsFora(1); sb.append("Substituicao na equipa de fora : Entra o numero " + subf.getKey()).append(" e sai o numero ").append(subf.getValue()).append("\n");}  
                 }
                 catch (Exception e2)
                 {
                     sb.append(e2.getMessage());
                 }
-                sb.append("Substituicao na equipa da casa : Entra o numero " + subc.getKey()).append(" e sai o numero ").append(subc.getValue()).append("\n");
-                sb.append("Substituicao na equipa de fora : Entra o numero " + subf.getKey()).append(" e sai o numero ").append(subf.getValue()).append("\n");
             }
             if (jogo.getMinutos() == 75) {
                 try
                 {
-                    jogo.aplicaSubs(2);subc = jogo.getSubsCasa().get(2); subf = jogo.getSubsFora().get(2);
+                    if (jogo.getSubsCasa().size() > 2 ) {subc = jogo.getSubsCasa().get(2);jogo.aplicaSubsCasa(2);sb.append("Substituicao na equipa da casa : Entra o numero " + subc.getKey()).append(" e sai o numero ").append(subc.getValue()).append("\n");}
+                    if (jogo.getSubsFora().size() > 2 ) {subf = jogo.getSubsFora().get(2);jogo.aplicaSubsFora(2);sb.append("Substituicao na equipa de fora : Entra o numero " + subf.getKey()).append(" e sai o numero ").append(subf.getValue()).append("\n");}
                 }
                 catch (Exception e3)
                 {
                     sb.append(e3.getMessage());
                 } 
-                sb.append("Substituicao na equipa da casa : Entra o numero " + subc.getKey()).append(" e sai o numero ").append(subc.getValue()).append("\n");
-                sb.append("Substituicao na equipa de fora : Entra o numero " + subf.getKey()).append(" e sai o numero ").append(subf.getValue()).append("\n");
             }
             if (posse == 0) {
                 float ataque = jogo.getVisitado().calculaHabilidadeAtaque();
@@ -453,7 +477,7 @@ public class FMModel extends Observable implements Serializable
                 switch (resultado) {
                     case 0 : sb.append("Minuto ").append(jogo.getMinutos()).append("- A equipa de fora mantem a bola!\n");
                                 break;
-                    case 1: jogo.setGoloVisitado(jogo.getGolosVisitado() + 1);
+                    case 1: jogo.setGoloVisitante(jogo.getGolosVisitante() + 1);
                                 sb.append("Minuto ").append(jogo.getMinutos()).append("- A equipa visitante marcou golo! Placard :").append(jogo.getGolosVisitado()).append(" - ").append(jogo.getGolosVisitante()).append("\n");
                                 posse--;
                                 break;
@@ -466,7 +490,11 @@ public class FMModel extends Observable implements Serializable
         sb.append("Acabou o jogo!! Resultado final :").append(jogo.getGolosVisitado()).append(" - ").append(jogo.getGolosVisitante()).append("\n");
         valueFromModel = sb.toString();
         }
-        else valueFromModel = "Uma das equipas nao tem os 11 titulares";
+        else valueFromModel = "Uma das equipas nao tem os 11 titulares ou nao definiu as substituicoes";
+    }
+    }
+    catch (IndexOutOfBoundsException ie) {
+        valueFromModel = ie.getMessage();
     }
     this.setChanged();
     this.notifyObservers(valueFromModel);

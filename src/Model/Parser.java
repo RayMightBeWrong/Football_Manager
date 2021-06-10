@@ -66,10 +66,9 @@ public class Parser {
                     ultima.addPlayer(j); //if no team was parsed previously, file is not well-formed
                     break;
                 case "Jogo":
-                    Map<String, Equipa> tmp = (HashMap<String, Equipa>) equipas.values().stream().collect(Collectors.toMap(x->x.getName(),x->x.clone()));
                     try
                     {
-                        Jogo jo = Jogo.parse(linhaPartida[1], tmp);
+                        Jogo jo = Jogo.parse(linhaPartida[1], equipas);
                         jogos.add(jo);
                     }
                     catch (TamanhoEquipaException | JogadorNaoExistenteException e1)

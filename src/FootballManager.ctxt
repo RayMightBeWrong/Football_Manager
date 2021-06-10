@@ -1,11 +1,11 @@
 #BlueJ class context
 comment0.target=FootballManager
-comment0.text=\n\ Escreva\ a\ descri\u00C3\u00A7\u00C3\u00A3o\ da\ classe\ FootballManager\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00C3\u00BAmero\ de\ vers\u00C3\u00A3o\ ou\ data)\n
+comment0.text=\r\n\ Escreva\ a\ descri\u00C3\u00A7\u00C3\u00A3o\ da\ classe\ FootballManager\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00C3\u00BAmero\ de\ vers\u00C3\u00A3o\ ou\ data)\r\n
 comment1.params=args
 comment1.target=void\ main(java.lang.String[])
 comment2.params=
 comment2.target=FootballManager()
-comment2.text=\n\ COnstrutor\ para\ objetos\ da\ classe\ FootballManager\n
+comment2.text=\r\n\ COnstrutor\ para\ objetos\ da\ classe\ FootballManager\r\n
 comment3.params=
 comment3.target=void\ run()
 numComments=4

@@ -134,11 +134,19 @@ public class Equipa implements Serializable{
     }
 
     public void adicionaTitulares (List<Integer> jogadores) throws JogadorExistenteException,TamanhoEquipaException, JogadorNaoExistenteException{
-        for (Integer j : jogadores) {
-            if (this.equipa.containsKey(j)) {
-                    this.addTitular(j, defineNumPosition(this.equipa.get(j)));
+        this.tatica.resetFormacao();
+        Map<Integer,Jogador> titulares = jogadores.stream().collect(Collectors.toMap(j->j,j->this.equipa.get(j).clone()));
+        Map<Integer,List<Jogador>> tatica = new HashMap<>();
+        for (Jogador j: titulares.values()) {
+            if (tatica.containsKey(this.defineNumPosition(j)))
+                tatica.get(this.defineNumPosition(j)).add(j.clone());
+            else {
+                tatica.put(this.defineNumPosition(j), new ArrayList<>());
+                tatica.get(this.defineNumPosition(j)).add(j.clone());
             }
         }
+        this.tatica.setTitulares(titulares);
+        this.tatica.setTatica(tatica);
         this.tatica.calculaFormacao();
     }
     

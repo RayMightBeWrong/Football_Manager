@@ -42,19 +42,22 @@ public class FMController extends Observable implements Observer
      switch (this.getComando()) {
          case 1 : adicionaJogador(args);break;
          case 2: listarJogadoresFree();break;
-         case 3: adicionarJogadorEquipa(args);break;
-         case 4: adicionarEquipa(args.get(0));break;
-         case 5: listarEquipa(args.get(0));break;
-         case 6: listarEquipas();break;
-         case 7: calcularHabilidadeEquipa(args.get(0));break;
-         case 8 : criarJogo(args);break;
-         case 9 : listarJogos();break;
-         case 10: simulaJogo(args);break;
-         case 11: adicionarJogadorTitular(args);break;
-         case 12: listarTitularesEquipa(args);break;
-         case 13 : removerTitular(args);break;
-         case 14: listarNaoTitulares (args);break;
-         case 15: imprimirEquipa(args);break;
+         case 3: moverJogadorEquipa(args);break;
+         case 4 : calcularHabilidadeJogador(args.get(0));break;
+         case 5: adicionarEquipa(args.get(0));break;
+         case 6: listarEquipa(args.get(0));break;
+         case 7: listarEquipas();break;
+         case 8: calcularHabilidadeEquipa(args.get(0));break;
+         case 9 : criarJogo(args);break;
+         case 10 : listarJogos();break;
+         case 11: simulaJogo(args);break;
+         case 12: adicionarJogadorTitular(args);break;
+         case 13: listarTitularesEquipa(args);break;
+         case 14 : removerTitular(args);break;
+         case 15: listarNaoTitulares (args);break;
+         case 16: imprimirEquipa(args);break;
+         case 17: listarJogosSimulaveis();break;
+         case 18: adicionarSubstituicao(args);break;
      }
    }
 
@@ -72,7 +75,13 @@ private void adicionaJogador (List<String> args) {
         this.notifyObservers(valueFromModel);
     }
 
-    private void adicionarJogadorEquipa(List<String> args) {
+    private void calcularHabilidadeJogador(String nome) {
+        this.model.calculaHabilidadeJogador(nome);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void moverJogadorEquipa(List<String> args) {
         this.model.addJogadorEquipa(args);
         this.setChanged();
         this.notifyObservers(valueFromModel);
@@ -172,6 +181,22 @@ private void adicionaJogador (List<String> args) {
         int id = Integer.parseInt(args.get(0));
         int equipa = Integer.parseInt(args.get(1));
         this.model.imprimirEquipa(id, equipa);
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void listarJogosSimulaveis() {
+        this.model.listarJogosSimulaveis();
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void adicionarSubstituicao (List <String> args) {
+        int id = Integer.parseInt(args.get(0));
+        int equipa = Integer.parseInt(args.get(1));
+        int entrada = Integer.parseInt(args.get(2));
+        int saida = Integer.parseInt(args.get(3));
+        this.model.adicionarSubstituicao(id,equipa,entrada,saida);        
         this.setChanged();
         this.notifyObservers(valueFromModel);
     }

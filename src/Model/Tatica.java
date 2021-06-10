@@ -134,7 +134,6 @@ public class Tatica implements Serializable{
 
     private int getPosicaoJogador (int j) {
         if (this.titulares.containsKey(j)) {
-            this.titulares.remove(j);
             for (Map.Entry<Integer,List<Jogador> > l: this.tatica.entrySet()) {
                     Iterator<Jogador> it = l.getValue().iterator();
                     while (it.hasNext()) {
@@ -156,8 +155,13 @@ public class Tatica implements Serializable{
                         if (j.getNumCamisola() == num) it.remove();
                 }
             }
+            if (this.titulares.size() < 11) this.add = true;
         }
-        else throw new JogadorNaoTitularException("Jogador não existe nos titulares!");
+        else throw new JogadorNaoTitularException("Jogador nao existe nos titulares!");
     }
 
+    public void resetFormacao () {
+        int[] formacao = {1,10,10,10};
+        this.setFormacao(formacao);
+    }
 }
