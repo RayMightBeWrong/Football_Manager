@@ -1,9 +1,9 @@
 #BlueJ class context
 comment0.target=FMModel
-comment0.text=\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ FootballManager\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\n
+comment0.text=\r\n\ Escreva\ a\ descri\u00EF\u00BF\u00BD\u00EF\u00BF\u00BDo\ da\ classe\ FootballManager\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00EF\u00BF\u00BDmero\ de\ vers\u00EF\u00BF\u00BDo\ ou\ data)\r\n
 comment1.params=
 comment1.target=FMModel()
-comment1.text=\n\ COnstrutor\ para\ objetos\ da\ classe\ FMModel\n
+comment1.text=\r\n\ COnstrutor\ para\ objetos\ da\ classe\ FMModel\r\n
 comment10.params=nome
 comment10.target=Jogador\ getJogador(java.lang.String)
 comment11.params=nome

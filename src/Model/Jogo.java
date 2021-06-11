@@ -230,11 +230,19 @@ public class Jogo implements Serializable
 
     public String toString () {
         StringBuilder sb = new StringBuilder();
-        sb.append(this.dataJogo.toString());
-        sb.append("Equipa da casa:").append(this.visitado.getName()).append("\n");
-        sb.append("Equipa de fora:").append(this.visitante.getName()).append("\n");
-        sb.append("Placard:").append(this.golosVisitado).append(" - ").append(this.golosVisitante).append("\n");
-        sb.append("Minuto:").append(this.getMinutos()).append("\n");
+        sb.append(this.getClass().getSimpleName());
+        sb.append(":").append(this.visitado.getName()).append(",");
+        sb.append(this.visitante.getName()).append(",");
+        sb.append(this.golosVisitado).append(",").append(this.golosVisitante).append(",");
+        sb.append(this.dataJogo.toString()).append(",");
+        for (Jogador j: this.getVisitado().getTatica().getTitulares().values())
+            sb.append(j.getNumCamisola()).append(",");
+        for (Pair<Integer,Integer> p : this.subsCasa) 
+            sb.append(p.getKey()).append("->").append(p.getValue()).append(",");
+        for (Jogador j: this.getVisitante().getTatica().getTitulares().values())
+            sb.append(j.getNumCamisola()).append(",");
+        for (Pair<Integer,Integer> p : this.subsFora) 
+            sb.append(p.getKey()).append("->").append(p.getValue()).append(",");
         return sb.toString();
     }
 

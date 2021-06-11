@@ -193,7 +193,12 @@ public class FMModel extends Observable implements Serializable
                         this.equipas.get(l.get(l.size()-1)).removePlayer(j);
                         j.setNumCamisola(numero);
                         this.equipas.get(nomeE).addPlayer(j);
-                        valueFromModel = "Sucesso ao adicionar o jogador a equipa";
+                        valueFromModel = "Sucesso ao adicionar o jogador" + nomeJ + " a equipa " + nomeE;
+                    }
+                    else {
+                        j.setNumCamisola(numero);
+                        this.equipas.get(nomeE).addPlayer(j);
+                        valueFromModel = "Sucesso ao adicionar o jogador" + nomeJ + " a equipa " + nomeE;
                     }
                 }
                 catch (NumeroExistenteException | JogadorExistenteException | AtributoInvalidoException e)
@@ -503,7 +508,9 @@ public class FMModel extends Observable implements Serializable
     public void escreverFicheiroTexto (String nomeF) throws FileNotFoundException {
         PrintWriter pw = new PrintWriter(nomeF);
         for (Equipa e:this.equipas.values())
-            pw.println(e.toString());
+            pw.print(e.toString());
+        for (Jogo j: this.jogos)
+            pw.println(j.toString());
         pw.flush();
         pw.close();
     }
@@ -524,7 +531,7 @@ public class FMModel extends Observable implements Serializable
     }
 
     public FMModel carregarEstado (String nomeF) throws FileNotFoundException,ClassNotFoundException,IOException {
-        FMModel novo = null;
+        FMModel novo = new FMModel();
         try{
             FileInputStream fis = new FileInputStream(nomeF);
             ObjectInputStream ois = new ObjectInputStream(fis);

@@ -75,6 +75,14 @@ public class Medio extends Jogador {
         return sb.toString();
     }
 
+    public String simpleToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getClass().getSimpleName()).append(":");
+        sb.append(super.simpleToString());
+        sb.append(",").append(this.getRecBola());
+        return sb.toString();
+    }
+
     public Medio clone() {
         return new Medio(this);
     }

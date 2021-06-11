@@ -213,6 +213,20 @@ public abstract class Jogador implements Serializable ,Comparable<Jogador>{
         sb.append(this.getPasse()).append(";");
         return sb.toString();
     }
+
+    public String simpleToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getNome()).append(",");
+        sb.append(this.getNumCamisola()).append(",");
+        sb.append(this.getVelocidade()).append(",");
+        sb.append(this.getResistencia()).append(",");
+        sb.append(this.getDestreza()).append(",");
+        sb.append(this.getImpulsao()).append(",");
+        sb.append(this.getJogodecabeca()).append(",");
+        sb.append(this.getRemate()).append(",");
+        sb.append(this.getPasse());
+        return sb.toString();
+    }
     
     public int compareTo (Jogador j) {
         if (this.getNome().compareTo(j.getNome()) == 0)

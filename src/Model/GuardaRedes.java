@@ -87,6 +87,14 @@ public class GuardaRedes extends Jogador
         }
         return sb.toString();
     }
+
+    public String simpleToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Guarda-Redes").append(":");
+        sb.append(super.simpleToString());
+        sb.append(",").append(this.getElasticidade());
+        return sb.toString();
+    }
     
     public GuardaRedes clone () {
         return new GuardaRedes(this);

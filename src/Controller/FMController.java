@@ -65,6 +65,8 @@ public class FMController extends Observable implements Observer
          case 18: adicionarSubstituicao(args);break;
          case 19: carregaEstado(args);break;
          case 20: guardarEstado(args);break;
+         case 21: carregaFichTexto(args);break;
+         case 22: lerFicheiroTexto(args);break;
      }
    }
 
@@ -214,6 +216,7 @@ private void adicionaJogador (List<String> args) {
             FMModel newModel = this.model.carregarEstado(fich);
             if(newModel != null){
                 this.model = newModel;
+                this.model.addObserver(this);
             }
         }
         catch(IOException e){
@@ -234,6 +237,39 @@ private void adicionaJogador (List<String> args) {
         }
         catch(IOException e){
             valueFromModel = "Ficheiro nao encontrado";
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void carregaFichTexto (List <String> args) {
+        String fich = args.get(0);
+        try{
+            this.model.escreverFicheiroTexto(fich);
+            valueFromModel = fich + " escrito com sucesso!";
+        }
+        catch (IOException e) {
+            valueFromModel = "Ficheiro nao encontrado";
+        }
+        this.setChanged();
+        this.notifyObservers(valueFromModel);
+    }
+
+    private void lerFicheiroTexto(List<String> args) {
+        String fich = args.get(0);
+        try{
+            FMModel newModel = Parser.parse(fich);
+            if(newModel != null){
+                this.model = newModel;
+                this.model.addObserver(this);
+                valueFromModel = fich + " lido com sucesso!";
+            }
+        }
+        catch(IOException e){
+            valueFromModel = "Ficheiro nao encontrado";
+        }
+        catch (Exception e) {
+            valueFromModel = "Ficheiro com erro na leitura!";
         }
         this.setChanged();
         this.notifyObservers(valueFromModel);

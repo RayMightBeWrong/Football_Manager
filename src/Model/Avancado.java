@@ -61,6 +61,13 @@ public class Avancado extends Jogador
         }
         return sb.toString();
     }
+
+    public String simpleToString () {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getClass().getSimpleName()).append(":");
+        sb.append(super.simpleToString());
+        return sb.toString();
+    }
     
     public Avancado clone () {
         return new Avancado(this);

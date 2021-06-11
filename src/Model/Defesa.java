@@ -77,6 +77,13 @@ public class Defesa extends Jogador
         return sb.toString();
     }
     
+    public String simpleToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getClass().getSimpleName()).append(":");
+        sb.append(super.simpleToString());
+        return sb.toString();
+    }
+
     public Defesa clone () {
         return new Defesa(this);
     }

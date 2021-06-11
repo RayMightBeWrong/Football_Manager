@@ -76,6 +76,14 @@ public class Lateral extends Jogador
         return sb.toString();
     }
     
+    public String simpleToString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append(this.getClass().getSimpleName()).append(":");
+        sb.append(super.simpleToString());
+        sb.append(",").append(this.getCruzamentos());
+        return sb.toString();
+    }
+
     public Lateral clone () {
         return new Lateral(this);
     }

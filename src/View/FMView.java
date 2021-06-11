@@ -19,7 +19,7 @@ public class FMView implements Observer{
         String[] opcoes3 = {"Criar Equipa","Listar jogadores de uma equipa","Listar Equipas","Calcular habilidade de uma equipa"};
         String[] opcoes4 = {"Criar jogo","Listar jogos","Simular jogo","Menu Tatica Equipa"};
         String[] opcoes5 = {"Listar titulares","Adicionar titular","Remover titular","Adicionar substituicao"};
-        String[] opcoes6 = {"Carregar estado","Guardar estado"};
+        String[] opcoes6 = {"Carregar estado","Guardar estado","Guardar ficheiro texto","Carregar ficheiro texto"};
         this.menuInicial = new Menu(opcoes1);
         this.menuJogadores = new Menu(opcoes2);
         this.menuEquipas = new Menu(opcoes3);
@@ -110,6 +110,10 @@ public class FMView implements Observer{
                     case 1: carregarEstado();
                                 break;
                     case 2: guardarEstado();
+                                break;
+                    case 3: carregarTexto();
+                                break;
+                    case 4: lerTexto();
                                 break;
                 }
         }
@@ -466,6 +470,30 @@ public class FMView implements Observer{
         System.out.print("Digite o nome do ficheiro a guardar: ");
         args.add(sc.nextLine());
         this.controller.setComando(20);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+        sc.close();
+    }
+
+    private void carregarTexto () {
+        List <String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("");
+        System.out.print("Digite o nome do ficheiro a escrever: ");
+        args.add(sc.nextLine());
+        this.controller.setComando(21);
+        this.controller.processaComando(args);
+        System.out.println(valueToPrint);
+        sc.close();
+    }
+
+    private void lerTexto () {
+        List <String> args = new ArrayList<>();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("");
+        System.out.print("Digite o nome do ficheiro a ler: ");
+        args.add(sc.nextLine());
+        this.controller.setComando(22);
         this.controller.processaComando(args);
         System.out.println(valueToPrint);
         sc.close();

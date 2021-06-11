@@ -224,7 +224,7 @@ public class Equipa implements Serializable{
         StringBuilder sb = new StringBuilder();
         sb.append("Equipa:").append(this.getName()).append("\n");
         for (Jogador j:this.equipa.values()) {
-            sb.append(j.toString()).append("\n");
+            sb.append(j.simpleToString()).append("\n");
         }
         return sb.toString();
     }

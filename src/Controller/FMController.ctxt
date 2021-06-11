@@ -1,6 +1,6 @@
 #BlueJ class context
 comment0.target=FMController
-comment0.text=\n\ Escreva\ a\ descri\u00C3\u00A7\u00C3\u00A3o\ da\ classe\ FMController\ aqui.\n\ \n\ @author\ (seu\ nome)\ \n\ @version\ (n\u00C3\u00BAmero\ de\ vers\u00C3\u00A3o\ ou\ data)\n
+comment0.text=\r\n\ Escreva\ a\ descri\u00C3\u00A7\u00C3\u00A3o\ da\ classe\ FMController\ aqui.\r\n\ \r\n\ @author\ (seu\ nome)\ \r\n\ @version\ (n\u00C3\u00BAmero\ de\ vers\u00C3\u00A3o\ ou\ data)\r\n
 comment1.params=ob\ value
 comment1.target=void\ update(java.util.Observable,\ java.lang.Object)
 comment10.params=args
@@ -39,6 +39,10 @@ comment25.params=args
 comment25.target=void\ carregaEstado(java.util.List)
 comment26.params=args
 comment26.target=void\ guardarEstado(java.util.List)
+comment27.params=args
+comment27.target=void\ carregaFichTexto(java.util.List)
+comment28.params=args
+comment28.target=void\ lerFicheiroTexto(java.util.List)
 comment3.params=model
 comment3.target=FMController(Model.FMModel)
 comment4.params=
@@ -53,4 +57,4 @@ comment8.params=
 comment8.target=void\ listarJogadoresFree()
 comment9.params=nome
 comment9.target=void\ calcularHabilidadeJogador(java.lang.String)
-numComments=27
+numComments=29
